@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+@TeleOp(name="SamaraDriving", group="learning")
 public class SamaraDriving extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
     public void init(){

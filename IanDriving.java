@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+@TeleOp(name ="IanDriving", group = "learning")
 
 public class IanDriving extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;

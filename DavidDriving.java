@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp(name = "DavidDriving", group = "learning")
-class DavidDriving extends OpMode {
+public class DavidDriving extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
     public void init() {
         leftFront = hardwareMap.dcMotor.get("leftFront");

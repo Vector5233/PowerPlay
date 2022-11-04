@@ -15,8 +15,8 @@ public class AgnesTeleOp extends OpMode {
 
     final double APPROACHSPEED = .3;
     final double THRESHOLD = .1;
-    final double GRABBERSERVO = .3;  //find actual values
-    final double GRABBERHAND = .1; //find actual values
+    final double GRABBERINITSERVO = 1;  //find actual values
+    final double GRABBERINITHAND = .5; //find actual values
     final double MAXTICKS = 1850; // find what max ticks should actually be
     final double OPENHAND = .1; //find actual values
     final double CLOSEDHAND = -.1; //find actual values
@@ -31,12 +31,15 @@ public class AgnesTeleOp extends OpMode {
         rightRear=hardwareMap.dcMotor.get("rightRear");
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         armWinch = (DcMotorEx) hardwareMap.dcMotor.get("armWinch");
@@ -79,6 +82,7 @@ public class AgnesTeleOp extends OpMode {
         telemetry.addData("Left Rear Position: ", rightRear.getCurrentPosition());
         telemetry.addData("Right Front Position: ", rightFront.getCurrentPosition());
         telemetry.addData("Left Front Position: ", leftFront.getCurrentPosition());
+        telemetry.addData("forward:", forward);
         telemetry.update();
         double leftFrontPower = trimPower(forward + strafe + turn);
         double rightFrontPower = trimPower(forward - strafe - turn);
@@ -101,15 +105,20 @@ public class AgnesTeleOp extends OpMode {
     }
 
 
-    //opens and closes grabber
+    //rotates grabber
     public void setGrabberRotation(){
         double rotation = -gamepad2.left_stick_x;
-        grabberRotation.setPosition(rotation);
+        double current = grabberRotation.getPosition();
+        if (Math.abs(rotation) < THRESHOLD){
+            grabberRotation.setPosition(current);
+        } else{
+            grabberRotation.setPosition(rotation);
+        }
     }
 
     //opens and closes grabber
     public void setArmRotation(){
-        double rotation = -gamepad2.right_stick_y;
+        double rotation = -gamepad2.right_stick_x;
         armRotation.setPower(-rotation);
     }
 
@@ -163,7 +172,7 @@ public class AgnesTeleOp extends OpMode {
 
     //sets grabber servo position
     public void initGrabberRotation() {
-        grabberRotation.setPosition(GRABBERSERVO);
+        grabberRotation.setPosition(GRABBERINITSERVO);
     }
 
     /*sets fixed camera position
@@ -173,7 +182,7 @@ public class AgnesTeleOp extends OpMode {
 
     //sets bucket servo to Safety position
     public void initGrabberServo() {
-        grabberLeftHand.setPosition(GRABBERHAND);
-        grabberRightHand.setPosition(GRABBERHAND);
+        grabberLeftHand.setPosition(GRABBERINITHAND);
+        grabberRightHand.setPosition(GRABBERINITHAND);
     }
 }

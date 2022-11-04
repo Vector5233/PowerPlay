@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class AgnesTeleOp extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
     DcMotorEx armWinch, armRotation;
-    Servo grabberHand, grabberRotation;
+    Servo grabberLeftHand, grabberRightHand, grabberRotation;
 
     final double APPROACHSPEED = .3;
     final double THRESHOLD = .1;
@@ -49,7 +49,8 @@ public class AgnesTeleOp extends OpMode {
         armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
-        grabberHand = hardwareMap.servo.get("grabberHand");
+        grabberRightHand = hardwareMap.servo.get("grabberRightHand");
+        grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
         grabberRotation = hardwareMap.servo.get("grabberRotation");
 
         initGrabberServo();
@@ -152,9 +153,11 @@ public class AgnesTeleOp extends OpMode {
     //sets grabber motor speed
     public void setGrabberHand() {
         if (gamepad2.left_bumper) {
-            grabberHand.setPosition(OPENHAND);
+            grabberRightHand.setPosition(OPENHAND);
+            grabberLeftHand.setPosition(OPENHAND);
         } else if (gamepad2.right_bumper) {
-            grabberHand.setPosition(CLOSEDHAND);
+            grabberRightHand.setPosition(CLOSEDHAND);
+            grabberLeftHand.setPosition(CLOSEDHAND);
         }
     }
 
@@ -170,6 +173,7 @@ public class AgnesTeleOp extends OpMode {
 
     //sets bucket servo to Safety position
     public void initGrabberServo() {
-        grabberHand.setPosition(GRABBERHAND);
+        grabberLeftHand.setPosition(GRABBERHAND);
+        grabberRightHand.setPosition(GRABBERHAND);
     }
 }

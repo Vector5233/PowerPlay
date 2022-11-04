@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class AgnesTeleOp extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
     DcMotorEx armWinch, armRotation;
-    Servo grabberLeftHand, grabberRightHand, grabberRotation;
+    Servo grabberLeftHand, grabberRotation, grabberRightHand;
 
     final double APPROACHSPEED = .3;
     final double THRESHOLD = .1;

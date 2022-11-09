@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="AgnesTeleOp", group="robot")
 public class AgnesTeleOp extends OpMode {
@@ -20,6 +21,9 @@ public class AgnesTeleOp extends OpMode {
     final double MAXTICKS = 1850; // find what max ticks should actually be
     final double OPENHAND = .1; //find actual values
     final double CLOSEDHAND = -.1; //find actual values
+    final double DELTA = .05;
+    final double DELAY = 2000; //get actual wait time
+    ElapsedTime timer;
 
 
 
@@ -51,6 +55,8 @@ public class AgnesTeleOp extends OpMode {
 
         grabberHand = hardwareMap.servo.get("grabberHand");
         grabberRotation = hardwareMap.servo.get("grabberRotation");
+
+        timer = new ElapsedTime();
 
         initGrabberServo();
         //initCameraServo();
@@ -100,10 +106,17 @@ public class AgnesTeleOp extends OpMode {
     }
 
 
-    //opens and closes grabber
+    //rotates grabber grabber
     public void setGrabberRotation(){
-        double rotation = -gamepad2.left_stick_x;
-        grabberRotation.setPosition(rotation);
+        if ((gamepad1.left_stick_x >0) && (timer.milliseconds()>DELAY)) {
+            grabberRotation.setPosition(grabberRotation.getPosition() + DELTA*gamepad1.left_stick_x);
+            timer.reset();
+        } else if (gamepad1.left_stick_x<0 && (timer.milliseconds()>DELAY)) {
+            grabberRotation.setPosition(grabberRotation.getPosition() - DELTA*gamepad1.left_stick_x);
+            timer.reset();
+        }
+       /*double rotation = -gamepad2.left_stick_x;
+        grabberRotation.setPosition(rotation);*/
     }
 
     //opens and closes grabber

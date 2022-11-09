@@ -22,6 +22,7 @@ public abstract class AutoTemplate extends LinearOpMode {
     double cy;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    SampleMecanumDrive drive;
 
     //UNITS ARE METERS
     double tagsize = 0.032;
@@ -54,7 +55,7 @@ public abstract class AutoTemplate extends LinearOpMode {
         telemetry.setMsTransmissionInterval(50);
 
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+       drive = new SampleMecanumDrive(hardwareMap);
 
         armWinch= hardwareMap.dcMotor.get("armWinch");
         armWinch.setDirection(DcMotor.Direction.FORWARD);

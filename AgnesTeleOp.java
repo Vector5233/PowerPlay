@@ -12,17 +12,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class AgnesTeleOp extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
     DcMotorEx armWinch, armRotation;
-    Servo grabberHand, grabberRotation;
+    Servo grabberLeftHand, grabberRotation, grabberRightHand;
 
     final double APPROACHSPEED = .3;
     final double THRESHOLD = .1;
-    final double GRABBERSERVO = .3;  //find actual values
-    final double GRABBERHAND = .1; //find actual values
+    final double GRABBERINITSERVO = 1;  //find actual values
+    final double GRABBERINITHAND = .5; //find actual values
     final double MAXTICKS = 1850; // find what max ticks should actually be
     final double OPENHAND = .1; //find actual values
     final double CLOSEDHAND = -.1; //find actual values
     final double DELTA = .05;
-    final double DELAY = 2000; //get actual wait time
+    final double DELAY = 2000;
+
     ElapsedTime timer;
 
 
@@ -35,12 +36,15 @@ public class AgnesTeleOp extends OpMode {
         rightRear=hardwareMap.dcMotor.get("rightRear");
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         armWinch = (DcMotorEx) hardwareMap.dcMotor.get("armWinch");
@@ -53,11 +57,11 @@ public class AgnesTeleOp extends OpMode {
         armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
-        grabberHand = hardwareMap.servo.get("grabberHand");
+        grabberRightHand = hardwareMap.servo.get("grabberRightHand");
+        grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
         grabberRotation = hardwareMap.servo.get("grabberRotation");
 
         timer = new ElapsedTime();
-
         initGrabberServo();
         //initCameraServo();
         initGrabberRotation();
@@ -84,6 +88,7 @@ public class AgnesTeleOp extends OpMode {
         telemetry.addData("Left Rear Position: ", rightRear.getCurrentPosition());
         telemetry.addData("Right Front Position: ", rightFront.getCurrentPosition());
         telemetry.addData("Left Front Position: ", leftFront.getCurrentPosition());
+        telemetry.addData("forward:", forward);
         telemetry.update();
         double leftFrontPower = trimPower(forward + strafe + turn);
         double rightFrontPower = trimPower(forward - strafe - turn);
@@ -106,22 +111,22 @@ public class AgnesTeleOp extends OpMode {
     }
 
 
-    //rotates grabber grabber
+    //rotates grabber
     public void setGrabberRotation(){
-        if ((gamepad1.left_stick_x >0) && (timer.milliseconds()>DELAY)) {
-            grabberRotation.setPosition(grabberRotation.getPosition() + DELTA*gamepad1.left_stick_x);
+        double rotation = -gamepad2.left_stick_x;
+        double current = grabberRotation.getPosition();
+        if (gamepad1.left_stick_x > 0 && timer.milliseconds() >DELAY){
+            grabberRotation.setPosition(current + DELTA * gamepad1.left_stick_x);
             timer.reset();
-        } else if (gamepad1.left_stick_x<0 && (timer.milliseconds()>DELAY)) {
-            grabberRotation.setPosition(grabberRotation.getPosition() - DELTA*gamepad1.left_stick_x);
+        } else if (gamepad1.left_stick_x < 0 && timer.milliseconds() > DELAY){
+            grabberRotation.setPosition(current - DELTA * gamepad1.left_stick_x);
             timer.reset();
         }
-       /*double rotation = -gamepad2.left_stick_x;
-        grabberRotation.setPosition(rotation);*/
     }
 
     //opens and closes grabber
     public void setArmRotation(){
-        double rotation = -gamepad2.right_stick_y;
+        double rotation = -gamepad2.right_stick_x;
         armRotation.setPower(-rotation);
     }
 
@@ -165,15 +170,17 @@ public class AgnesTeleOp extends OpMode {
     //sets grabber motor speed
     public void setGrabberHand() {
         if (gamepad2.left_bumper) {
-            grabberHand.setPosition(OPENHAND);
+            grabberRightHand.setPosition(OPENHAND);
+            grabberLeftHand.setPosition(OPENHAND);
         } else if (gamepad2.right_bumper) {
-            grabberHand.setPosition(CLOSEDHAND);
+            grabberRightHand.setPosition(CLOSEDHAND);
+            grabberLeftHand.setPosition(CLOSEDHAND);
         }
     }
 
     //sets grabber servo position
     public void initGrabberRotation() {
-        grabberRotation.setPosition(GRABBERSERVO);
+        grabberRotation.setPosition(GRABBERINITSERVO);
     }
 
     /*sets fixed camera position
@@ -183,6 +190,7 @@ public class AgnesTeleOp extends OpMode {
 
     //sets bucket servo to Safety position
     public void initGrabberServo() {
-        grabberHand.setPosition(GRABBERHAND);
+        grabberLeftHand.setPosition(GRABBERINITHAND);
+        grabberRightHand.setPosition(GRABBERINITHAND);
     }
 }

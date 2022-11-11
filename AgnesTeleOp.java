@@ -115,7 +115,7 @@ public class AgnesTeleOp extends OpMode {
     }
 
 
-    //rotates grabber
+    //rotates grabberer
     public void setGrabberRotation(){
         double current = grabberRotation.getPosition();
         if ((gamepad1.left_stick_x > 0) && (timer.milliseconds() >DELAY)){

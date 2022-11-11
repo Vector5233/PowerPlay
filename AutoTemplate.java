@@ -60,12 +60,10 @@ public abstract class AutoTemplate extends LinearOpMode {
         armWinch= hardwareMap.dcMotor.get("armWinch");
         armWinch.setDirection(DcMotor.Direction.FORWARD);
         armWinch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         armRotation = hardwareMap.dcMotor.get("armRotation");
         armRotation.setDirection(DcMotor.Direction.FORWARD);
         armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //?? From Elizabeth
         double rightClawInit = 0.5;

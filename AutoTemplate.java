@@ -11,12 +11,20 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public abstract class AutoTemplate extends LinearOpMode {
     //declarations
     DcMotor armWinch;
     DcMotor armRotation;
     Servo rightClaw;
     Servo leftClaw;
+    double leftClawInit;
+    double rightClawInit;
     double fx;
     double fy;
     double cx;
@@ -36,6 +44,24 @@ public abstract class AutoTemplate extends LinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+
+        try (InputStream input = new FileInputStream("Agnes.properties")){
+
+            Properties prop = new Properties();
+
+            prop.load( input );
+
+            rightClawInit = Double.valueOf(prop.getProperty("rightClawInit"));
+            leftClawInit = Double.valueOf(prop.getProperty("leftClawInit"));
+
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -67,13 +93,18 @@ public abstract class AutoTemplate extends LinearOpMode {
         armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //?? From Elizabeth
-        double rightClawInit = 0.5;
-        rightClaw=hardwareMap.servo.get("rightClaw");
+
+        rightClaw=hardwareMap.servo.get("grabberRightHand");
+        telemetry.addData("rightClawInit: ", rightClawInit);
+       // rightClawInit = 0.5;
         rightClaw.setPosition(rightClawInit);
 
-        double leftClawInit = 0.5;
-        leftClaw=hardwareMap.servo.get("leftClaw");
+
+        leftClaw=hardwareMap.servo.get("grabberLeftHand");
+        telemetry.addData("leftClawInit: ", leftClawInit);
+        // leftClawInit = 0.5;
         leftClaw.setPosition(leftClawInit) ;
+        telemetry.update();
 
     }
 }

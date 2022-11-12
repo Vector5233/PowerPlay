@@ -16,9 +16,9 @@ public class AgnesTeleOp extends OpMode {
 
     final double APPROACHSPEED = .3;
     final double THRESHOLD = .1;
-    final double GRABBERINITSERVO = 1;  //find actual values
-    final double RIGHTGRABBERINITHAND = .3; //find actual values
-    final double LEFTGRABBERINITHAND = .5; //find actual values
+    final double GRABBERINITSERVO = 1;
+    final double RIGHTGRABBERINITHAND = .3;
+    final double LEFTGRABBERINITHAND = .5;
 
     final double MAXTICKS = 1850;
     final double CLOSEDRIGHTHAND = 1;
@@ -26,7 +26,7 @@ public class AgnesTeleOp extends OpMode {
     final double OPENEDRIGHTHAND = .3;
     final double OPENEDLEFTHAND = .5;
     final double DELTA = .05;
-    final double DELAY = 200;
+
 
     ElapsedTime timer;
 
@@ -67,7 +67,6 @@ public class AgnesTeleOp extends OpMode {
 
         timer = new ElapsedTime();
         initGrabberServo();
-        //initCameraServo();
         initGrabberRotation();
     }
 
@@ -115,7 +114,7 @@ public class AgnesTeleOp extends OpMode {
     }
 
 
-    //rotates grabberer
+    //rotates grabber
     public void setGrabberRotation(){
         double current = grabberRotation.getPosition();
         telemetry.addData("current position:", current);
@@ -128,7 +127,7 @@ public class AgnesTeleOp extends OpMode {
         }
     }
 
-    //opens and closes grabber
+    //rotates arm 180 - ONLY problem - if position is needed, user has to hold joystick down
     public void setArmRotation(){
         double rotation = -gamepad2.right_stick_x;
         armRotation.setPower(-rotation/10);
@@ -152,7 +151,7 @@ public class AgnesTeleOp extends OpMode {
     }
 
 
-    //sets power to freight lift motor determined from level - ONLY PROBLEM, drains battery
+    //sets power to freight lift motor determined from level
     public void setArmExtension() {
         double liftPower = trimPower(-gamepad2.right_stick_y);
         telemetry.addData("Lift Position: ", armWinch.getCurrentPosition());
@@ -182,12 +181,8 @@ public class AgnesTeleOp extends OpMode {
         grabberRotation.setPosition(GRABBERINITSERVO);
     }
 
-    /*sets fixed camera position
-    public void initCameraServo() {
-        cameraServo.setPosition(CAMERASERVO);
-    }*/
 
-    //sets bucket servo to Safety position
+    //sets grabber servo to initial position
     public void initGrabberServo() {
         grabberLeftHand.setPosition(LEFTGRABBERINITHAND);
         grabberRightHand.setPosition(RIGHTGRABBERINITHAND);

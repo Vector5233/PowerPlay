@@ -128,7 +128,7 @@ public class AgnesTeleOp extends OpMode {
         }
     }
 
-    //opens and closes grabberer
+    //opens and closes grabber
     public void setArmRotation(){
         double rotation = -gamepad2.right_stick_x;
         armRotation.setPower(-rotation/10);

@@ -118,13 +118,13 @@ public class AgnesTeleOp extends OpMode {
     //rotates grabberer
     public void setGrabberRotation(){
         double current = grabberRotation.getPosition();
-        if ((gamepad1.left_stick_x > 0) && (timer.milliseconds() >DELAY)){
-            grabberRotation.setPosition(current + DELTA * gamepad1.left_stick_x);
-            telemetry.addData("current position:", current);
-            timer.reset();
-        } else if ((gamepad1.left_stick_x < 0) && (timer.milliseconds() > DELAY)){
-            grabberRotation.setPosition(current - DELTA * gamepad1.left_stick_x);
-            timer.reset();
+        telemetry.addData("current position:", current);
+        if ((gamepad2.left_stick_x > 0)){
+            grabberRotation.setPosition(current + DELTA * gamepad2.left_stick_x);
+            telemetry.addLine("Right");  // needed for timing!  Do not remove
+        } else if ((gamepad2.left_stick_x < 0) && (current > .33)){
+            grabberRotation.setPosition(current + DELTA * gamepad2.left_stick_x);
+            telemetry.addLine("Left");  // needed for timing!  Do not remove
         }
     }
 
@@ -132,6 +132,7 @@ public class AgnesTeleOp extends OpMode {
     public void setArmRotation(){
         double rotation = -gamepad2.right_stick_x;
         armRotation.setPower(-rotation/10);
+        //armRotation.setVelocity(rotation*50);
     }
 
 
@@ -159,13 +160,9 @@ public class AgnesTeleOp extends OpMode {
             armWinch.setPower(0);
         } else if (armWinch.getCurrentPosition() <= 0 && liftPower < -THRESHOLD) {
             armWinch.setPower(0);
-        } else if (liftPower < -THRESHOLD || liftPower > THRESHOLD){
-            armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armWinch.setPower(liftPower);
         } else {
             armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            int targetPosition = armWinch.getCurrentPosition();
-            armWinch.setTargetPosition(targetPosition);
+            armWinch.setPower(liftPower);
         }
     }
 

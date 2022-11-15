@@ -34,7 +34,7 @@ public abstract class AutoTemplate extends LinearOpMode {
     SampleMecanumDrive drive;
 
     //UNITS ARE METERS
-    double tagsize = 0.032;
+    double tagsize = 0.166;
 
 
     public abstract void runOpMode();

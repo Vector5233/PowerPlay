@@ -27,6 +27,10 @@ public class AgnesTeleOp extends OpMode {
     final double OPENEDLEFTHAND = .5;
     final double DELTA = .05;
 
+    final double MINARM = 30; // find actual value
+    final double MAXARM = 550;      //find actual value
+    final int ARMDELTA = 30;    //find actual value
+
 
     ElapsedTime timer;
 
@@ -128,10 +132,19 @@ public class AgnesTeleOp extends OpMode {
     }
 
     //rotates arm 180 - ONLY problem - if position is needed, user has to hold joystick down
+    //need to test non commented out stuff as of 11.16.22
     public void setArmRotation(){
-        double rotation = -gamepad2.right_stick_x;
-        armRotation.setPower(-rotation/10);
-        //armRotation.setVelocity(rotation*50);
+        /*double rotation = -gamepad2.right_stick_x;
+        armRotation.setPower(-rotation/10);*/
+        int current = armRotation.getCurrentPosition();
+        telemetry.addData("current position:", current);
+        if ((gamepad2.right_stick_x > 0)&& (current < MAXARM)){
+            armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
+            telemetry.addLine("Right");  // needed // for timing!  Do not remove
+        } else if ((gamepad2.right_stick_x < 0) && (current > MINARM)){
+            armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
+            telemetry.addLine("Left");  // needed for timing!  Do not remove
+        }
     }
 
 

@@ -27,9 +27,9 @@ public class AgnesTeleOp extends OpMode {
     final double OPENEDLEFTHAND = .5;
     final double DELTA = .05;
 
-    final double MINARM = 30; // find actual value
-    final double MAXARM = 550;      //find actual value
-    final int ARMDELTA = 30;    //find actual value
+    final double MINARM = 0; // find actual value
+    final double MAXARM = 1320;
+    final int ARMDELTA = 30;
 
 
     ElapsedTime timer;

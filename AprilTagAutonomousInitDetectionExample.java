@@ -165,7 +165,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             telemetry.update();
         }
 
-        /* Actually do something useful */
+        /* Actually do something useful  */
         if(tagOfInterest == null || tagOfInterest.id == LEFT){
             //trajectory
         }else if(tagOfInterest.id == MIDDLE){

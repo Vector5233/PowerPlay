@@ -39,43 +39,7 @@ public abstract class AutoTemplate extends LinearOpMode {
 
     public void initialize() {
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
-        try (InputStream input = new FileInputStream("Agnes.properties")){
-
-            Properties prop = new Properties();
-
-            prop.load( input );
-
-            rightClawInit = Double.valueOf(prop.getProperty("rightClawInit"));
-            leftClawInit = Double.valueOf(prop.getProperty("leftClawInit"));
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
-            }
-
-            @Override
-            public void onError(int errorCode)
-            {
-
-            }
-        });
-
-        telemetry.setMsTransmissionInterval(50);
 
 
        drive = new SampleMecanumDrive(hardwareMap);

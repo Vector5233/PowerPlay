@@ -23,66 +23,60 @@ public class AutoPhase extends AutoTemplate {
         initialize();
         telemetry.addLine("initialized!");
         telemetry.update();
-        while (!isStarted() && !isStopRequested())
-            {
-                ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+        while (!isStarted() && !isStopRequested()) {
+            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-                if(currentDetections.size() != 0)
-                {
-                    boolean tagFound = false;
+            if (currentDetections.size() != 0) {
+                boolean tagFound = false;
 
-                    for(AprilTagDetection tag : currentDetections)
-                    {
-                        if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
-                        {
-                            tagOfInterest = tag;
-                            tagFound = true;
-                            break;
-                        }
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
                     }
-
-                    if(tagFound)
-                    {
-                        telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                        tagToTelemetry(tagOfInterest);
-                    }
-                    else
-                    {
-                        telemetry.addLine("Don't see tag of interest :(");
-
-                        if(tagOfInterest == null)
-                        {
-                            telemetry.addLine("(The tag has never been seen)");
-                        }
-                        else
-                        {
-                            telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                            tagToTelemetry(tagOfInterest);
-                        }
-                    }
-
                 }
-                else
-                {
+
+                if (tagFound) {
+                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
+                } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
-                    if(tagOfInterest == null)
-                    {
+                    if (tagOfInterest == null) {
                         telemetry.addLine("(The tag has never been seen)");
-                    }
-                    else
-                    {
+                    } else {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
+                }
 
+            } else {
+                telemetry.addLine("Don't see tag of interest :(");
+
+                if (tagOfInterest == null) {
+                    telemetry.addLine("(The tag has never been seen)");
+                } else {
+                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
                 }
 
             }
 
-            telemetry.update();
-            sleep(20);
+        telemetry.update();
+        sleep(20);
         }  // end of while
+
+        if(tagOfInterest == null || tagOfInterest.id == LEFT){
+            //trajectory
+        }else if(tagOfInterest.id == MIDDLE){
+            //trajectory
+        }else{
+            //trajectory
+        }
+    }
+
+
 
 
     void tagToTelemetry(AprilTagDetection detection)

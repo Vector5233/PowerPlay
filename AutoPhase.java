@@ -14,54 +14,23 @@ import java.util.ArrayList;
 @TeleOp(name = "AutoPhase", group = "Auto")
 public class AutoPhase extends AutoTemplate {
 
-    int ID_TAG_OF_INTEREST = 18; // Tag ID 18 from the 36h11 family
 
-    AprilTagDetection tagOfInterest = null;
-    static final double FEET_PER_METER = 3.28084;
-
-    // Tag ID 1, 2, 3 from the 36h11 family
-    int LEFT = 1;
-    int MIDDLE = 2;
-    int RIGHT = 3;
 
     public void runOpMode() {
         initialize();
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
-        camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
-            }
 
-            @Override
-            public void onError(int errorCode)
-            {
-
-            }
-        });
-
-        telemetry.setMsTransmissionInterval(50);
         telemetry.addLine("initialized!");
         telemetry.update();
         while (!isStarted() && !isStopRequested()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            /*if (currentDetections == null) {
-                telemetry.addLine("null detections");
-                telemetry.update();
-            }*/
-            if (currentDetections.size() != 0)
+            if (!currentDetections.isEmpty())
             {
                 boolean tagFound = false;
                 telemetry.addLine("Found one!");
-                telemetry.update();
+                //telemetry.update();
 
-                /*for (AprilTagDetection tag : currentDetections) {
+                for (AprilTagDetection tag : currentDetections) {
                     if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
                         tagOfInterest = tag;
                         tagFound = true;
@@ -81,7 +50,7 @@ public class AutoPhase extends AutoTemplate {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
-                }*/
+                }
 
             } else {
                 telemetry.addLine("Hi Mr P.  Don't see tag of interest :(");

@@ -27,9 +27,9 @@ public class AgnesTeleOp extends OpMode {
     final double OPENEDLEFTHAND = .5;
     final double DELTA = .05;
 
-    final double MINARM = 0; // find actual value
-    final double MAXARM = 1320;
-    final int ARMDELTA = 30;
+    final double MINARM = -950;
+    final double MAXARM = 200;
+    final int ARMDELTA = -30;
 
 
     ElapsedTime timer;
@@ -138,14 +138,14 @@ public class AgnesTeleOp extends OpMode {
         armRotation.setPower(-rotation/10);*/
         int current = armRotation.getCurrentPosition();
         telemetry.addData("current position:", current);
-        if ((gamepad2.right_stick_x > 0)&& (current < MAXARM)){
+        if ((gamepad2.right_stick_x > 0)){
             armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
-            armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             armRotation.setPower(.75);
-            telemetry.addLine("Right");  // needed // for timing!  Do not remove
-        } else if ((gamepad2.right_stick_x < 0) && (current > MINARM)){
+            telemetry.addLine("Right");  // needed for timing!  Do not remove
+        } else if ((gamepad2.right_stick_x < 0) ){
             armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
-            armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             armRotation.setPower(.75);
             telemetry.addLine("Left");  // needed for timing!  Do not remove
         }

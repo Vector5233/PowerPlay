@@ -23,8 +23,8 @@ public abstract class AutoTemplate extends LinearOpMode {
     DcMotor armRotation;
     Servo rightClaw;
     Servo leftClaw;
-    double leftClawInit;
-    double rightClawInit;
+    double leftClawInit=AgnesConstants.LEFTGRABBERINITHAND;
+    double rightClawInit=AgnesConstants.RIGHTGRABBERINITHAND;
 
     SampleMecanumDrive drive;
 

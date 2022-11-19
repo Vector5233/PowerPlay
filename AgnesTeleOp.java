@@ -14,18 +14,22 @@ public class AgnesTeleOp extends OpMode {
     DcMotorEx armWinch, armRotation;
     Servo grabberLeftHand, grabberRotation, grabberRightHand;
 
-    final double APPROACHSPEED = .3;
-    final double THRESHOLD = .1;
-    final double GRABBERINITSERVO = 1;
-    final double RIGHTGRABBERINITHAND = .3;
-    final double LEFTGRABBERINITHAND = .5;
+    final double APPROACHSPEED = AgnesConstants.APPROACHSPEED;
+    final double THRESHOLD = AgnesConstants.THRESHOLD;
+    final double GRABBERINITSERVO = AgnesConstants.GRABBERINITSERVO;
+    final double RIGHTGRABBERINITHAND = AgnesConstants.RIGHTGRABBERINITHAND;
+    final double LEFTGRABBERINITHAND = AgnesConstants.LEFTGRABBERINITHAND;
 
-    final double MAXTICKS = 1850;
-    final double CLOSEDRIGHTHAND = 1;
-    final double CLOSEDLEFTHAND = 0;
-    final double OPENEDRIGHTHAND = .3;
-    final double OPENEDLEFTHAND = .5;
-    final double DELTA = .05;
+    final double MAXTICKS = AgnesConstants.MAXTICKS;
+    final double CLOSEDRIGHTHAND = AgnesConstants.CLOSEDRIGHTHAND;
+    final double CLOSEDLEFTHAND = AgnesConstants.CLOSEDLEFTHAND;
+    final double OPENEDRIGHTHAND = AgnesConstants.OPENEDRIGHTHAND;
+    final double OPENEDLEFTHAND = AgnesConstants.OPENEDLEFTHAND;
+    final double DELTA = AgnesConstants.DELTA;
+
+    final double MINARM = -950;
+    final double MAXARM = 200;
+    final int ARMDELTA = AgnesConstants.ARMDELTA;
 
 
     ElapsedTime timer;
@@ -128,14 +132,27 @@ public class AgnesTeleOp extends OpMode {
     }
 
     //rotates arm 180 - ONLY problem - if position is needed, user has to hold joystick down
+    //need to test non commented out stuff as of 11.16.22
     public void setArmRotation(){
-        double rotation = -gamepad2.right_stick_x;
-        armRotation.setPower(-rotation/10);
-        //armRotation.setVelocity(rotation*50);
+        /*double rotation = -gamepad2.right_stick_x;
+        armRotation.setPower(-rotation/10);*/
+        int current = armRotation.getCurrentPosition();
+        telemetry.addData("current position:", current);
+        if ((gamepad2.right_stick_x > 0)){
+            armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
+            armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            armRotation.setPower(.75);
+            telemetry.addLine("Right");  // needed for timing!  Do not remove
+        } else if ((gamepad2.right_stick_x < 0) ){
+            armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
+            armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            armRotation.setPower(.85);
+            telemetry.addLine("Left");  // needed for timing!  Do not remove
+        }
     }
 
 
-    //sets slow speed for drive motors if dpad is pressed (forwards and backwards)
+    //sets slow speed for drive motors if dpad iis pressed (forwards and backwards)
     public void setSlowApproach() {
         if (gamepad1.dpad_up) {
             leftFront.setPower(APPROACHSPEED);

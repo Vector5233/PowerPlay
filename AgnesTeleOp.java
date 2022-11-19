@@ -14,22 +14,22 @@ public class AgnesTeleOp extends OpMode {
     DcMotorEx armWinch, armRotation;
     Servo grabberLeftHand, grabberRotation, grabberRightHand;
 
-    final double APPROACHSPEED = .3;
-    final double THRESHOLD = .1;
-    final double GRABBERINITSERVO = 1;
-    final double RIGHTGRABBERINITHAND = .3;
-    final double LEFTGRABBERINITHAND = .5;
+    final double APPROACHSPEED = AgnesConstants.APPROACHSPEED;
+    final double THRESHOLD = AgnesConstants.THRESHOLD;
+    final double GRABBERINITSERVO = AgnesConstants.GRABBERINITSERVO;
+    final double RIGHTGRABBERINITHAND = AgnesConstants.RIGHTGRABBERINITHAND;
+    final double LEFTGRABBERINITHAND = AgnesConstants.LEFTGRABBERINITHAND;
 
-    final double MAXTICKS = 1850;
-    final double CLOSEDRIGHTHAND = 1;
-    final double CLOSEDLEFTHAND = 0;
-    final double OPENEDRIGHTHAND = .3;
-    final double OPENEDLEFTHAND = .5;
-    final double DELTA = .05;
+    final double MAXTICKS = AgnesConstants.MAXTICKS;
+    final double CLOSEDRIGHTHAND = AgnesConstants.CLOSEDRIGHTHAND;
+    final double CLOSEDLEFTHAND = AgnesConstants.CLOSEDLEFTHAND;
+    final double OPENEDRIGHTHAND = AgnesConstants.OPENEDRIGHTHAND;
+    final double OPENEDLEFTHAND = AgnesConstants.OPENEDLEFTHAND;
+    final double DELTA = AgnesConstants.DELTA;
 
     final double MINARM = -950;
     final double MAXARM = 200;
-    final int ARMDELTA = -30;
+    final int ARMDELTA = AgnesConstants.ARMDELTA;
 
 
     ElapsedTime timer;
@@ -146,7 +146,7 @@ public class AgnesTeleOp extends OpMode {
         } else if ((gamepad2.right_stick_x < 0) ){
             armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
             armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            armRotation.setPower(.75);
+            armRotation.setPower(.85);
             telemetry.addLine("Left");  // needed for timing!  Do not remove
         }
     }

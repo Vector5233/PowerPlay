@@ -152,7 +152,7 @@ public class AgnesTeleOp extends OpMode {
     }
 
 
-    //sets slow speed for drive motors if dpad is pressed (forwards and backwards)
+    //sets slow speed for drive motors if dpad iis pressed (forwards and backwards)
     public void setSlowApproach() {
         if (gamepad1.dpad_up) {
             leftFront.setPower(APPROACHSPEED);

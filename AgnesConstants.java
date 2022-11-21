@@ -24,6 +24,8 @@ public class AgnesConstants {
 
     // RoadRunner Constants
 
+    public static double TICKS_PER_REV = 384.5;
+    public static double MAX_RPM = 435;
     public static double MAX_VEL = 30;
     public static double MAX_ACCEL = 30;
     public static double MAX_ANG_VEL = Math.toRadians(360);
@@ -37,16 +39,14 @@ public class AgnesConstants {
     public static double GEAR_RATIO = 1*1.0780; // value from straight test. output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 15.16; // in
 
+    public static double TRANS_KP = 4.0;  // values for SampleMechanumDrive TRANSLATIONAL_PID, line 61
+    public static double TRANS_KI = 0.0;
+    public static double TRANS_KD = 0.0;
+    public static double HEADING_KP = 4.0; // values for SampleMechanumDrive HEADING_PID, line 62
+    public static double HEADING_KI = 0.0;
+    public static double HEADING_KD = 0.0;
 
-
-
-    public static final double TICKS_PER_REV = 383.6;
-    public static final double MAX_RPM = 435;
-
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(4, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(4, 0, 0);
-
-    public static double LATERAL_MULTIPLIER = 1*0.9022; //Strafe test reported y over final y
+    public static double LATERAL_MULTIPLIER = 1; //Strafe test reported y over final y - value for SampleMechanumDrive
 
 }
 

@@ -36,7 +36,7 @@ public class AgnesConstants {
     public static double kStatic = .115;
 
     public static double WHEEL_RADIUS = 2*23.5/19; // in
-    public static double GEAR_RATIO = 1*1.0780; // value from straight test. output (wheel) speed / input (motor) speed
+    public static double GEAR_RATIO = .7951; // value from straight test. output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 15.16; // in
 
     public static double TRANS_KP = 4.0;  // values for SampleMechanumDrive TRANSLATIONAL_PID, line 61
@@ -46,7 +46,7 @@ public class AgnesConstants {
     public static double HEADING_KI = 0.0;
     public static double HEADING_KD = 0.0;
 
-    public static double LATERAL_MULTIPLIER = 1; //Strafe test reported y over final y - value for SampleMechanumDrive
+    public static double LATERAL_MULTIPLIER = 1.082; //Strafe test reported y over final y - value for SampleMechanumDrive
 
 }
 

@@ -1,12 +1,11 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous (name= "BlueLeft", group = "Blue")
-public class BlueLeft extends AutoTemplate {
+@Autonomous(name= "RedRight", group = "Red")
+public class RedRight extends AutoTemplate {
 
     final double FIRST_FORWARD = 14.72;
     final double CENTER_FORWARD = 25;
@@ -81,7 +80,7 @@ public class BlueLeft extends AutoTemplate {
     }
 
     public void deliverPreCone(){
-        //have the cone deliver to the right code here
+        //have the cone deliver to the left code here
         sleep(500);
     }
 }

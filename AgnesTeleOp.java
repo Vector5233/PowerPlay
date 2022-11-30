@@ -90,7 +90,7 @@ public class AgnesTeleOp extends OpMode {
     public void setDrive(){
         double forward = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
-        double turn = gamepad1.right_stick_x;
+        double turn = gamepad1.right_stick_x/2;
         telemetry.addData("Right Rear Position: ", rightRear.getCurrentPosition());
         telemetry.addData("Left Rear Position: ", rightRear.getCurrentPosition());
         telemetry.addData("Right Front Position: ", rightFront.getCurrentPosition());
@@ -164,20 +164,47 @@ public class AgnesTeleOp extends OpMode {
             rightFront.setPower(-APPROACHSPEED);
             leftRear.setPower(-APPROACHSPEED);
             rightRear.setPower(-APPROACHSPEED);
+        } else if (gamepad1.dpad_left) {
+            leftFront.setPower(-APPROACHSPEED);
+            rightFront.setPower(APPROACHSPEED);
+            leftRear.setPower(APPROACHSPEED);
+            rightRear.setPower(-APPROACHSPEED);
+        } else if (gamepad1.dpad_right) {
+            leftFront.setPower(APPROACHSPEED);
+            rightFront.setPower(-APPROACHSPEED);
+            leftRear.setPower(-APPROACHSPEED);
+            rightRear.setPower(APPROACHSPEED);
         }
     }
 
 
     //sets power to freight lift motor determined from level
     public void setArmExtension() {
-        double liftPower = trimPower(-gamepad2.right_stick_y);
+        /*double liftPower = trimPower(-gamepad2.right_stick_y) - .2;
+        telemetry.addData("Winch power: ", armWinch.getPower());
+
         telemetry.addData("Lift Position: ", armWinch.getCurrentPosition());
+        //armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if (armWinch.getCurrentPosition() >= MAXTICKS && liftPower > THRESHOLD) {
             armWinch.setPower(0);
         } else if (armWinch.getCurrentPosition() <= 0 && liftPower < -THRESHOLD) {
             armWinch.setPower(0);
         } else {
             armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armWinch.setPower(liftPower);
+        }*/
+
+        telemetry.addData("Lift Position: ", armWinch.getCurrentPosition());
+        double liftPower = .2;
+        if ((gamepad2.a) && armWinch.getCurrentPosition()>MINARM){
+            armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armWinch.setPower(liftPower);
+        } else if (gamepad2.y && armWinch.getCurrentPosition()<MAXARM) {
+            armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armWinch.setPower(-liftPower);
+        } else {
+            armWinch.setTargetPosition(armWinch.getCurrentPosition());
+            armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armWinch.setPower(liftPower);
         }
     }
@@ -202,7 +229,7 @@ public class AgnesTeleOp extends OpMode {
 
     //sets grabber servo to initial position
     public void initGrabberServo() {
-        grabberLeftHand.setPosition(LEFTGRABBERINITHAND);
-        grabberRightHand.setPosition(RIGHTGRABBERINITHAND);
+        grabberLeftHand.setPosition(CLOSEDLEFTHAND);
+        grabberRightHand.setPosition(CLOSEDRIGHTHAND);
     }
 }

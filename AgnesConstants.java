@@ -14,8 +14,8 @@ public class AgnesConstants {
     public static final double MAXTICKS = 1850;
     public static final double CLOSEDRIGHTHAND = 1;
     public static final double CLOSEDLEFTHAND = 0;
-    public static final double OPENEDRIGHTHAND = .5;
-    public static final double OPENEDLEFTHAND = .3;
+    public static final double OPENEDRIGHTHAND = .6;
+    public static final double OPENEDLEFTHAND = .2;
     public static final double DELTA = .05;
 
     public static final double MINARM = -950;

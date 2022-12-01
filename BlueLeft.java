@@ -83,5 +83,6 @@ public class BlueLeft extends AutoTemplate {
     public void deliverPreCone(){
         //have the cone deliver to the right code here
         sleep(500);
+        //preConeRight.setPosition(1);
     }
 }

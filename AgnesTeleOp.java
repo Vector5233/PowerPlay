@@ -21,6 +21,7 @@ public class AgnesTeleOp extends OpMode {
     final double LEFTGRABBERINITHAND = AgnesConstants.LEFTGRABBERINITHAND;
 
     final double MAXTICKS = AgnesConstants.MAXTICKS;
+    final double MINTICKS = 0;
     final double CLOSEDRIGHTHAND = AgnesConstants.CLOSEDRIGHTHAND;
     final double CLOSEDLEFTHAND = AgnesConstants.CLOSEDLEFTHAND;
     final double OPENEDRIGHTHAND = AgnesConstants.OPENEDRIGHTHAND;
@@ -30,6 +31,7 @@ public class AgnesTeleOp extends OpMode {
     final double MINARM = -950;
     final double MAXARM = 200;
     final int ARMDELTA = AgnesConstants.ARMDELTA;
+    final int DELTA_ARM_EXT = 28;
 
 
     ElapsedTime timer;
@@ -68,6 +70,7 @@ public class AgnesTeleOp extends OpMode {
         grabberRightHand = hardwareMap.servo.get("grabberRightHand");
         grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
         grabberRotation = hardwareMap.servo.get("grabberRotation");
+
 
         timer = new ElapsedTime();
         initGrabberServo();
@@ -194,19 +197,31 @@ public class AgnesTeleOp extends OpMode {
             armWinch.setPower(liftPower);
         }*/
 
+        //TEST ALL THIS
         telemetry.addData("Lift Position: ", armWinch.getCurrentPosition());
         double liftPower = .2;
-        if ((gamepad2.a) && armWinch.getCurrentPosition()>MINARM){
-            armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armWinch.setPower(liftPower);
-        } else if (gamepad2.y && armWinch.getCurrentPosition()<MAXARM) {
+        /*if ((gamepad2.a) && armWinch.getCurrentPosition()>MINTICKS){
             armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             armWinch.setPower(-liftPower);
+        } else if (gamepad2.y && armWinch.getCurrentPosition()<MAXTICKS) {
+            armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armWinch.setPower(liftPower);
         } else {
             armWinch.setTargetPosition(armWinch.getCurrentPosition());
             armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armWinch.setPower(liftPower);
+        }*/
+
+        int currentArmExt = armWinch.getCurrentPosition();
+        armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (gamepad2.a && currentArmExt>MINTICKS) {
+            armWinch.setTargetPosition(currentArmExt - DELTA_ARM_EXT);
+            armWinch.setPower(liftPower);
+        } else if (gamepad2.y && currentArmExt<MAXTICKS){
+            armWinch.setTargetPosition(currentArmExt + DELTA_ARM_EXT);
+            armWinch.setPower(liftPower);
         }
+
     }
 
     //sets grabber motor speed
@@ -229,7 +244,7 @@ public class AgnesTeleOp extends OpMode {
 
     //sets grabber servo to initial position
     public void initGrabberServo() {
-        grabberLeftHand.setPosition(CLOSEDLEFTHAND);
-        grabberRightHand.setPosition(CLOSEDRIGHTHAND);
+        grabberLeftHand.setPosition(OPENEDLEFTHAND);
+        grabberRightHand.setPosition(OPENEDRIGHTHAND);
     }
 }

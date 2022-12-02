@@ -25,6 +25,8 @@ public abstract class AutoTemplate extends LinearOpMode {
     Servo leftClaw;
     double leftClawInit=AgnesConstants.LEFTGRABBERINITHAND;
     double rightClawInit=AgnesConstants.RIGHTGRABBERINITHAND;
+    Servo autoDeliveryLeft;
+    Servo autoDeliveryRight;
 
     SampleMecanumDrive drive;
 
@@ -103,7 +105,7 @@ public abstract class AutoTemplate extends LinearOpMode {
         // leftClawInit = 0.5;
         leftClaw.setPosition(leftClawInit) ;
         telemetry.update();
-
+        autoDeliveryLeft=hardwareMap.servo.get("autoDeliveryLeft");
     }
 
     public void detectAprilTags() {

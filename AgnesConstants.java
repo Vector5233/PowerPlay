@@ -19,9 +19,9 @@ public class AgnesConstants {
     public static final double OPENEDLEFTHAND = .2;
     public static final double DELTA = .05;
 
-    public static final double MINARM = -950;
-    public static final double MAXARM = 200;
-    public static final int ARMDELTA = -30;
+    public static final double MINARM = -50;
+    public static final double MAXARM = 950;
+    public static final int ARMDELTA = -15;
 
     // RoadRunner Constants
 

@@ -31,7 +31,7 @@ public class AgnesTeleOp extends OpMode {
     final double MINARM = -950;
     final double MAXARM = 200;
     final int ARMDELTA = AgnesConstants.ARMDELTA;
-    final int ARMDELTA_EXT = 45;
+    final int ARMDELTA_EXT = 10;
 
     int armExtension;
 
@@ -198,9 +198,6 @@ public class AgnesTeleOp extends OpMode {
             armExtension = armExtension - ARMDELTA_EXT;
         } else if (gamepad2.y && armExtension < MAXTICKS){
             armExtension = armExtension + ARMDELTA_EXT;
-        } else if (gamepad2.b){
-            armExtension = armWinch.getCurrentPosition();
-            liftPower = .1;
         }
         armWinch.setTargetPosition(armExtension);
         armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);

@@ -5,7 +5,8 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous (name= "BlueLeft", group = "Blue")
+@Autonomous (name= "BlueLeft", group = "Blue", preselectTeleOp = "AgnesTeleOp")
+
 public class BlueLeft extends AutoTemplate {
 
     final double FIRST_FORWARD = 14.72;

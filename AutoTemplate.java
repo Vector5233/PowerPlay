@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.REST_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.REST_RIGHT;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -103,9 +106,13 @@ public abstract class AutoTemplate extends LinearOpMode {
         leftClaw=hardwareMap.servo.get("grabberLeftHand");
         telemetry.addData("leftClawInit: ", leftClawInit);
         // leftClawInit = 0.5;
-        leftClaw.setPosition(leftClawInit) ;
+        leftClaw.setPosition(leftClawInit);
         telemetry.update();
+        autoDeliveryRight=hardwareMap.servo.get("autoDeliveryRight");
         autoDeliveryLeft=hardwareMap.servo.get("autoDeliveryLeft");
+        autoDeliveryLeft.setPosition(REST_LEFT);
+        autoDeliveryRight.setPosition(REST_RIGHT);
+
     }
 
     public void detectAprilTags() {

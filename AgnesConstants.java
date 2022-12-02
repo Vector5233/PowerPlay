@@ -17,7 +17,12 @@ public class AgnesConstants {
     public static final double OPENEDRIGHTHAND = .5;
     public static final double OPENEDLEFTHAND = .3;
     public static final double DELTA = .05;
-
+    public static final double REST_LEFT=1;
+    public static final double REST_RIGHT=0;
+    public static final double DELIVER_RIGHT=.7;
+    public static final double DELIVER_LEFT=.5;
+    public static final double RECOVER_RIGHT=.5;
+    public static final double RECOVER_LEFT=.8;
     public static final double MINARM = -950;
     public static final double MAXARM = 200;
     public static final int ARMDELTA = -30;

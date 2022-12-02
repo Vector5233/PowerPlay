@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -9,7 +14,7 @@ public class BlueRight extends AutoTemplate {
     final double FIRST_FORWARD = 14.72;
     final double CENTER_FORWARD = 25;
     final double RIGHT_AND_LEFT_FORWARD = 11;
-    final double STRAFE_LEFT = 27;
+    final double STRAFE_LEFT = 25.5;
     final double STRAFE_RIGHT = 25;
     final double FINAL_FORWARD = 12;
 
@@ -81,5 +86,11 @@ public class BlueRight extends AutoTemplate {
     public void deliverPreCone(){
         //have the cone deliver to the left code here
         sleep(500);
+        autoDeliveryLeft.setPosition( DELIVER_LEFT);
+        autoDeliveryRight.setPosition( DELIVER_RIGHT);
+        sleep(1000);
+        autoDeliveryLeft.setPosition( RECOVER_LEFT);
+        autoDeliveryRight.setPosition( RECOVER_RIGHT);
+        sleep(1000);
     }
 }

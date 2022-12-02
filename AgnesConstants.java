@@ -28,7 +28,7 @@ public class AgnesConstants {
     public static final double MAXARM = 950;
     public static final int ARMDELTA = -15;
 
-    // RoadRunner Constants
+    // RoadRunner ConstantsS
 
     public static double TICKS_PER_REV = 384.5;
     public static double MAX_RPM = 435;

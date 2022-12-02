@@ -12,13 +12,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class AgnesTeleOp extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
     DcMotorEx armWinch, armRotation;
-    Servo grabberLeftHand, grabberRotation, grabberRightHand;
+    Servo grabberLeftHand, grabberRotation, grabberRightHand, autoDeliveryLeft, autoDeliveryRight;
 
     final double APPROACHSPEED = AgnesConstants.APPROACHSPEED;
     final double THRESHOLD = AgnesConstants.THRESHOLD;
     final double GRABBERINITSERVO = AgnesConstants.GRABBERINITSERVO;
     final double RIGHTGRABBERINITHAND = AgnesConstants.RIGHTGRABBERINITHAND;
     final double LEFTGRABBERINITHAND = AgnesConstants.LEFTGRABBERINITHAND;
+    final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
+    final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
 
     final double MAXTICKS = AgnesConstants.MAXTICKS;
     final double MINTICKS = AgnesConstants.MINTICKS;
@@ -67,6 +69,12 @@ public class AgnesTeleOp extends OpMode {
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
+        autoDeliveryLeft = hardwareMap.servo.get("autoDeliveryLeft");
+        autoDeliveryRight = hardwareMap.servo.get("autoDeliveryRight");
+        grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
+        grabberRotation = hardwareMap.servo.get("grabberRotation");
+
+
 
         grabberRightHand = hardwareMap.servo.get("grabberRightHand");
         grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
@@ -75,6 +83,7 @@ public class AgnesTeleOp extends OpMode {
         timer = new ElapsedTime();
         initGrabberServo();
         initGrabberRotation();
+        initDeliveryServo();
     }
 
     @Override
@@ -230,6 +239,12 @@ public class AgnesTeleOp extends OpMode {
     public void initGrabberServo() {
         grabberLeftHand.setPosition(OPENEDLEFTHAND);
         grabberRightHand.setPosition(OPENEDRIGHTHAND);
+    }
+
+    //sets delivery servos to initial position
+    public void initDeliveryServo() {
+        autoDeliveryLeft.setPosition(RECOVER_LEFT);
+        autoDeliveryRight.setPosition(RECOVER_RIGHT);
     }
 
 }

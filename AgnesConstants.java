@@ -13,7 +13,7 @@ public class AgnesConstants {
     public static final double REST_RIGHT = 0;
     public static final double DELIVER_LEFT = .5;
     public static final double DELIVER_RIGHT = .7;
-    public static final double RECOVER_LEFT = .8;
+    public static final double RECOVER_LEFT = .7;
     public static final double RECOVER_RIGHT = .5;
 
     public static final double MAXTICKS = 1000;

@@ -144,14 +144,15 @@ public class AgnesTeleOp extends OpMode {
         if ((gamepad2.right_stick_x > 0)){
             armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
             armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            armRotation.setPower(.75);
+            armRotation.setPower(.95);
             telemetry.addLine("Right");  // needed for timing!  Do not remove
         } else if ((gamepad2.right_stick_x < 0) ){
             armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
             armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            armRotation.setPower(.85);
+            armRotation.setPower(.95);
             telemetry.addLine("Left");  // needed for timing!  Do not remove
         }
+
     }
 
 

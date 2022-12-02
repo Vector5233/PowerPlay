@@ -9,7 +9,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name= "RedLeft", group = "Red")
+@Autonomous(name= "RedLeft", group = "Red", preselectTeleOp = "AgnesTeleOp")
 public class RedLeft extends AutoTemplate{
     final double FIRST_FORWARD = 14.72;
     final double CENTER_FORWARD = 25;

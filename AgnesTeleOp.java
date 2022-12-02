@@ -21,6 +21,7 @@ public class AgnesTeleOp extends OpMode {
     final double LEFTGRABBERINITHAND = AgnesConstants.LEFTGRABBERINITHAND;
 
     final double MAXTICKS = AgnesConstants.MAXTICKS;
+    final double MINTICKS = AgnesConstants.MINTICKS;
     final double CLOSEDRIGHTHAND = AgnesConstants.CLOSEDRIGHTHAND;
     final double CLOSEDLEFTHAND = AgnesConstants.CLOSEDLEFTHAND;
     final double OPENEDRIGHTHAND = AgnesConstants.OPENEDRIGHTHAND;
@@ -30,7 +31,9 @@ public class AgnesTeleOp extends OpMode {
     final double MINARM = -950;
     final double MAXARM = 200;
     final int ARMDELTA = AgnesConstants.ARMDELTA;
+    final int ARMDELTA_EXT = 10;
 
+    int armExtension;
 
     ElapsedTime timer;
 
@@ -58,7 +61,7 @@ public class AgnesTeleOp extends OpMode {
         armWinch = (DcMotorEx) hardwareMap.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-
+        armExtension = 0;
 
         armRotation = (DcMotorEx) hardwareMap.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -90,7 +93,7 @@ public class AgnesTeleOp extends OpMode {
     public void setDrive(){
         double forward = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
-        double turn = gamepad1.right_stick_x;
+        double turn = gamepad1.right_stick_x/2;
         telemetry.addData("Right Rear Position: ", rightRear.getCurrentPosition());
         telemetry.addData("Left Rear Position: ", rightRear.getCurrentPosition());
         telemetry.addData("Right Front Position: ", rightFront.getCurrentPosition());
@@ -164,13 +167,23 @@ public class AgnesTeleOp extends OpMode {
             rightFront.setPower(-APPROACHSPEED);
             leftRear.setPower(-APPROACHSPEED);
             rightRear.setPower(-APPROACHSPEED);
+        } else if (gamepad1.dpad_right) {
+            leftFront.setPower(APPROACHSPEED*3);
+            rightFront.setPower(-APPROACHSPEED*3);
+            leftRear.setPower(-APPROACHSPEED*3);
+            rightRear.setPower(APPROACHSPEED*3);
+        } else if (gamepad1.dpad_left) {
+            leftFront.setPower(-APPROACHSPEED*3);
+            rightFront.setPower(APPROACHSPEED*3);
+            leftRear.setPower(APPROACHSPEED*3);
+            rightRear.setPower(-APPROACHSPEED*3);
         }
     }
 
 
     //sets power to freight lift motor determined from level
     public void setArmExtension() {
-        double liftPower = trimPower(-gamepad2.right_stick_y);
+        /*double liftPower = trimPower(-gamepad2.right_stick_y/2);
         telemetry.addData("Lift Position: ", armWinch.getCurrentPosition());
         if (armWinch.getCurrentPosition() >= MAXTICKS && liftPower > THRESHOLD) {
             armWinch.setPower(0);
@@ -179,7 +192,19 @@ public class AgnesTeleOp extends OpMode {
         } else {
             armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             armWinch.setPower(liftPower);
+        }*/
+        double liftPower = .3;
+        if (gamepad2.a && armExtension >MINTICKS){
+            armExtension = armExtension - ARMDELTA_EXT;
+        } else if (gamepad2.y && armExtension < MAXTICKS){
+            armExtension = armExtension + ARMDELTA_EXT;
         }
+        armWinch.setTargetPosition(armExtension);
+        armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armWinch.setPower(liftPower);
+        telemetry.addData("armExtension: ", armExtension);
+        telemetry.addLine("arm is moving up and down");  // needed for timing!  Do not remove
+
     }
 
     //sets grabber motor speed
@@ -202,7 +227,8 @@ public class AgnesTeleOp extends OpMode {
 
     //sets grabber servo to initial position
     public void initGrabberServo() {
-        grabberLeftHand.setPosition(LEFTGRABBERINITHAND);
-        grabberRightHand.setPosition(RIGHTGRABBERINITHAND);
+        grabberLeftHand.setPosition(OPENEDLEFTHAND);
+        grabberRightHand.setPosition(OPENEDRIGHTHAND);
     }
+
 }

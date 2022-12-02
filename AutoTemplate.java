@@ -26,6 +26,8 @@ public abstract class AutoTemplate extends LinearOpMode {
     DcMotor armRotation;
     Servo rightClaw;
     Servo leftClaw;
+    Servo preConeRight;
+    Servo preConeLeft;
     double leftClawInit=AgnesConstants.LEFTGRABBERINITHAND;
     double rightClawInit=AgnesConstants.RIGHTGRABBERINITHAND;
     Servo autoDeliveryLeft;
@@ -90,6 +92,9 @@ public abstract class AutoTemplate extends LinearOpMode {
         armWinch= hardwareMap.dcMotor.get("armWinch");
         armWinch.setDirection(DcMotor.Direction.FORWARD);
         armWinch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        preConeLeft = hardwareMap.servo.get("preConeLeft");
+        preConeLeft = hardwareMap.servo.get("preConeLeft");
 
         armRotation = hardwareMap.dcMotor.get("armRotation");
         armRotation.setDirection(DcMotor.Direction.FORWARD);

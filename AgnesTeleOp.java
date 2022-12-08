@@ -149,6 +149,8 @@ public class AgnesTeleOp extends OpMode {
         /*double rotation = -gamepad2.right_stick_x;
         armRotation.setPower(-rotation/10);*/
         int current = armRotation.getCurrentPosition();
+        //when calling in the arm class, need to have int joystick = gamepad2.right_stick_x
+
         telemetry.addData("current position:", current);
         if ((gamepad2.right_stick_x > 0)){
             armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));

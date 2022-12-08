@@ -98,7 +98,7 @@ public class AgnesTeleOp extends OpMode {
 
     }
 
-    //sets direction and power of all drive motors (frontLeft, frontRight, backLeft, backRight)
+    //sets direction and power of all drive motors (frontLeft, frontRightt, backLeft, backRight)
     public void setDrive(){
         double forward = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;

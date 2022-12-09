@@ -37,6 +37,8 @@ public class AgnesTeleOp extends OpMode {
 
     int armExtension;
 
+    Arm arm;
+
     ElapsedTime timer;
 
 
@@ -84,6 +86,8 @@ public class AgnesTeleOp extends OpMode {
         initGrabberServo();
         initGrabberRotation();
         initDeliveryServo();
+
+        arm = new Arm();
     }
 
     @Override
@@ -147,7 +151,7 @@ public class AgnesTeleOp extends OpMode {
     //need to test non commented out stuff as of 11.16.22
     public void setArmRotation(){
         /*double rotation = -gamepad2.right_stick_x;
-        armRotation.setPower(-rotation/10);*/
+        armRotation.setPower(-rotation/10);
         int current = armRotation.getCurrentPosition();
         //when calling in the arm class, need to have int joystick = gamepad2.right_stick_x
 
@@ -162,8 +166,14 @@ public class AgnesTeleOp extends OpMode {
             armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             armRotation.setPower(.95);
             telemetry.addLine("Left");  // needed for timing!  Do not remove
-        }
+        }*/
 
+        //needs to be tested as of 12/9/22
+        int current = armRotation.getCurrentPosition();
+        int rotation = (int) (current + ARMDELTA*gamepad2.right_stick_x);
+        arm.setArmRotation(rotation);
+        telemetry.addLine("Arm Rotation happening");  // needed for timing!  Do not remove
+        telemetry.addData("Arm Angle Found: ", arm.getArmAngle(current));
     }
 
 
@@ -205,15 +215,17 @@ public class AgnesTeleOp extends OpMode {
             armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             armWinch.setPower(liftPower);
         }*/
-        double liftPower = .3;
+        //double liftPower = .3;
         if (gamepad2.a && armExtension >MINTICKS){
             armExtension = armExtension - ARMDELTA_EXT;
         } else if (gamepad2.y && armExtension < MAXTICKS){
             armExtension = armExtension + ARMDELTA_EXT;
         }
-        armWinch.setTargetPosition(armExtension);
+
+        arm.setArmWinch(armExtension);
+        /*armWinch.setTargetPosition(armExtension);
         armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armWinch.setPower(liftPower);
+        armWinch.setPower(liftPower);*/
         telemetry.addData("armExtension: ", armExtension);
         telemetry.addLine("arm is moving up and down");  // needed for timing!  Do not remove
 
@@ -230,6 +242,8 @@ public class AgnesTeleOp extends OpMode {
         }
     }
     // comment
+
+
 
     //sets grabber servo position
     public void initGrabberRotation() {

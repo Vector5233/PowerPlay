@@ -39,6 +39,7 @@ public class AgnesTeleOp extends OpMode {
     Grabber grabber;
     Arm arm;
 
+
     ElapsedTime timer;
 
 
@@ -62,32 +63,37 @@ public class AgnesTeleOp extends OpMode {
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        armWinch = (DcMotorEx) hardwareMap.dcMotor.get("armWinch");
+        /*armWinch = (DcMotorEx) hardwareMap.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         armExtension = 0;
 
         armRotation = (DcMotorEx) hardwareMap.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);*/
+
+
 
         autoDeliveryLeft = hardwareMap.servo.get("autoDeliveryLeft");
         autoDeliveryRight = hardwareMap.servo.get("autoDeliveryRight");
-        grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
+       /* grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
         grabberRotation = hardwareMap.servo.get("grabberRotation");
 
 
 
         grabberRightHand = hardwareMap.servo.get("grabberRightHand");
         grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
-        grabberRotation = hardwareMap.servo.get("grabberRotation");
+        grabberRotation = hardwareMap.servo.get("grabberRotation");*/
         grabber = new Grabber();
+        grabber.initialize();
+
         timer = new ElapsedTime();
         initGrabberServo();
         initGrabberRotation();
         initDeliveryServo();
 
         arm = new Arm();
+        arm.initialize();
     }
 
     @Override

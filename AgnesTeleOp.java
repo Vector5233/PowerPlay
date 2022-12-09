@@ -36,7 +36,7 @@ public class AgnesTeleOp extends OpMode {
     final int ARMDELTA_EXT = 10;
 
     int armExtension;
-
+    Grabber grabber;
     Arm arm;
 
     ElapsedTime timer;
@@ -81,7 +81,7 @@ public class AgnesTeleOp extends OpMode {
         grabberRightHand = hardwareMap.servo.get("grabberRightHand");
         grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
         grabberRotation = hardwareMap.servo.get("grabberRotation");
-
+        grabber = new Grabber();
         timer = new ElapsedTime();
         initGrabberServo();
         initGrabberRotation();
@@ -94,6 +94,7 @@ public class AgnesTeleOp extends OpMode {
     public void loop() {
 
        setDrive();
+
        setGrabberHand();
        setGrabberRotation();
        setArmExtension();
@@ -137,14 +138,16 @@ public class AgnesTeleOp extends OpMode {
     //rotates grabber
     public void setGrabberRotation(){
         double current = grabberRotation.getPosition();
+        int position = (int) (current + DELTA * gamepad2.left_stick_x);
         telemetry.addData("current position:", current);
-        if ((gamepad2.left_stick_x > 0)){
+        grabber.setGrabberRotation(position);
+       /* if ((gamepad2.left_stick_x > 0)){
             grabberRotation.setPosition(current + DELTA * gamepad2.left_stick_x);
             telemetry.addLine("Right");  // needed for timing!  Do not remove
         } else if ((gamepad2.left_stick_x < 0) && (current > .33)){
             grabberRotation.setPosition(current + DELTA * gamepad2.left_stick_x);
             telemetry.addLine("Left");  // needed for timing!  Do not remove
-        }
+        }*/
     }
 
     //rotates arm 180 - ONLY problem - if position is needed, user has to hold joystick down
@@ -232,16 +235,14 @@ public class AgnesTeleOp extends OpMode {
     }
 
     //sets grabber motor speed
-    public void setGrabberHand() {
+   public void setGrabberHand() {
         if (gamepad2.left_bumper) {
-            grabberRightHand.setPosition(OPENEDRIGHTHAND);
-            grabberLeftHand.setPosition(OPENEDLEFTHAND);
+            grabber.setGrabberHandOpen();
         } else if (gamepad2.right_bumper) {
-            grabberRightHand.setPosition(CLOSEDRIGHTHAND);
-            grabberLeftHand.setPosition(CLOSEDLEFTHAND);
+            grabber.setGrabberHandClosed();
         }
     }
-    // comment
+      // comment
 
 
 

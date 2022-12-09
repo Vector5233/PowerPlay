@@ -15,8 +15,6 @@ public class Grabber {
     final double OPENEDRIGHTHAND = AgnesConstants.OPENEDRIGHTHAND;
     final double OPENEDLEFTHAND = AgnesConstants.OPENEDLEFTHAND;
     final double DELTA = AgnesConstants.DELTA;
-    final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
-    final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
 
     public Grabber(){
 
@@ -32,14 +30,17 @@ public class Grabber {
     }
 
     public void setGrabberHandOpen(){
-
+        grabberRightHand.setPosition(OPENEDRIGHTHAND);
+        grabberLeftHand.setPosition(OPENEDLEFTHAND);
     }
 
     public void setGrabberHandClosed(){
-
+        grabberRightHand.setPosition(CLOSEDRIGHTHAND);
+        grabberLeftHand.setPosition(CLOSEDLEFTHAND);
     }
 
-    public void setGrabberRotation(){
+    public void setGrabberRotation(int position){
+        grabberRotation.setPosition(position);
 
     }
 

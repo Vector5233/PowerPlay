@@ -12,23 +12,24 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class AgnesTeleOp extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
     DcMotorEx armWinch, armRotation;
-    Servo grabberLeftHand, grabberRotation, grabberRightHand, autoDeliveryLeft, autoDeliveryRight;
+    Servo /*grabberLeftHand, grabberRotation, grabberRightHand,*/ autoDeliveryLeft, autoDeliveryRight;
 
     final double APPROACHSPEED = AgnesConstants.APPROACHSPEED;
     final double THRESHOLD = AgnesConstants.THRESHOLD;
-    final double GRABBERINITSERVO = AgnesConstants.GRABBERINITSERVO;
+   /* final double GRABBERINITSERVO = AgnesConstants.GRABBERINITSERVO;
     final double RIGHTGRABBERINITHAND = AgnesConstants.RIGHTGRABBERINITHAND;
-    final double LEFTGRABBERINITHAND = AgnesConstants.LEFTGRABBERINITHAND;
+    final double LEFTGRABBERINITHAND = AgnesConstants.LEFTGRABBERINITHAND; */
     final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
     final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
 
     final double MAXTICKS = AgnesConstants.MAXTICKS;
     final double MINTICKS = AgnesConstants.MINTICKS;
-    final double CLOSEDRIGHTHAND = AgnesConstants.CLOSEDRIGHTHAND;
+   /* final double CLOSEDRIGHTHAND = AgnesConstants.CLOSEDRIGHTHAND;
     final double CLOSEDLEFTHAND = AgnesConstants.CLOSEDLEFTHAND;
     final double OPENEDRIGHTHAND = AgnesConstants.OPENEDRIGHTHAND;
-    final double OPENEDLEFTHAND = AgnesConstants.OPENEDLEFTHAND;
+    final double OPENEDLEFTHAND = AgnesConstants.OPENEDLEFTHAND; */
     final double DELTA = AgnesConstants.DELTA;
+    double grabberTarget = AgnesConstants.GRABBERINITSERVO;
 
     final double MINARM = -950;
     final double MAXARM = 200;
@@ -66,11 +67,11 @@ public class AgnesTeleOp extends OpMode {
         /*armWinch = (DcMotorEx) hardwareMap.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        armExtension = 0;
+        armExtension = 0;*/
 
         armRotation = (DcMotorEx) hardwareMap.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);*/
+        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -85,15 +86,15 @@ public class AgnesTeleOp extends OpMode {
         grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
         grabberRotation = hardwareMap.servo.get("grabberRotation");*/
         grabber = new Grabber();
-        grabber.initialize();
+        grabber.initialize(hardwareMap);
 
         timer = new ElapsedTime();
-        initGrabberServo();
-        initGrabberRotation();
+        //initGrabberServo();
+       // initGrabberRotation();
         initDeliveryServo();
 
         arm = new Arm();
-        arm.initialize();
+        arm.initialize(hardwareMap);
     }
 
     @Override
@@ -143,11 +144,9 @@ public class AgnesTeleOp extends OpMode {
 
     //rotates grabber
     public void setGrabberRotation(){
-        double current = grabberRotation.getPosition();
-        int position = (int) (current + DELTA * gamepad2.left_stick_x);
-        telemetry.addData("current position:", current);
-        grabber.setGrabberRotation(position);
-       /* if ((gamepad2.left_stick_x > 0)){
+        grabberTarget = grabber.getGrabberRotation() + DELTA * gamepad2.left_stick_x;
+        grabber.setGrabberRotation(grabberTarget);
+        /* if ((gamepad2.left_stick_x > 0)){
             grabberRotation.setPosition(current + DELTA * gamepad2.left_stick_x);
             telemetry.addLine("Right");  // needed for timing!  Do not remove
         } else if ((gamepad2.left_stick_x < 0) && (current > .33)){
@@ -253,7 +252,7 @@ public class AgnesTeleOp extends OpMode {
 
 
     //sets grabber servo position
-    public void initGrabberRotation() {
+    /* public void initGrabberRotation() {
         grabberRotation.setPosition(GRABBERINITSERVO);
     }
 
@@ -262,7 +261,7 @@ public class AgnesTeleOp extends OpMode {
     public void initGrabberServo() {
         grabberLeftHand.setPosition(OPENEDLEFTHAND);
         grabberRightHand.setPosition(OPENEDRIGHTHAND);
-    }
+    } */
 
     //sets delivery servos to initial position
     public void initDeliveryServo() {

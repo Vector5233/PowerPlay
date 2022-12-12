@@ -22,20 +22,20 @@ public class Arm {
     }
 
 
-    public void initialize(){
-        armWinch = (DcMotorEx) hardwareMap.dcMotor.get("armWinch");
+    public void initialize(HardwareMap map){
+        armWinch = (DcMotorEx) map.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        armRotation = (DcMotorEx) hardwareMap.dcMotor.get("armRotation");
+        armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
 
 
     public void setArmRotation(int rotation){
-        double angle = ((6* (Math.abs(MAXTICKS) + Math.abs(MINTICKS))) / (5* 3.14159)) * rotation + MINTICKS;
-        armRotation.setTargetPosition((int) angle);
+        //double angle = ((6* (Math.abs(MAXTICKS) + Math.abs(MINTICKS))) / (5* 3.14159)) * rotation + MINTICKS;
+        armRotation.setTargetPosition(rotation);
         armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         armRotation.setPower(.95);
     }
@@ -46,7 +46,7 @@ public class Arm {
         armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armWinch.setPower(liftPower);
     }
-
+//fix get armAngle
     public double getArmAngle(int rotation){
         double angle = ((6* (Math.abs(MAXTICKS) + Math.abs(MINTICKS))) / (5* 3.14159)) * rotation + MINTICKS;
         return angle;

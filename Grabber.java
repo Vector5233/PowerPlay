@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.VectorCode;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Grabber {
@@ -20,13 +21,26 @@ public class Grabber {
 
     }
 
-    public void initialize(){
-        grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
-        grabberRotation = hardwareMap.servo.get("grabberRotation");
+    //sets grabber servo position
+    public void initGrabberRotation(){grabberRotation.setPosition(GRABBERINITSERVO);}
 
-        grabberRightHand = hardwareMap.servo.get("grabberRightHand");
-        grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
-        grabberRotation = hardwareMap.servo.get("grabberRotation");
+    //sets grabber servo to initial position. values may be incorrect.
+    public void initGrabberServo() {
+        grabberLeftHand.setPosition(OPENEDLEFTHAND);
+        grabberRightHand.setPosition(OPENEDRIGHTHAND);
+    }
+
+
+    public void initialize(HardwareMap map){
+        // once ...
+        grabberLeftHand = map.servo.get("grabberLeftHand");
+        grabberRotation = map.servo.get("grabberRotation");
+
+
+        grabberRightHand = map.servo.get("grabberRightHand");
+        // ... twice.  Why?
+       // grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
+        // grabberRotation = hardwareMap.servo.get("grabberRotation");
     }
 
     public void setGrabberHandOpen(){
@@ -39,10 +53,15 @@ public class Grabber {
         grabberLeftHand.setPosition(CLOSEDLEFTHAND);
     }
 
-    public void setGrabberRotation(int position){
+    public void setGrabberRotation(double position){
         grabberRotation.setPosition(position);
 
     }
+    public double getGrabberRotation(){
+        return grabberRotation.getPosition();
+    }
+
+
 
     public void setGrabberAngle(){
 

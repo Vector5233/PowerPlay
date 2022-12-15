@@ -30,7 +30,7 @@ public class Grabber {
         grabberRightHand.setPosition(OPENEDRIGHTHAND);
     }
 
-
+    //inits grabber
     public void initialize(HardwareMap map){
         // once ...
         grabberLeftHand = map.servo.get("grabberLeftHand");

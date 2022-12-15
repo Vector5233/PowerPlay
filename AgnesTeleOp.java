@@ -11,28 +11,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="AgnesTeleOp", group="robot")
 public class AgnesTeleOp extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
-    DcMotorEx armWinch, armRotation;
-    Servo /*grabberLeftHand, grabberRotation, grabberRightHand,*/ autoDeliveryLeft, autoDeliveryRight;
+    DcMotorEx armRotation;
+    Servo autoDeliveryLeft, autoDeliveryRight;
 
     final double APPROACHSPEED = AgnesConstants.APPROACHSPEED;
     final double THRESHOLD = AgnesConstants.THRESHOLD;
-   /* final double GRABBERINITSERVO = AgnesConstants.GRABBERINITSERVO;
-    final double RIGHTGRABBERINITHAND = AgnesConstants.RIGHTGRABBERINITHAND;
-    final double LEFTGRABBERINITHAND = AgnesConstants.LEFTGRABBERINITHAND; */
     final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
     final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
 
     final double MAXTICKS = AgnesConstants.MAXTICKS;
     final double MINTICKS = AgnesConstants.MINTICKS;
-   /* final double CLOSEDRIGHTHAND = AgnesConstants.CLOSEDRIGHTHAND;
-    final double CLOSEDLEFTHAND = AgnesConstants.CLOSEDLEFTHAND;
-    final double OPENEDRIGHTHAND = AgnesConstants.OPENEDRIGHTHAND;
-    final double OPENEDLEFTHAND = AgnesConstants.OPENEDLEFTHAND; */
     final double DELTA = AgnesConstants.DELTA;
     double grabberTarget = AgnesConstants.GRABBERINITSERVO;
+    int rotationTarget;
 
-    final double MINARM = -950;
-    final double MAXARM = 200;
+
     final int ARMDELTA = AgnesConstants.ARMDELTA;
     final int ARMDELTA_EXT = 10;
 
@@ -64,10 +57,7 @@ public class AgnesTeleOp extends OpMode {
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        /*armWinch = (DcMotorEx) hardwareMap.dcMotor.get("armWinch");
-        armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        armExtension = 0;*/
+
 
         armRotation = (DcMotorEx) hardwareMap.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -77,24 +67,16 @@ public class AgnesTeleOp extends OpMode {
 
         autoDeliveryLeft = hardwareMap.servo.get("autoDeliveryLeft");
         autoDeliveryRight = hardwareMap.servo.get("autoDeliveryRight");
-       /* grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
-        grabberRotation = hardwareMap.servo.get("grabberRotation");
 
-
-
-        grabberRightHand = hardwareMap.servo.get("grabberRightHand");
-        grabberLeftHand = hardwareMap.servo.get("grabberLeftHand");
-        grabberRotation = hardwareMap.servo.get("grabberRotation");*/
         grabber = new Grabber();
         grabber.initialize(hardwareMap);
 
         timer = new ElapsedTime();
-        //initGrabberServo();
-       // initGrabberRotation();
         initDeliveryServo();
 
         arm = new Arm();
         arm.initialize(hardwareMap);
+        rotationTarget = 0;
     }
 
     @Override
@@ -146,42 +128,22 @@ public class AgnesTeleOp extends OpMode {
     public void setGrabberRotation(){
         grabberTarget = grabber.getGrabberRotation() + DELTA * gamepad2.left_stick_x;
         grabber.setGrabberRotation(grabberTarget);
-        /* if ((gamepad2.left_stick_x > 0)){
-            grabberRotation.setPosition(current + DELTA * gamepad2.left_stick_x);
-            telemetry.addLine("Right");  // needed for timing!  Do not remove
-        } else if ((gamepad2.left_stick_x < 0) && (current > .33)){
-            grabberRotation.setPosition(current + DELTA * gamepad2.left_stick_x);
-            telemetry.addLine("Left");  // needed for timing!  Do not remove
-        }*/
     }
 
     //rotates arm 180 - ONLY problem - if position is needed, user has to hold joystick down
     //need to test non commented out stuff as of 11.16.22
     public void setArmRotation(){
-        /*double rotation = -gamepad2.right_stick_x;
-        armRotation.setPower(-rotation/10);
-        int current = armRotation.getCurrentPosition();
-        //when calling in the arm class, need to have int joystick = gamepad2.right_stick_x
-
-        telemetry.addData("current position:", current);
-        if ((gamepad2.right_stick_x > 0)){
-            armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
-            armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            armRotation.setPower(.95);
-            telemetry.addLine("Right");  // needed for timing!  Do not remove
-        } else if ((gamepad2.right_stick_x < 0) ){
-            armRotation.setTargetPosition(Math.round(current + ARMDELTA * gamepad2.right_stick_x));
-            armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            armRotation.setPower(.95);
-            telemetry.addLine("Left");  // needed for timing!  Do not remove
-        }*/
-
-        //needs to be tested as of 12/9/22
-        int current = armRotation.getCurrentPosition();
+       /* int current = armRotation.getCurrentPosition();
         int rotation = (int) (current + ARMDELTA*gamepad2.right_stick_x);
         arm.setArmRotation(rotation);
         telemetry.addLine("Arm Rotation happening");  // needed for timing!  Do not remove
         telemetry.addData("Arm Angle Found: ", arm.getArmAngle(current));
+        */
+
+        rotationTarget = (int) (arm.getSetPoint() + ARMDELTA* gamepad2.right_stick_x);
+        // ^^^ why (int)?  aren't we thinking in degrees?
+        arm.setTarget(rotationTarget); // JRC: should setTarget() be setSetPoint()?
+        arm.setPower();
     }
 
 
@@ -213,17 +175,7 @@ public class AgnesTeleOp extends OpMode {
 
     //sets power to freight lift motor determined from level
     public void setArmExtension() {
-        /*double liftPower = trimPower(-gamepad2.right_stick_y/2);
-        telemetry.addData("Lift Position: ", armWinch.getCurrentPosition());
-        if (armWinch.getCurrentPosition() >= MAXTICKS && liftPower > THRESHOLD) {
-            armWinch.setPower(0);
-        } else if (armWinch.getCurrentPosition() <= 0 && liftPower < -THRESHOLD) {
-            armWinch.setPower(0);
-        } else {
-            armWinch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armWinch.setPower(liftPower);
-        }*/
-        //double liftPower = .3;
+
         if (gamepad2.a && armExtension >MINTICKS){
             armExtension = armExtension - ARMDELTA_EXT;
         } else if (gamepad2.y && armExtension < MAXTICKS){
@@ -231,9 +183,6 @@ public class AgnesTeleOp extends OpMode {
         }
 
         arm.setArmWinch(armExtension);
-        /*armWinch.setTargetPosition(armExtension);
-        armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armWinch.setPower(liftPower);*/
         telemetry.addData("armExtension: ", armExtension);
         telemetry.addLine("arm is moving up and down");  // needed for timing!  Do not remove
 
@@ -247,21 +196,7 @@ public class AgnesTeleOp extends OpMode {
             grabber.setGrabberHandClosed();
         }
     }
-      // comment
 
-
-
-    //sets grabber servo position
-    /* public void initGrabberRotation() {
-        grabberRotation.setPosition(GRABBERINITSERVO);
-    }
-
-
-    //sets grabber servo to initial position
-    public void initGrabberServo() {
-        grabberLeftHand.setPosition(OPENEDLEFTHAND);
-        grabberRightHand.setPosition(OPENEDRIGHTHAND);
-    } */
 
     //sets delivery servos to initial position
     public void initDeliveryServo() {

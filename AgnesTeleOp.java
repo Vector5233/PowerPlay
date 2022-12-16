@@ -140,7 +140,7 @@ public class AgnesTeleOp extends OpMode {
         telemetry.addData("Arm Angle Found: ", arm.getArmAngle(current));
         */
 
-        rotationTarget = (int) (arm.getSetPoint() + ARMDELTA* gamepad2.right_stick_x);
+        rotationTarget = (int) (arm.getTarget() + ARMDELTA* gamepad2.right_stick_x);
         // ^^^ why (int)?  aren't we thinking in degrees?
         arm.setTarget(rotationTarget); // JRC: should setTarget() be setSetPoint()?
         arm.setPower();

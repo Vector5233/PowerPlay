@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.control.PIDFController;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
 
 @Config
 public class Arm {
@@ -26,6 +22,9 @@ public class Arm {
     DcMotorEx armWinch, armRotation;
     final double MAXTICKS = AgnesConstants.MAXTICKS;
     final double MINTICKS = AgnesConstants.MINTICKS;
+    final double MAXANGLE = AgnesConstants.MAXANGLE;
+    final double MINANGLE = AgnesConstants.MINANGLE;
+
 
     public Arm() {
 
@@ -60,25 +59,24 @@ public class Arm {
         armWinch.setPower(liftPower);
     }
 
-    //fix get armAngle
-    public double getArmAngle(int position){
-        double angle = ((6* (Math.abs(MAXTICKS) + Math.abs(MINTICKS))) / (5* 3.14159)) * position + MINTICKS;
-        return angle;
+    public double getAngle(){
+       int position = armRotation.getCurrentPosition();
+       int angle = (int) (MINANGLE + ((MAXANGLE-MINANGLE)/(MINTICKS-MAXTICKS))*(position-MINTICKS));
+       return angle;
     }
 
+
     public void setTarget(double degrees){
-        // ^^^ JRC: name should be consistent - both setTarget() and getTarget or else setSetPoint() and getSetPoint()
         //have the robot check min and max ticks here
         controller.setSetPoint(degrees);
     }
 
-    public double getSetPoint(){
+    public double getTarget(){
         return controller.getSetPoint();
     }
 
     public void setPower(){
-        int position = armRotation.getCurrentPosition();
-        int angle = (int) getArmAngle(position);  // why int?
+        int angle = (int) getAngle();  // why int?
         double power = controller.calculate(angle);
         armRotation.setPower(power);
     }

@@ -4,9 +4,10 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@Config
+
 public class Arm {
     private PIDController controller;
 
@@ -19,7 +20,7 @@ public class Arm {
 
 
 
-    DcMotorEx armWinch, armRotation;
+    DcMotorEx armWinch, armRotationRightMotor , armRotationLeftMotor;
     final double MAXTICKS = AgnesConstants.MAXTICKS;
     final double MINTICKS = AgnesConstants.MINTICKS;
     final double MAXANGLE = AgnesConstants.MAXANGLE;
@@ -38,10 +39,17 @@ public class Arm {
         armWinch = (DcMotorEx) map.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        armRotationRightMotor = (DcMotorEx) map.dcMotor.get("armRotationRightMotor");
+        armRotationRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRotationRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armRotationLeftMotor = (DcMotorEx) map.dcMotor.get("armRotationLeftMotor");
+        armRotationLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRotationLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armRotationLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
+       /* armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); */
     }
 
 //prob get rid of bc of new method of doing rotation
@@ -60,8 +68,8 @@ public class Arm {
     }
 
     public double getAngle(){
-       int position = armRotation.getCurrentPosition();
-       int angle = (int) (MINANGLE + ((MAXANGLE-MINANGLE)/(MINTICKS-MAXTICKS))*(position-MINTICKS));
+       int position = armRotationRightMotor.getCurrentPosition();  // right arm is the prime arm
+       double angle = (MINANGLE + ((MAXANGLE-MINANGLE)/(MAXTICKS-MINTICKS))*(position-MINTICKS));
        return angle;
     }
 
@@ -76,12 +84,25 @@ public class Arm {
     }
 
     public void setPower(){
-        int angle = (int) getAngle();  // why int?
+        double angle = getAngle();
         double power = controller.calculate(angle);
-        armRotation.setPower(power);
+        armRotationRightMotor.setPower(power);
+        armRotationLeftMotor.setPower(power);
     }
 
-    public void updatePIDController (double a, double b, double c){
+    public void updatePIDController (double p, double i, double d){
+    controller.setPID(p,i,d);   }
+
+
+    public int getRightMotorEncoder (){
+        return armRotationRightMotor.getCurrentPosition();
 
     }
+
+    public int getLeftMotorEncoder (){
+        return  armRotationLeftMotor.getCurrentPosition();
+    }
+
+
+
 }

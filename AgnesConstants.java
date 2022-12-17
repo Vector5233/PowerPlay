@@ -7,8 +7,8 @@ public class AgnesConstants {
     public static final double THRESHOLD = .1;
 
     public static final double GRABBERINITSERVO = 1;
-    public static final double RIGHTGRABBERINITHAND = .2;
-    public static final double LEFTGRABBERINITHAND = .5;
+   // public static final double RIGHTGRABBERINITHAND = .2;
+   // public static final double LEFTGRABBERINITHAND = .5;
     public static final double REST_LEFT = 1;
     public static final double REST_RIGHT = 0;
     public static final double DELIVER_LEFT = .5;
@@ -16,14 +16,17 @@ public class AgnesConstants {
     public static final double RECOVER_LEFT = .7;
     public static final double RECOVER_RIGHT = .5;
 
-    public static final double MAXTICKS = 1000;
-    public static final double MINTICKS = 0;
-    public static final double MAXANGLE = 2.443;
-    public static final double MINANGLE = 0;
-    public static final double CLOSEDRIGHTHAND = 1;
-    public static final double CLOSEDLEFTHAND = 0;
-    public static final double OPENEDRIGHTHAND = .6;
-    public static final double OPENEDLEFTHAND = .2;
+    public static final double MAXTICKS = 421;
+    public static final double MINTICKS = -578;
+    public static final double MAXANGLE = 196;
+    public static final double MINANGLE = 56;
+    public static double INITGRABBERHAND = .4;
+    public static double OPENEDGRABBERHAND = .5;
+    public static double CLOSEDGRABBERHAND = .3;
+    // public static final double CLOSEDRIGHTHAND = 1;
+   // public static final double CLOSEDLEFTHAND = 0;
+   // public static final double OPENEDRIGHTHAND = .6;
+    // public static final double OPENEDLEFTHAND = .2;
     public static final double DELTA = .05;
 
     public static final double MINARM = -50;

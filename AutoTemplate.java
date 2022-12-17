@@ -28,8 +28,8 @@ public abstract class AutoTemplate extends LinearOpMode {
     Servo leftClaw;
     Servo preConeRight;
     Servo preConeLeft;
-    double leftClawInit=AgnesConstants.LEFTGRABBERINITHAND;
-    double rightClawInit=AgnesConstants.RIGHTGRABBERINITHAND;
+    //double leftClawInit=AgnesConstants.LEFTGRABBERINITHAND;
+   //double rightClawInit=AgnesConstants.RIGHTGRABBERINITHAND;
     Servo autoDeliveryLeft;
     Servo autoDeliveryRight;
 
@@ -100,15 +100,15 @@ public abstract class AutoTemplate extends LinearOpMode {
         //?? From Elizabeth
 
         rightClaw=hardwareMap.servo.get("grabberRightHand");
-        telemetry.addData("rightClawInit: ", rightClawInit);
+       // telemetry.addData("rightClawInit: ", rightClawInit);
        // rightClawInit = 0.5;
-        rightClaw.setPosition(rightClawInit);
+        //rightClaw.setPosition(rightClawInit);
 
 
         leftClaw=hardwareMap.servo.get("grabberLeftHand");
-        telemetry.addData("leftClawInit: ", leftClawInit);
+       // telemetry.addData("leftClawInit: ", leftClawInit);
         // leftClawInit = 0.5;
-        leftClaw.setPosition(leftClawInit);
+        //leftClaw.setPosition(leftClawInit);
         telemetry.update();
         autoDeliveryRight=hardwareMap.servo.get("autoDeliveryRight");
         autoDeliveryLeft=hardwareMap.servo.get("autoDeliveryLeft");

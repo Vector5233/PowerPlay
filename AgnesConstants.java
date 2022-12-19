@@ -20,6 +20,7 @@ public class AgnesConstants {
     public static final double MINTICKS = -578;
     public static final double MAXANGLE = 196;
     public static final double MINANGLE = 56;
+    public static final double ARMROTATIONTICKSPERREV = 2786.2;
     public static double INITGRABBERHAND = .4;
     public static double OPENEDGRABBERHAND = .5;
     public static double CLOSEDGRABBERHAND = .3;

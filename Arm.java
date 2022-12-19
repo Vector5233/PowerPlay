@@ -25,6 +25,7 @@ public class Arm {
     final double MINTICKS = AgnesConstants.MINTICKS;
     final double MAXANGLE = AgnesConstants.MAXANGLE;
     final double MINANGLE = AgnesConstants.MINANGLE;
+    final double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
 
 
     public Arm() {
@@ -69,13 +70,15 @@ public class Arm {
 
     public double getAngle(){
        int position = armRotationRightMotor.getCurrentPosition();  // right arm is the prime arm
-       double angle = (MINANGLE + ((MAXANGLE-MINANGLE)/(MAXTICKS-MINTICKS))*(position-MINTICKS));
+       double angle = (MINANGLE + (360/ARMROTATIONTICKSPERREV)*(position-MINTICKS));
        return angle;
     }
 
 
     public void setTarget(double degrees){
-        //have the robot check min and max ticks here
+        if (target > MAXTICKS || target < MINTICKS){
+            //dont run??
+        }
         controller.setSetPoint(degrees);
     }
 

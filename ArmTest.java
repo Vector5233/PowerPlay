@@ -29,6 +29,7 @@ public class ArmTest extends OpMode {
     public void loop(){
         telemetry.addData("Target: ", stan.getTarget());
         telemetry.addData("Angle(degrees): ", stan.getAngle());
+        telemetry.addData("Rotation Ticks: ", stan.getRightMotorEncoder());
         stan.setTarget(target);
         stan.setPower();
         stan.updatePIDController( p, i, d);

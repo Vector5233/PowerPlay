@@ -19,8 +19,8 @@ public class AgnesTeleOp extends OpMode {
     final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
     final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
 
-    final double MAXTICKS = AgnesConstants.MAXTICKS;
-    final double MINTICKS = AgnesConstants.MINTICKS;
+    final double MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
+    final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
     final double DELTA = AgnesConstants.DELTA;
     double grabberTarget = AgnesConstants.GRABBERINITSERVO;
     int rotationTarget;
@@ -176,9 +176,9 @@ public class AgnesTeleOp extends OpMode {
     //sets power to freight lift motor determined from level
     public void setArmExtension() {
 
-        if (gamepad2.a && armExtension >MINTICKS){
+        if (gamepad2.a && armExtension > MIN_EXT_TICKS){
             armExtension = armExtension - ARMDELTA_EXT;
-        } else if (gamepad2.y && armExtension < MAXTICKS){
+        } else if (gamepad2.y && armExtension < MAX_EXT_TICKS){
             armExtension = armExtension + ARMDELTA_EXT;
         }
 

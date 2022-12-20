@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -21,11 +20,15 @@ public class Arm {
 
 
     DcMotorEx armWinch, armRotationRightMotor , armRotationLeftMotor;
-    final double MAXTICKS = AgnesConstants.MAXTICKS;
-    final double MINTICKS = AgnesConstants.MINTICKS;
+    final double MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
+    final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
     final double MAXANGLE = AgnesConstants.MAXANGLE;
     final double MINANGLE = AgnesConstants.MINANGLE;
     final double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
+    final double MAX_ARM_ANG_TICKS = AgnesConstants.MAX_ARM_ANG_TICKS;
+    final double MIN_ARM_ANG_TICKS = AgnesConstants.MIN_ARM_ANG_TICKS;
+    final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
+    final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
 
 
     public Arm() {
@@ -70,14 +73,20 @@ public class Arm {
 
     public double getAngle(){
        int position = armRotationRightMotor.getCurrentPosition();  // right arm is the prime arm
-       double angle = (MINANGLE + (360/ARMROTATIONTICKSPERREV)*(position-MINTICKS));
+       double angle = (MINANGLE + (360/ARMROTATIONTICKSPERREV)*(position- MIN_ARM_ANG_TICKS));
        return angle;
+    }
+
+    public double getArmLength(){
+        int position = armWinch.getCurrentPosition();
+        double length = MINARMLENGTH + ((MINARMLENGTH - MAXARMLENGTH)/(MIN_EXT_TICKS - MAX_EXT_TICKS))*(position - MIN_EXT_TICKS);
+        return length;
     }
 
 
     public void setTarget(double degrees){
-        if (target > MAXTICKS || target < MINTICKS){
-            //dont run??
+        if (target > MAX_ARM_ANG_TICKS || target < MIN_ARM_ANG_TICKS){
+            return;
         }
         controller.setSetPoint(degrees);
     }
@@ -94,7 +103,8 @@ public class Arm {
     }
 
     public void updatePIDController (double p, double i, double d){
-    controller.setPID(p,i,d);   }
+        controller.setPID(p,i,d);
+    }
 
 
     public int getRightMotorEncoder (){
@@ -106,6 +116,17 @@ public class Arm {
         return  armRotationLeftMotor.getCurrentPosition();
     }
 
+    public boolean isWinchBusy(){
+        return armWinch.isBusy();
+    }
 
-
+    public boolean isRotationBusy(){
+        double difference = getTarget() - getAngle();
+        double THRESHOLD = 3;
+        if (difference <= THRESHOLD){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

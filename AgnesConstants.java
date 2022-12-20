@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-
 public class AgnesConstants {
     public static final double APPROACHSPEED = .3;
     public static final double THRESHOLD = .1;
@@ -16,8 +14,10 @@ public class AgnesConstants {
     public static final double RECOVER_LEFT = .7;
     public static final double RECOVER_RIGHT = .5;
 
-    public static final double MAXTICKS = 421;
-    public static final double MINTICKS = -578;
+    public static final double MAX_EXT_TICKS = 421;
+    public static final double MIN_EXT_TICKS = -578;
+    public static final double MINARMLENGTH = 30;
+    public static final double MAXARMLENGTH = 80;
     public static final double MAXANGLE = 196;
     public static final double MINANGLE = 56;
     public static final double ARMROTATIONTICKSPERREV = 2786.2;
@@ -30,8 +30,8 @@ public class AgnesConstants {
     // public static final double OPENEDLEFTHAND = .2;
     public static final double DELTA = .05;
 
-    public static final double MINARM = -50;
-    public static final double MAXARM = 950;
+    public static final double MIN_ARM_ANG_TICKS = -50;
+    public static final double MAX_ARM_ANG_TICKS = 950;
     public static final int ARMDELTA = -15;
 
     // RoadRunner ConstantsS

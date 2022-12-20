@@ -88,7 +88,7 @@ public abstract class AutoTemplate extends LinearOpMode {
        drive = new SampleMecanumDrive(hardwareMap);
 
        arm=new Arm();
-       arm.initialize(hardwareMap);
+       arm.initialize(hardwareMap, true);  // initialize for autonomous opmode
 
        grabber=new Grabber();
        grabber.initialize(hardwareMap);

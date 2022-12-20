@@ -3,12 +3,11 @@ package org.firstinspires.ftc.teamcode.VectorCode;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 
 public class AgnesConstants {
+    // teleop driving constants
     public static final double APPROACHSPEED = .3;
     public static final double THRESHOLD = .1;
 
-    public static final double GRABBERINITSERVO = 1;
-   // public static final double RIGHTGRABBERINITHAND = .2;
-   // public static final double LEFTGRABBERINITHAND = .5;
+    // preloaded cone delivery constants
     public static final double REST_LEFT = 1;
     public static final double REST_RIGHT = 0;
     public static final double DELIVER_LEFT = .5;
@@ -16,30 +15,41 @@ public class AgnesConstants {
     public static final double RECOVER_LEFT = .7;
     public static final double RECOVER_RIGHT = .5;
 
+    //arm constants
     public static final double MAX_EXT_TICKS = 421;
     public static final double MIN_EXT_TICKS = -578;
     public static final double MINARMLENGTH = 30;
     public static final double MAXARMLENGTH = 80;
-    //arm constants
-    public static final double MAXTICKS = 421;
-    public static final double MINTICKS = -578;
     public static final double MAXANGLE = 196;
     public static final double MINANGLE = 56;
     public static final double ARMROTATIONTICKSPERREV = 2786.2;
+    public static final int ARMEXTENSION = 0;
+    public static final int ARMEXTENSIONPOLE = 0;
+    public static final double[] CONEDEGREE = {0,0,0,0,0};
+    public static final int POLEDEGREE = 0;
+    public static final double MAXAUTOTICKS = 280;
+    public static final double MINAUTOTICKS = -976;
+    public static final double MAXTELEOPTICKS = 627;
+    public static final double MINTELEOPTICKS = -637;
+
+    //grabber constants
+    public static int GRABBERCLOSETIME = 570;
+    public static int GRABBEROPENTIME = 100;
     public static double INITGRABBERHAND = .4;
     public static double OPENEDGRABBERHAND = .5;
     public static double CLOSEDGRABBERHAND = .3;
+    public static final double GRABBERINITSERVO = 1;
     // public static final double CLOSEDRIGHTHAND = 1;
    // public static final double CLOSEDLEFTHAND = 0;
    // public static final double OPENEDRIGHTHAND = .6;
     // public static final double OPENEDLEFTHAND = .2;
     public static final double DELTA = .05;
 
-    public static final double MINARM = -50;
-    public static final double MAXARM = 950;
+    //public static final double MIN_ARM_ANG_TICKS = -50;
+    //public static final double MAX_ARM_ANG_TICKS = 950;
     public static final int ARMDELTA = -15;
 
-    // RoadRunner ConstantsS
+    // RoadRunner Constants
 
     public static double TICKS_PER_REV = 384.5;
     public static double MAX_RPM = 435;

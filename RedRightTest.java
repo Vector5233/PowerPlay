@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSION;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSIONPOLE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.CONEDEGREE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCLOSETIME;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERTIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
 
@@ -47,15 +50,20 @@ public class RedRightTest extends AutoTemplate {
                 .build();
         drive.followTrajectory(redRightTallPole);
 
-        grabber.setGrabberHandOpen();
-        sleep(200);  //change
-        arm.setTarget(target);   //find target
-        while(arm.isBusy()&opModeIsActive()){
-            arm.update();
+        for(int cone = 0; cone <= 4; cone++) {
+            armToCollect(cone);
+            grabCone();
+            armToDeliver();
+            deliverCone();
         }
-        arm.setArmWinch(ticks);  //find ticks
-        while(armWinch.isBusy()&opModeIsActive()){
-            ;
+        if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {
+            parkMiddle();
+        }
+        else if (tagOfInterest.id == LEFT) {
+            parkLeft();
+        }
+        else {
+            parkRight();
         }
 
 
@@ -78,10 +86,36 @@ public class RedRightTest extends AutoTemplate {
         grabber.setGrabberHandOpen();
         sleep(GRABBEROPENTIME);
     }
-    public void armToCollect(){
+    public void armToCollect(int cone){
+        double degree = (CONEDEGREE[cone]);
         arm.setTarget(degree);
-        while(arm.rotationIsBusy() && opModeIsActive())
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+        arm.setArmWinch(ARMEXTENSION);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+            ;
+        }
     }
+    public void armToDeliver() {
+        double degree = (POLEDEGREE);
+        arm. setTarget(degree);
+        while (arm. isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+        arm.setArmWinch(ARMEXTENSIONPOLE);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+            ;
+        }
+    }
+    public void parkLeft() {
 
+    }
+    public void parkRight() {
+
+    }
+    public void parkMiddle() {
+
+    }
 
 }

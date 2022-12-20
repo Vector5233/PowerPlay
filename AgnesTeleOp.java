@@ -21,13 +21,13 @@ public class AgnesTeleOp extends OpMode {
 
     final double MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
     final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
-    final double DELTA = AgnesConstants.DELTA;
+    //final double DELTA = AgnesConstants.DELTA;
     double grabberTarget = AgnesConstants.GRABBERINITSERVO;
     int rotationTarget;
 
 
     final int ARMDELTA = AgnesConstants.ARMDELTA;
-    final int ARMDELTA_EXT = 10;
+    final int ARMDELTA_EXT = 10;  //JRC: should be in AgnesConstants
 
     int armExtension;
     Grabber grabber;
@@ -75,7 +75,7 @@ public class AgnesTeleOp extends OpMode {
         initDeliveryServo();
 
         arm = new Arm();
-        arm.initialize(hardwareMap);
+        arm.initialize(hardwareMap, false); // initialize for teleop
         rotationTarget = 0;
     }
 

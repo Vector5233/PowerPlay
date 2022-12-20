@@ -25,10 +25,12 @@ public class Arm {
     final double MAXANGLE = AgnesConstants.MAXANGLE;
     final double MINANGLE = AgnesConstants.MINANGLE;
     final double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
-    final double MAX_ARM_ANG_TICKS = AgnesConstants.MAX_ARM_ANG_TICKS;
-    final double MIN_ARM_ANG_TICKS = AgnesConstants.MIN_ARM_ANG_TICKS;
+    double MAX_ARM_ANG_TICKS;
+    double MIN_ARM_ANG_TICKS;
     final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
+    double MAXTELEOPTICKS;
+    double MINTELEOPTICKS;
 
 
     public Arm() {
@@ -36,7 +38,16 @@ public class Arm {
     }
 
     //inits arm winch and arm rotation
-    public void initialize(HardwareMap map){
+    public void initialize(HardwareMap map, boolean auto){
+        if (auto) {
+            MAX_ARM_ANG_TICKS = AgnesConstants.MAXAUTOTICKS;
+            MIN_ARM_ANG_TICKS = AgnesConstants.MINAUTOTICKS;
+        }
+        else {
+            MAX_ARM_ANG_TICKS = AgnesConstants. MAXTELEOPTICKS;
+            MIN_ARM_ANG_TICKS = AgnesConstants. MINTELEOPTICKS;
+
+        }
 
         controller = new PIDController(p,i,d);
 
@@ -55,6 +66,8 @@ public class Arm {
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); */
     }
+
+
 
 //prob get rid of bc of new method of doing rotation
     /*

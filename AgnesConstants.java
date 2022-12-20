@@ -16,14 +16,18 @@ public class AgnesConstants {
     public static final double RECOVER_LEFT = .7;
     public static final double RECOVER_RIGHT = .5;
 
+    //arm constants
     public static final double MAXTICKS = 421;
     public static final double MINTICKS = -578;
     public static final double MAXANGLE = 196;
     public static final double MINANGLE = 56;
     public static final double ARMROTATIONTICKSPERREV = 2786.2;
-    public static double INITGRABBERHAND = .4;
-    public static double OPENEDGRABBERHAND = .5;
-    public static double CLOSEDGRABBERHAND = .3;
+    public static final double ARMEXTENTION = 0;
+    public static final double INITGRABBERHAND = .4;
+    public static final double OPENEDGRABBERHAND = .5;
+    public static final double CLOSEDGRABBERHAND = .3;
+    public static final int GRABBERCLOSETIME = 570;
+    public static final int GRABBEROPENTIME = 100;
     // public static final double CLOSEDRIGHTHAND = 1;
    // public static final double CLOSEDLEFTHAND = 0;
    // public static final double OPENEDRIGHTHAND = .6;

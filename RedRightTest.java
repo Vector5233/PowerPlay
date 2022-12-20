@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.VectorCode;
 
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCLOSETIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERTIME;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
 
@@ -44,6 +47,17 @@ public class RedRightTest extends AutoTemplate {
                 .build();
         drive.followTrajectory(redRightTallPole);
 
+        grabber.setGrabberHandOpen();
+        sleep(200);  //change
+        arm.setTarget(target);   //find target
+        while(arm.isBusy()&opModeIsActive()){
+            arm.update();
+        }
+        arm.setArmWinch(ticks);  //find ticks
+        while(armWinch.isBusy()&opModeIsActive()){
+            ;
+        }
+
 
     }
 
@@ -56,4 +70,18 @@ public class RedRightTest extends AutoTemplate {
         autoDeliveryRight.setPosition( RECOVER_RIGHT);
         sleep(1000);
     }
+    public void grabCone() {
+        grabber.setGrabberHandClosed();
+        sleep(GRABBERCLOSETIME);
+    }
+    public void deliverCone() {
+        grabber.setGrabberHandOpen();
+        sleep(GRABBEROPENTIME);
+    }
+    public void armToCollect(){
+        arm.setTarget(degree);
+        while(arm.rotationIsBusy() && opModeIsActive())
+    }
+
+
 }

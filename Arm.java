@@ -10,8 +10,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Arm {
     private PIDController controller;
 
-    public static double p=0, i=0, d=0;
-    public static double f=0;
+    public static double p= AgnesConstants.p;
+    public static double i= AgnesConstants.i;
+    public static double d= AgnesConstants.d;
+    public static double f= AgnesConstants.f;
 
     public static int target = 0;
 
@@ -110,7 +112,7 @@ public class Arm {
 
     public void setPower(){
         double angle = getAngle();
-        double power = controller.calculate(angle);
+        double power = controller.calculate(angle) + f * (getArmLength()/2)*Math.cos(Math.toRadians(angle));
         armRotationRightMotor.setPower(power);
         armRotationLeftMotor.setPower(power);
     }

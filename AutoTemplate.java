@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.AUTO;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.REST_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.REST_RIGHT;
 
@@ -88,7 +89,7 @@ public abstract class AutoTemplate extends LinearOpMode {
        drive = new SampleMecanumDrive(hardwareMap);
 
        arm=new Arm();
-       arm.initialize(hardwareMap, true);  // initialize for autonomous opmode
+       arm.initialize(hardwareMap, AUTO);  // initialize for autonomous opmode
 
        grabber=new Grabber();
        grabber.initialize(hardwareMap);

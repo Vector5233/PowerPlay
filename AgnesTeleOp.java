@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.TELEOP;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -75,7 +77,7 @@ public class AgnesTeleOp extends OpMode {
         initDeliveryServo();
 
         arm = new Arm();
-        arm.initialize(hardwareMap, false); // initialize for teleop
+        arm.initialize(hardwareMap, TELEOP); // initialize for teleop
         rotationTarget = 0;
     }
 

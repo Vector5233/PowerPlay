@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.TELEOP;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -17,9 +19,9 @@ public class ArmTest extends OpMode {
 
     public void init(){
         stan = new Arm();
-        stan.initialize(hardwareMap);
+        stan.initialize(hardwareMap, TELEOP );
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-    };
+    }
 
 
 
@@ -33,7 +35,7 @@ public class ArmTest extends OpMode {
         stan.setTarget(target);
         stan.setPower();
         stan.updatePIDController( p, i, d);
-    };
+    }
 
 
 

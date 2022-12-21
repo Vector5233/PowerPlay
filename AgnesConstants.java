@@ -35,7 +35,7 @@ public class AgnesConstants {
     public static final double i = 0;
     public static final double d = 0;
     public static final double f = 0;
-    public static boolean AUTO = true;
+    public static boolean AUTO = true; // used to initialize Arm
     public static boolean TELEOP = false;
 
     //grabber constants

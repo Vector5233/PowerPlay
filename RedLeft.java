@@ -33,6 +33,8 @@ public class RedLeft extends AutoTemplate{
 
 
         reportAprilTags();
+        //brings grabber hands to vertical
+        grabberToVertical();
 
         //drives forward to deliver preloaded cone
         Trajectory initialForwardTrajectory = drive.trajectoryBuilder(new Pose2d())
@@ -80,7 +82,8 @@ public class RedLeft extends AutoTemplate{
                     .build();
             drive.followTrajectory(rightSecondForwardTrajectory);
         }
-
+        //keep at the very very very end of loop
+        armToVertical();
     }
 
     public void deliverPreCone(){
@@ -92,5 +95,14 @@ public class RedLeft extends AutoTemplate{
         autoDeliveryLeft.setPosition( RECOVER_LEFT);
         autoDeliveryRight.setPosition( RECOVER_RIGHT);
         sleep(1000);
+    }
+    public void grabberToVertical(){
+        grabber.setGrabberHandOpen();
+    }
+    public void armToVertical(){
+        arm.setTarget(90);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
     }
 }

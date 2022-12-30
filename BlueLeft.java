@@ -10,7 +10,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous (name= "BlueLeft", group = "Blue")
+@Autonomous (name= "BlueLeft", group = "Blue", preselectTeleOp = "AgnesTeleOp")
 public class BlueLeft extends AutoTemplate {
 
     final double FIRST_FORWARD = 16.22;
@@ -35,6 +35,9 @@ public class BlueLeft extends AutoTemplate {
 
 
         reportAprilTags();
+
+        //brings grabber hands to vertical
+        grabberToVertical();
 
         //drives forward to deliver preloaded cone
         Trajectory initialForwardTrajectory = drive.trajectoryBuilder(new Pose2d())
@@ -82,7 +85,8 @@ public class BlueLeft extends AutoTemplate {
                     .build();
             drive.followTrajectory(rightSecondForwardTrajectory);
         }
-
+        //keep at the very very very end of loop
+        armToVertical();
     }
 
     public void deliverPreCone(){
@@ -98,5 +102,15 @@ public class BlueLeft extends AutoTemplate {
 
 
 
+    }
+    public void grabberToVertical(){
+        grabber.setGrabberHandOpen();
+    }
+
+    public void armToVertical(){
+        arm.setTarget(90);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
     }
 }

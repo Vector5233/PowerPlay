@@ -31,8 +31,6 @@ public class Arm {
     double MIN_ARM_ANG_TICKS;
     final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
-    double MAXTELEOPTICKS;
-    double MINTELEOPTICKS;
 
 
     public Arm() {
@@ -88,7 +86,7 @@ public class Arm {
 
     public double getAngle(){
        int position = armRotationRightMotor.getCurrentPosition();  // right arm is the prime arm
-       double angle = (MINANGLE + (360/ARMROTATIONTICKSPERREV)*(position- MIN_ARM_ANG_TICKS));
+       double angle = (MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS));
        return angle;
     }
 
@@ -117,8 +115,13 @@ public class Arm {
         armRotationLeftMotor.setPower(power);
     }
 
-    public void updatePIDController (double p, double i, double d){
-        controller.setPID(p,i,d);
+    public void updatePIDFController(double p, double i, double d, double f){
+        controller.setPIDF(p,i,d,f);
+    }
+
+    public double getRotationPower(){
+        double power = armRotationRightMotor.getPower();
+        return power;
     }
 
 

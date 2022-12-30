@@ -1,36 +1,34 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-
 public class AgnesConstants {
     // teleop driving constants
     public static final double APPROACHSPEED = .3;
     public static final double THRESHOLD = .1;
 
     // preloaded cone delivery constants
-    public static final double REST_LEFT = 1;
-    public static final double REST_RIGHT = 0;
+    public static final double INIT_LEFT = 1;
+    public static final double INIT_RIGHT = 0;
     public static final double DELIVER_LEFT = .5;
     public static final double DELIVER_RIGHT = .7;
-    public static final double RECOVER_LEFT = .7;
-    public static final double RECOVER_RIGHT = .5;
+    public static final double RECOVER_LEFT = .85;
+    public static final double RECOVER_RIGHT = .4;
 
     //arm constants
-    public static final double MAX_EXT_TICKS = 421;
-    public static final double MIN_EXT_TICKS = -578;
-    public static final double MINARMLENGTH = 30;
-    public static final double MAXARMLENGTH = 80;
-    public static final double MAXANGLE = 196;
-    public static final double MINANGLE = 56;
+    public static final int MAX_EXT_TICKS = 1000;
+    public static final int MIN_EXT_TICKS = 0;
+    public static final double MINARMLENGTH = 12; //inches. measured from base of arm slide
+    public static final double MAXARMLENGTH = 31; //inches. measured from base of arm slide
+    public static final double MAXANGLE = 154;
+    public static final double MINANGLE = 0;
     public static final double ARMROTATIONTICKSPERREV = 2786.2;
     public static final int ARMEXTENSION = 0;
     public static final int ARMEXTENSIONPOLE = 0;
-    public static final double[] CONEDEGREE = {0,0,0,0,0};
+    public static final double[] CONEDEGREE = {18.3,12,9,4.7,3.1};
     public static final int POLEDEGREE = 0;
-    public static final double MAXAUTOTICKS = 280;
-    public static final double MINAUTOTICKS = -976;
-    public static final double MAXTELEOPTICKS = 627;
-    public static final double MINTELEOPTICKS = -637;
+    public static final double MAXAUTOTICKS = 275;
+    public static final double MINAUTOTICKS = -933;
+    public static final double MAXTELEOPTICKS = 515;
+    public static final double MINTELEOPTICKS = -691;
     public static final double p = 0;
     public static final double i = 0;
     public static final double d = 0;
@@ -42,8 +40,8 @@ public class AgnesConstants {
     public static int GRABBERCLOSETIME = 570;
     public static int GRABBEROPENTIME = 100;
     public static double INITGRABBERHAND = .4;
-    public static double OPENEDGRABBERHAND = .5;
-    public static double CLOSEDGRABBERHAND = .3;
+    public static double OPENEDGRABBERHAND = .1;
+    public static double CLOSEDGRABBERHAND = 0;
     public static final double GRABBERINITSERVO = 1;
     // public static final double CLOSEDRIGHTHAND = 1;
    // public static final double CLOSEDLEFTHAND = 0;
@@ -54,6 +52,7 @@ public class AgnesConstants {
     //public static final double MIN_ARM_ANG_TICKS = -50;
     //public static final double MAX_ARM_ANG_TICKS = 950;
     public static final int ARMDELTA = -15;
+    public static final int ARMDELTA_EXT = 10;
 
     // RoadRunner Constants
 

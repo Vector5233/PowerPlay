@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_RIGHT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.TELEOP;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -20,6 +22,10 @@ public class AgnesTeleOp extends OpMode {
     final double THRESHOLD = AgnesConstants.THRESHOLD;
     final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
     final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
+    final double REST_LEFT = AgnesConstants.INIT_LEFT;
+    final double REST_RIGHT = AgnesConstants.INIT_RIGHT;
+    final double DELIVER_LEFT = AgnesConstants.DELIVER_LEFT;
+    final double DELIVER_RIGHT = AgnesConstants.DELIVER_RIGHT;
 
     final double MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
     final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
@@ -29,7 +35,7 @@ public class AgnesTeleOp extends OpMode {
 
 
     final int ARMDELTA = AgnesConstants.ARMDELTA;
-    final int ARMDELTA_EXT = 10;  //JRC: should be in AgnesConstants
+    final int ARMDELTA_EXT = AgnesConstants.ARMDELTA_EXT;  //JRC: should be in AgnesConstants
 
     int armExtension;
     Grabber grabber;
@@ -87,7 +93,7 @@ public class AgnesTeleOp extends OpMode {
        setDrive();
 
        setGrabberHand();
-       //setGrabberRotation();
+
        setArmExtension();
        setArmRotation();
        setSlowApproach();

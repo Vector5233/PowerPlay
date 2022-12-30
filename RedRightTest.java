@@ -37,6 +37,8 @@ public class RedRightTest extends AutoTemplate {
         }
 
         reportAprilTags();
+        //brings grabber hands to vertical
+        grabberToVertical();
 
         Trajectory initialForwardTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .forward(FIRST_FORWARD)
@@ -66,7 +68,8 @@ public class RedRightTest extends AutoTemplate {
             parkRight();
         }
 
-
+        //keep at the very very very end of loop
+        armToVertical();
     }
 
     public void deliverPreCone(){
@@ -116,6 +119,15 @@ public class RedRightTest extends AutoTemplate {
     }
     public void parkMiddle() {
 
+    }
+    public void grabberToVertical(){
+        grabber.setGrabberHandOpen();
+    }
+    public void armToVertical(){
+        arm.setTarget(90);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
     }
 
 }

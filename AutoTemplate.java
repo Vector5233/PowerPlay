@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.AUTO;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.REST_LEFT;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.REST_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_RIGHT;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -15,11 +14,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Properties;
 
 public abstract class AutoTemplate extends LinearOpMode {
     //declarations
@@ -116,8 +111,8 @@ public abstract class AutoTemplate extends LinearOpMode {
         telemetry.update();
         autoDeliveryRight=hardwareMap.servo.get("autoDeliveryRight");
         autoDeliveryLeft=hardwareMap.servo.get("autoDeliveryLeft");
-        autoDeliveryLeft.setPosition(REST_LEFT);
-        autoDeliveryRight.setPosition(REST_RIGHT);
+        autoDeliveryLeft.setPosition(INIT_LEFT);
+        autoDeliveryRight.setPosition(INIT_RIGHT);
 
     }
 

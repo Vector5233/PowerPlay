@@ -35,7 +35,7 @@ public class AgnesTeleOp extends OpMode {
 
 
     final int ARMDELTA = AgnesConstants.ARMDELTA;
-    final int ARMDELTA_EXT = AgnesConstants.ARMDELTA_EXT;  //JRC: should be in AgnesConstants
+    final int ARMDELTA_EXT = AgnesConstants.ARMDELTA_EXT;
 
     int armExtension;
     Grabber grabber;

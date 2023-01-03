@@ -1,16 +1,21 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSION;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSIONPOLE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.CONEDEGREE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCLOSETIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name= "RedRight", group = "Red", preselectTeleOp = "AgnesTeleOp")
+@Autonomous(name= "RedRightTest", group = "Red", preselectTeleOp = "AgnesTeleOp")
 public class RedRight extends AutoTemplate {
 
     final double FIRST_FORWARD = 14.72;
@@ -20,79 +25,108 @@ public class RedRight extends AutoTemplate {
     final double STRAFE_RIGHT = 25;
     final double FINAL_FORWARD = 12;
 
-
-
     public void runOpMode() {
         initialize();
 
         telemetry.addLine("initialized!");
         telemetry.update();
 
-        //detects cone tag
         while (!isStarted() && !isStopRequested()) {
             detectAprilTags();
-        }  // end of while
-
+        }
 
         reportAprilTags();
+        //brings grabber hands to vertical
+        grabberToVertical();
 
-        //drives forward to deliver preloaded cone
         Trajectory initialForwardTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .forward(FIRST_FORWARD)
                 .build();
         drive.followTrajectory(initialForwardTrajectory);
 
-        //delivers cone
         deliverPreCone();
 
-        //chooses where to park
-        if (tagOfInterest == null || tagOfInterest.id == MIDDLE) {
-            Trajectory centerTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
-                    .forward(CENTER_FORWARD)
-                    .build();
-            drive.followTrajectory(centerTrajectory);
-        }else if (tagOfInterest.id == LEFT) {
-            Trajectory leftForwardTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
-                    .forward(RIGHT_AND_LEFT_FORWARD)
-                    .build();
-            drive.followTrajectory(leftForwardTrajectory);
+        Trajectory redRightTallPole = drive.trajectoryBuilder(initialForwardTrajectory.end())
+                .lineToSplineHeading(new Pose2d(56.000, -9.132, 4.5)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
+                .build();
+        drive.followTrajectory(redRightTallPole);
 
-            Trajectory leftStrafeTrajectory = drive.trajectoryBuilder(leftForwardTrajectory.end())
-                    .strafeLeft(STRAFE_LEFT)
-                    .build();
-            drive.followTrajectory(leftStrafeTrajectory);
-
-            Trajectory leftSecondForwardTrajectory = drive.trajectoryBuilder(leftStrafeTrajectory.end())
-                    .forward(FINAL_FORWARD)
-                    .build();
-            drive.followTrajectory(leftSecondForwardTrajectory);
-        }else {
-            Trajectory rightForwardTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
-                    .forward(RIGHT_AND_LEFT_FORWARD)
-                    .build();
-            drive.followTrajectory(rightForwardTrajectory);
-
-            Trajectory rightStrafeTrajectory = drive.trajectoryBuilder(rightForwardTrajectory.end())
-                    .strafeRight(STRAFE_RIGHT)
-                    .build();
-            drive.followTrajectory(rightStrafeTrajectory);
-
-            Trajectory rightSecondForwardTrajectory = drive.trajectoryBuilder(rightStrafeTrajectory.end())
-                    .forward(FINAL_FORWARD)
-                    .build();
-            drive.followTrajectory(rightSecondForwardTrajectory);
+        for(int cone = 0; cone <= 4; cone++) {
+            armToCollect(cone);
+            grabCone();
+            armToDeliver();
+            deliverCone();
+        }
+        if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {
+            parkMiddle();
+        }
+        else if (tagOfInterest.id == LEFT) {
+            parkLeft();
+        }
+        else {
+            parkRight();
         }
 
+        //keep at the very very very end of loop
+        armToVertical();
     }
 
     public void deliverPreCone(){
-        //have the cone deliver to the left code here
         sleep(500);
-        autoDeliveryLeft.setPosition( DELIVER_LEFT);
-        autoDeliveryRight.setPosition( DELIVER_RIGHT);
+        autoDeliveryLeft.setPosition(DELIVER_LEFT);
+        autoDeliveryRight.setPosition(DELIVER_RIGHT);
         sleep(1000);
         autoDeliveryLeft.setPosition( RECOVER_LEFT);
         autoDeliveryRight.setPosition( RECOVER_RIGHT);
         sleep(1000);
     }
+    public void grabCone() {
+        grabber.setGrabberHandClosed();
+        sleep(GRABBERCLOSETIME);
+    }
+    public void deliverCone() {
+        grabber.setGrabberHandOpen();
+        sleep(GRABBEROPENTIME);
+    }
+    public void armToCollect(int cone){
+        double degree = (CONEDEGREE[cone]);
+        arm.setTarget(degree);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+        arm.setArmWinch(ARMEXTENSION);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+            ;
+        }
+    }
+    public void armToDeliver() {
+        double degree = (POLEDEGREE);
+        arm. setTarget(degree);
+        while (arm. isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+        arm.setArmWinch(ARMEXTENSIONPOLE);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+            ;
+        }
+    }
+    public void parkLeft() {
+
+    }
+    public void parkRight() {
+
+    }
+    public void parkMiddle() {
+
+    }
+    public void grabberToVertical(){
+        grabber.setGrabberHandOpen();
+    }
+    public void armToVertical(){
+        arm.setTarget(90);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+    }
+
 }

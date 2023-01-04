@@ -71,7 +71,7 @@ public class RedRight extends AutoTemplate {
         armToVertical();
     }
 
-    public void deliverPreCone(){
+    /*public void deliverPreCone(){
         sleep(500);
         autoDeliveryLeft.setPosition(DELIVER_LEFT);
         autoDeliveryRight.setPosition(DELIVER_RIGHT);
@@ -127,6 +127,6 @@ public class RedRight extends AutoTemplate {
         while(arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
         }
-    }
+    }*/
 
 }

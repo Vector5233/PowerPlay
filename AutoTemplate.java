@@ -1,8 +1,18 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSION;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSIONPOLE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.AUTO;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.CONEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCLOSETIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -116,6 +126,48 @@ public abstract class AutoTemplate extends LinearOpMode {
 
     }
 
+
+    public void armToCollect(int cone){
+        double degree = (CONEDEGREE[cone]);
+        arm.setTarget(degree);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+        arm.setArmWinch(ARMEXTENSION);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+
+        }
+    }
+    public void armToDeliver() {
+        double degree = (POLEDEGREE);
+        arm. setTarget(degree);
+        while (arm. isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+        arm.setArmWinch(ARMEXTENSIONPOLE);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+            ;
+        }
+    }
+    public void parkLeft() {
+
+    }
+    public void parkRight() {
+
+    }
+    public void parkMiddle() {
+
+    }
+    public void grabberToVertical(){
+        grabber.setGrabberHandOpen();
+    }
+    public void armToVertical(){
+        arm.setTarget(90);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+    }
+
     public void detectAprilTags() {
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
@@ -184,6 +236,8 @@ public abstract class AutoTemplate extends LinearOpMode {
         {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
+
+
         }
     }
 

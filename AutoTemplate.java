@@ -126,6 +126,23 @@ public abstract class AutoTemplate extends LinearOpMode {
 
     }
 
+    public void deliverPreCone(){
+        sleep(500);
+        autoDeliveryLeft.setPosition(DELIVER_LEFT);
+        autoDeliveryRight.setPosition(DELIVER_RIGHT);
+        sleep(1000);
+        autoDeliveryLeft.setPosition( RECOVER_LEFT);
+        autoDeliveryRight.setPosition( RECOVER_RIGHT);
+        sleep(1000);
+    }
+    public void grabCone() {
+        grabber.setGrabberHandClosed();
+        sleep(GRABBERCLOSETIME);
+    }
+    public void deliverCone() {
+        grabber.setGrabberHandOpen();
+        sleep(GRABBEROPENTIME);
+    }
 
     public void armToCollect(int cone){
         double degree = (CONEDEGREE[cone]);
@@ -149,15 +166,7 @@ public abstract class AutoTemplate extends LinearOpMode {
             ;
         }
     }
-    public void parkLeft() {
 
-    }
-    public void parkRight() {
-
-    }
-    public void parkMiddle() {
-
-    }
     public void grabberToVertical(){
         grabber.setGrabberHandOpen();
     }

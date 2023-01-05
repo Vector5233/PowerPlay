@@ -109,7 +109,7 @@ public class RedRight extends AutoTemplate {
         while(arm.isWinchBusy() && opModeIsActive()) {
             ;
         }
-    }
+    }*/
     public void parkLeft() {
 
     }
@@ -119,7 +119,7 @@ public class RedRight extends AutoTemplate {
     public void parkMiddle() {
 
     }
-    public void grabberToVertical(){
+    /*public void grabberToVertical(){
         grabber.setGrabberHandOpen();
     }
     public void armToVertical(){

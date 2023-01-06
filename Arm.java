@@ -21,7 +21,7 @@ public class Arm {
 
 
 
-    DcMotorEx armWinch, armRotationRightMotor , armRotationLeftMotor;
+    DcMotorEx armWinch, armRotation;
     final double MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
     final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
     final double MAXANGLE = AgnesConstants.MAXANGLE;
@@ -36,6 +36,7 @@ public class Arm {
     public Arm() {
 
     }
+
 
     //inits arm winch and arm rotation
     public void initialize(HardwareMap map, boolean auto){
@@ -54,13 +55,11 @@ public class Arm {
         armWinch = (DcMotorEx) map.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        armRotationRightMotor = (DcMotorEx) map.dcMotor.get("armRotationRightMotor");
-        armRotationRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armRotationRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armRotationLeftMotor = (DcMotorEx) map.dcMotor.get("armRotationLeftMotor");
-        armRotationLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armRotationLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armRotationLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
+        armRotation.setDirection(DcMotorEx.Direction.REVERSE);
+        armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
        /* armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -85,8 +84,8 @@ public class Arm {
     }
 
     public double getAngle(){
-       int position = armRotationRightMotor.getCurrentPosition();  // right arm is the prime arm
-       double angle = (MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS));
+       int position = armRotation.getCurrentPosition();  // right arm is the prime arm
+       double angle = -(MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position + MIN_ARM_ANG_TICKS));
        return angle;
     }
 
@@ -111,8 +110,7 @@ public class Arm {
     public void setPower(){
         double angle = getAngle();
         double power = controller.calculate(angle) + f * (getArmLength()/2)*Math.cos(Math.toRadians(angle));
-        armRotationRightMotor.setPower(power);
-        armRotationLeftMotor.setPower(power);
+        armRotation.setPower(power);
     }
 
     public void updatePIDFController(double p, double i, double d, double f){
@@ -120,19 +118,16 @@ public class Arm {
     }
 
     public double getRotationPower(){
-        double power = armRotationRightMotor.getPower();
+        double power = armRotation.getPower();
         return power;
     }
 
 
-    public int getRightMotorEncoder (){
-        return armRotationRightMotor.getCurrentPosition();
+    public int getArmMotorEncoder(){
+        return armRotation.getCurrentPosition();
 
     }
 
-    public int getLeftMotorEncoder (){
-        return  armRotationLeftMotor.getCurrentPosition();
-    }
 
     public boolean isWinchBusy(){
         return armWinch.isBusy();

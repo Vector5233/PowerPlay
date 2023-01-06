@@ -33,7 +33,7 @@ public class ArmTest extends OpMode {
     public void loop(){
         telemetry.addData("Target: ", stan.getTarget());
         telemetry.addData("Angle(degrees): ", stan.getAngle());
-        telemetry.addData("Rotation Ticks: ", stan.getRightMotorEncoder());
+        telemetry.addData("Rotation Ticks: ", stan.getArmMotorEncoder());
         telemetry.addData("Arm Length: ", stan.getArmLength());
         telemetry.addData("Power Given: ", stan.getRotationPower());
         stan.setTarget(target);

@@ -66,11 +66,11 @@ public class AgnesTeleOp extends OpMode {
 
 
 
-
-        /* armRotation = (DcMotorEx) hardwareMap.dcMotor.get("armRotation");
+/*
+        armRotation = (DcMotorEx) hardwareMap.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); */
-
+        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+*/
 
 
         autoDeliveryLeft = hardwareMap.servo.get("autoDeliveryLeft");
@@ -132,11 +132,6 @@ public class AgnesTeleOp extends OpMode {
     }
 
 
-    //rotates grabber
-    /*public void setGrabberRotation(){
-        grabberTarget = grabber.getGrabberRotation() + DELTA * gamepad2.left_stick_x;
-        grabber.setGrabberRotation(grabberTarget);
-    }*/
 
     //rotates arm 180 - ONLY problem - if position is needed, user has to hold joystick down
     //need to test non commented out stuff as of 11.16.22

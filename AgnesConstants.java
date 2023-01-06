@@ -18,9 +18,9 @@ public class AgnesConstants {
     public static final int MIN_EXT_TICKS = 0;
     public static final double MINARMLENGTH = 12; //inches. measured from base of arm slide
     public static final double MAXARMLENGTH = 31; //inches. measured from base of arm slide
-    public static final double MAXANGLE = 154;
+    public static final double MAXANGLE = 153;
     public static final double MINANGLE = 0;
-    public static final double ARMROTATIONTICKSPERREV = 2786.2;
+    public static final double ARMROTATIONTICKSPERREV = 2786.2; //according to internet, for 60 rpm motor, 537.6 ticks per rev
     public static final int ARMEXTENSION = 0;
     public static final int ARMEXTENSIONPOLE = 0;
     public static final double[] CONEDEGREE = {18.3,12,9,4.7,3.1};
@@ -51,7 +51,7 @@ public class AgnesConstants {
 
     //public static final double MIN_ARM_ANG_TICKS = -50;
     //public static final double MAX_ARM_ANG_TICKS = 950;
-    public static final int ARMDELTA = -15;
+    public static final int ARMDELTA = -30;
     public static final int ARMDELTA_EXT = 10;
 
     // RoadRunner Constants

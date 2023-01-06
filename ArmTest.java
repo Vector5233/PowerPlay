@@ -36,11 +36,13 @@ public class ArmTest extends OpMode {
         telemetry.addData("Rotation Ticks: ", stan.getArmMotorEncoder());
         telemetry.addData("Arm Length: ", stan.getArmLength());
         telemetry.addData("Power Given: ", stan.getRotationPower());
-        stan.setTarget(target);
-        stan.setPower();
-        stan.updatePIDFController( p, i, d, f);
-        setArmExtension();
+        //telemetry.addData("Cosine of angle: ", Math.cos(Math.toRadians(stan.getAngle())));
+        //telemetry.addData("To radians of angle: ", Math.toRadians(stan.getAngle()));
 
+        stan.setTarget(target);
+        stan.updatePIDFController( p, i, d, f);
+        stan.setPower();
+        setArmExtension();
     }
     public void setArmExtension() {
         if (gamepad2.a && armExtension > MIN_EXT_TICKS){

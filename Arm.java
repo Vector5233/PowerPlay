@@ -85,7 +85,8 @@ public class Arm {
 
     public double getAngle(){
        int position = armRotation.getCurrentPosition();  // right arm is the prime arm
-       double angle = -(MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position + MIN_ARM_ANG_TICKS));
+       //double angle = -(MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position + MIN_ARM_ANG_TICKS));
+        double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS);
        return angle;
     }
 
@@ -107,15 +108,28 @@ public class Arm {
         return controller.getSetPoint();
     }
 
-    public void setPower(){
+    public double setPower(){
         double angle = getAngle();
-        double power = controller.calculate(angle) + f * (getArmLength()/2)*Math.cos(Math.toRadians(angle));
+        //double power = controller.calculate(angle) + f * (getArmLength()/2)*Math.cos(Math.toRadians(angle));
+        /*double radians= Math.toRadians(angle);
+        double cosine = Math.cos(radians);
+        double halfArmLength = getArmLength()/2.0;
+        double cosHalfArmLength = halfArmLength * cosine;
+        double angleCalculation = controller.calculate(angle);
+        //double power = angleCalculation + (f * cosHalfArmLength);
+        double power = f * cosHalfArmLength;*/
+        double power = controller.calculate(angle) + f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
         armRotation.setPower(power);
+        return power;
     }
 
-    public void updatePIDFController(double p, double i, double d, double f){
-        controller.setPIDF(p,i,d,f);
+    public void updatePIDFController(double new_p, double new_i, double new_d, double new_f) {
+        controller.setPID(new_p, new_i, new_d);
+        f = new_f;
     }
+    /*public void updatePIDFController(double p, double i, double d, double f){
+        controller.setPIDF(p,i,d,f);
+    }*/
 
     public double getRotationPower(){
         double power = armRotation.getPower();

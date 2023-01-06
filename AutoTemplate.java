@@ -146,18 +146,19 @@ public abstract class AutoTemplate extends LinearOpMode {
 
     public void armToCollect(int cone){
         double degree = (CONEDEGREE[cone]);
-        arm.setTarget(degree);
-        while(arm.isRotationBusy() && opModeIsActive()) {
-            arm.setPower();
-        }
         arm.setArmWinch(ARMEXTENSION);
         while(arm.isWinchBusy() && opModeIsActive()) {
 
         }
+        arm.setTarget(degree);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+
     }
     public void armToDeliver() {
         double degree = (POLEDEGREE);
-        arm. setTarget(degree);
+        arm.setTarget(degree);
         while (arm. isRotationBusy() && opModeIsActive()) {
             arm.setPower();
         }

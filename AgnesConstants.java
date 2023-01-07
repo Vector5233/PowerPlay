@@ -16,7 +16,7 @@ public class AgnesConstants {
     //arm constants
     //public static final double MIN_ARM_ANG_TICKS = -50;
     //public static final double MAX_ARM_ANG_TICKS = 950;
-    public static final double ARMDELTA = .3;
+    public static final double ARMDELTA = -.3;
     public static final int ARMDELTA_EXT = 10;
     public static final int MAX_EXT_TICKS = 1000;
     public static final int MIN_EXT_TICKS = 0;
@@ -45,7 +45,7 @@ public class AgnesConstants {
     public static int GRABBERCLOSETIME = 570;
     public static int GRABBEROPENTIME = 100;
     public static double INITGRABBERHAND = .4;
-    public static double OPENEDGRABBERHAND = .1;
+    public static double OPENEDGRABBERHAND = .2;
     public static double CLOSEDGRABBERHAND = 0;
     public static final double GRABBERINITSERVO = 1;
     // public static final double CLOSEDRIGHTHAND = 1;

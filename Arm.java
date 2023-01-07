@@ -110,14 +110,10 @@ public class Arm {
 
     public double setPower(){
         double angle = getAngle();
-        //double power = controller.calculate(angle) + f * (getArmLength()/2)*Math.cos(Math.toRadians(angle));
-        /*double radians= Math.toRadians(angle);
-        double cosine = Math.cos(radians);
-        double halfArmLength = getArmLength()/2.0;
-        double cosHalfArmLength = halfArmLength * cosine;
-        double angleCalculation = controller.calculate(angle);
-        //double power = angleCalculation + (f * cosHalfArmLength);
-        double power = f * cosHalfArmLength;*/
+        if (Math.abs(controller.getSetPoint() - angle) < AgnesConstants.TOL){
+            controller.reset();
+        }
+
         double power = controller.calculate(angle) + f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
         armRotation.setPower(power);
         return power;

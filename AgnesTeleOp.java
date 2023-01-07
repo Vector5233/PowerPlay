@@ -31,10 +31,10 @@ public class AgnesTeleOp extends OpMode {
     final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
     //final double DELTA = AgnesConstants.DELTA;
     double grabberTarget = AgnesConstants.GRABBERINITSERVO;
-    int rotationTarget;
+    double rotationTarget;
 
 
-    final int ARMDELTA = AgnesConstants.ARMDELTA;
+    final double ARMDELTA = AgnesConstants.ARMDELTA;
     final int ARMDELTA_EXT = AgnesConstants.ARMDELTA_EXT;
 
     int armExtension;
@@ -84,7 +84,8 @@ public class AgnesTeleOp extends OpMode {
 
         arm = new Arm();
         arm.initialize(hardwareMap, TELEOP); // initialize for teleop
-        rotationTarget = 0;
+        rotationTarget = 90;
+        arm.setTarget(90);
     }
 
     @Override
@@ -105,12 +106,12 @@ public class AgnesTeleOp extends OpMode {
         double forward = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x/2;
-        telemetry.addData("Right Rear Position: ", rightRear.getCurrentPosition());
-        telemetry.addData("Left Rear Position: ", rightRear.getCurrentPosition());
-        telemetry.addData("Right Front Position: ", rightFront.getCurrentPosition());
-        telemetry.addData("Left Front Position: ", leftFront.getCurrentPosition());
-        telemetry.addData("forward:", forward);
-        telemetry.update();
+        //telemetry.addData("Right Rear Position: ", rightRear.getCurrentPosition());
+        //telemetry.addData("Left Rear Position: ", rightRear.getCurrentPosition());
+        //telemetry.addData("Right Front Position: ", rightFront.getCurrentPosition());
+        //telemetry.addData("Left Front Position: ", leftFront.getCurrentPosition());
+        //telemetry.addData("forward:", forward);
+        //telemetry.update();
         double leftFrontPower = trimPower(forward + strafe + turn);
         double rightFrontPower = trimPower(forward - strafe - turn);
         double leftRearPower = trimPower(forward - strafe + turn);
@@ -143,10 +144,11 @@ public class AgnesTeleOp extends OpMode {
         telemetry.addData("Arm Angle Found: ", arm.getArmAngle(current));
         */
 
-        rotationTarget = (int) (arm.getTarget() + ARMDELTA* gamepad2.right_stick_x);
+        rotationTarget =  (arm.getTarget() + ARMDELTA* gamepad2.right_stick_x);
         // ^^^ why (int)?  aren't we thinking in degrees?
         arm.setTarget(rotationTarget); // JRC: should setTarget() be setSetPoint()?
         arm.setPower();
+        telemetry.addData("angle",arm.getAngle());
     }
 
 

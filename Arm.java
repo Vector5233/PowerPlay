@@ -31,7 +31,8 @@ public class Arm {
     double MIN_ARM_ANG_TICKS;
     final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
-
+    final double MAXARMANGLEDEGREE = AgnesConstants.MAXARMANGLEDEGREE;
+    final double MINARMANGLEDEGREE = AgnesConstants.MINARMANGLEDEGREE;
 
     public Arm() {
 
@@ -98,7 +99,7 @@ public class Arm {
 
 
     public void setTarget(double degrees){
-        if (target > MAX_ARM_ANG_TICKS || target < MIN_ARM_ANG_TICKS){
+        if (target > MAXARMANGLEDEGREE || target < MIN_ARM_ANG_TICKS){
             return;
         }
         controller.setSetPoint(degrees);

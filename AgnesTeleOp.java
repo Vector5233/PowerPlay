@@ -48,6 +48,7 @@ public class AgnesTeleOp extends OpMode {
 
     @Override
     public void init() {
+        // grabber opening too wide
         leftFront=hardwareMap.dcMotor.get("leftFront");
         leftRear=hardwareMap.dcMotor.get("leftRear");
         rightFront=hardwareMap.dcMotor.get("rightFront");

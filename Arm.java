@@ -99,7 +99,7 @@ public class Arm {
 
 
     public void setTarget(double degrees){
-        if (target > MAXARMANGLEDEGREE || target < MIN_ARM_ANG_TICKS){
+        if (target > MAXARMANGLEDEGREE || target < MINARMANGLEDEGREE){
             return;
         }
         controller.setSetPoint(degrees);

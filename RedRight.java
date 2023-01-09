@@ -32,7 +32,9 @@ public class RedRight extends AutoTemplate {
     double middleParkingSpotX = 26;
     double middleParkingSpotY = 0;
     double middleParkingSpotHeading = 0;
+    double parkingStrafeValue = 23.5;
     Trajectory redRightTallPole;
+    //comments marked with '&' can be deleted once pose testing is done
 
     public void runOpMode() {
         initialize();
@@ -47,27 +49,29 @@ public class RedRight extends AutoTemplate {
 
         reportAprilTags();
         //brings grabber hands to vertical
-        grabberToVertical();
+        //grabberToVertical(); &
 
         Trajectory initialForwardTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .forward(FIRST_FORWARD)
                 .build();
         drive.followTrajectory(initialForwardTrajectory);
 
-        deliverPreCone();
+        //deliverPreCone(); &
 
         redRightTallPole = drive.trajectoryBuilder(initialForwardTrajectory.end())
                 .lineToSplineHeading(new Pose2d(redRightTallPoleX,  redRightTallPoleY, redRightTallPoleHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
                 .build();
         drive.followTrajectory(redRightTallPole);
+
         grabber.setGrabberHandOpen();
 
-        for(int cone = 0; cone <= 4; cone++) {
+        /* & for(int cone = 0; cone <= 4; cone++) {
             armToCollect(cone);
             grabCone();
             armToDeliver();
             deliverCone();
-        }
+
+        }*/
         armToVertical();
         if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {       //ALL OF THIS WILL NEED TESTING
             parkMiddle();
@@ -100,11 +104,9 @@ public class RedRight extends AutoTemplate {
 
         }
 
-        //keep at the very very very end of loop
-        armToVertical();
     }
 
-    /* public void deliverPreCone(){
+    /*  & public void deliverPreCone(){
         sleep(500);
         autoDeliveryLeft.setPosition(DELIVER_LEFT);
         autoDeliveryRight.setPosition(DELIVER_RIGHT);
@@ -122,14 +124,13 @@ public class RedRight extends AutoTemplate {
         sleep(GRABBEROPENTIME);
     }
     public void armToCollect(int cone){
+        arm.setArmWinch(ARMEXTENSION);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+        }
         double degree = (CONEDEGREE[cone]);
         arm.setTarget(degree);
         while(arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
-        }
-        arm.setArmWinch(ARMEXTENSION);
-        while(arm.isWinchBusy() && opModeIsActive()) {
-            ;
         }
     }
     public void armToDeliver() {
@@ -142,20 +143,19 @@ public class RedRight extends AutoTemplate {
         while(arm.isWinchBusy() && opModeIsActive()) {
             ;
         }
-    }*/
-    public void parkLeft()
-    {Trajectory parkLeft = drive.trajectoryBuilder(redRightTallPole.end())
+    }*/          //uncomment when pose testing is done
+    public void parkLeft() {
+        Trajectory parkLeft = drive.trajectoryBuilder(redRightTallPole.end())
             .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
-            .strafeLeft(23.5)
+            .strafeLeft(parkingStrafeValue)
             .build();
         drive.followTrajectory(parkLeft);
-
 
     }
     public void parkRight() {
         Trajectory parkRight = drive.trajectoryBuilder(redRightTallPole.end())
                 .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
-                .strafeRight(23.5)
+                .strafeRight(parkingStrafeValue)
                 .build();
         drive.followTrajectory(parkRight);
 
@@ -172,8 +172,7 @@ public class RedRight extends AutoTemplate {
     public void grabberToVertical(){
         grabber.setGrabberHandOpen();
     }
-    */
-    /*
+
     public void armToVertical(){
         arm.setTarget(90);
         while(arm.isRotationBusy() && opModeIsActive()) {

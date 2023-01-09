@@ -12,20 +12,24 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class ArmTest extends OpMode {
 
     Arm stan;
-    public static double p =0;
-    public static double i = 0;
-    public static double d =0;
-    public static double f = 0;
+    Grabber hand;
+    public static double p = AgnesConstants.p;
+    public static double i = AgnesConstants.i;
+    public static double d = AgnesConstants.d;
+    public static double f = AgnesConstants.f;
     public static double target = 80;
     int armExtension =0;
     int MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
     int MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
     int ARMDELTA_EXT = AgnesConstants.ARMDELTA_EXT;
+    public static double grabberClose = AgnesConstants.CLOSEDGRABBERHAND;
 
 
     public void init(){
         stan = new Arm();
         stan.initialize(hardwareMap, TELEOP );
+        hand = new Grabber();
+        hand.initialize(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     }
 
@@ -42,6 +46,9 @@ public class ArmTest extends OpMode {
         stan.setTarget(target);
         stan.updatePIDFController( p, i, d, f);
         stan.setPower();
+
+        hand.setGrabberHandClosedValue(grabberClose);
+        setGrabberPosition();
         setArmExtension();
     }
     public void setArmExtension() {
@@ -55,6 +62,11 @@ public class ArmTest extends OpMode {
         telemetry.addData("armExtension: ", armExtension);
         telemetry.addLine("arm is moving up and down");  // needed for timing!  Do not remove
 
+    }
+
+    public void setGrabberPosition() {
+        if (gamepad2.left_bumper) hand.setGrabberHandClosed();
+        else if (gamepad2.right_bumper) hand.setGrabberHandOpen();
     }
 
 

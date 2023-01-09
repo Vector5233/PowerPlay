@@ -11,7 +11,7 @@ public class Grabber {
     final double THRESHOLD = AgnesConstants.THRESHOLD;
     final double GRABBERINITSERVO = AgnesConstants.GRABBERINITSERVO;
     final double OPENEDGRABBERHAND = AgnesConstants.OPENEDGRABBERHAND;
-    final double CLOSEDGRABBERHAND = AgnesConstants.CLOSEDGRABBERHAND;
+    double CLOSEDGRABBERHAND = AgnesConstants.CLOSEDGRABBERHAND;  // set to final when done with testing
     final double INITGRABBERHAND = AgnesConstants.INITGRABBERHAND;
 
     final double DELTA = AgnesConstants.DELTA;
@@ -38,5 +38,13 @@ public class Grabber {
     public void setGrabberHandClosed(){
         grabberHand.setPosition(CLOSEDGRABBERHAND);
 
+    }
+
+    public void setGrabberHandClosedValue(double value) {
+        /** for testing purposes
+         */
+        if (0.0<= value && value <= 1.0) {
+            CLOSEDGRABBERHAND = value;
+        }
     }
 }

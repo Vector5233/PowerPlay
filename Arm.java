@@ -62,6 +62,8 @@ public class Arm {
         armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
+
+
        /* armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
         armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); */

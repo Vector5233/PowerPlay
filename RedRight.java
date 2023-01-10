@@ -49,21 +49,21 @@ public class RedRight extends AutoTemplate {
 
         reportAprilTags();
         //brings grabber hands to vertical
-        //grabberToVertical(); &
+        grabberToVertical();
 
         Trajectory initialForwardTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .forward(FIRST_FORWARD)
                 .build();
         drive.followTrajectory(initialForwardTrajectory);
 
-        //deliverPreCone(); &
+        deliverPreCone();
 
         redRightTallPole = drive.trajectoryBuilder(initialForwardTrajectory.end())
                 .lineToSplineHeading(new Pose2d(redRightTallPoleX,  redRightTallPoleY, redRightTallPoleHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
                 .build();
         drive.followTrajectory(redRightTallPole);
 
-        grabber.setGrabberHandOpen();
+        //grabber.setGrabberHandOpen();
 
         /* & for(int cone = 0; cone <= 4; cone++) {
             armToCollect(cone);

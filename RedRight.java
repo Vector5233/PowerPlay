@@ -144,7 +144,7 @@ public class RedRight extends AutoTemplate {
             ;
         }
     }*/          //uncomment when pose testing is done
-    public void parkLeft() {
+    public void parkLeft() { //try .lineToSplineHeading .setReversed(true)
         Trajectory parkLeftTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
             .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
             .build();
@@ -167,10 +167,14 @@ public class RedRight extends AutoTemplate {
 
     }
     public void parkMiddle() {
-            Trajectory parkMidTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
-                    .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
-                    .build();
-            drive.followTrajectory(parkMidTrajectory);
+        Trajectory parkMidTrajectory = drive.trajectoryBuilder((redRightTallPole.end()))
+                .lineToSplineHeading(new Pose2d(50, middleParkingSpotY, middleParkingSpotHeading)
+
+
+        /*Trajectory parkMidTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
+                .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
+                .build();
+        drive.followTrajectory(parkMidTrajectory);*/
 
     }
 

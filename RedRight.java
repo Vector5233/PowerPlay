@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name= "RedRight", group = "Red", preselectTeleOp = "AgnesTeleOp")
 public class RedRight extends AutoTemplate {
 
-    final double FIRST_FORWARD = 14.72;
+    final double FIRST_FORWARD = 16;
     final double CENTER_FORWARD = 25;
     final double RIGHT_AND_LEFT_FORWARD = 11;
     final double STRAFE_LEFT = 25.5;

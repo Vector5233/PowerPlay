@@ -182,9 +182,9 @@ public class AgnesTeleOp extends OpMode {
     //sets power to freight lift motor determined from level
     public void setArmExtension() {
 
-        if (gamepad2.a && armExtension > MIN_EXT_TICKS){
+        if (gamepad2.dpad_down && armExtension > MIN_EXT_TICKS){
             armExtension = armExtension - ARMDELTA_EXT;
-        } else if (gamepad2.y && armExtension < MAX_EXT_TICKS){
+        } else if (gamepad2.dpad_up && armExtension < MAX_EXT_TICKS){
             armExtension = armExtension + ARMDELTA_EXT;
         }
 

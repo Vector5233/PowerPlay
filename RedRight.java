@@ -72,7 +72,7 @@ public class RedRight extends AutoTemplate {
             deliverCone();
 
         }*/
-        armToVertical();
+        //armToVertical();
         if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {       //ALL OF THIS WILL NEED TESTING
             parkMiddle();
 
@@ -145,33 +145,40 @@ public class RedRight extends AutoTemplate {
         }
     }*/          //uncomment when pose testing is done
     public void parkLeft() {
-        Trajectory parkLeft = drive.trajectoryBuilder(redRightTallPole.end())
+        Trajectory parkLeftTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
             .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
-            .strafeLeft(parkingStrafeValue)
             .build();
-        drive.followTrajectory(parkLeft);
+        drive.followTrajectory(parkLeftTrajectory);
+        Trajectory strafeLR = drive.trajectoryBuilder(parkLeftTrajectory.end())
+                .strafeLeft(parkingStrafeValue)
+                .build();
+        drive.followTrajectory(strafeLR);
 
     }
     public void parkRight() {
-        Trajectory parkRight = drive.trajectoryBuilder(redRightTallPole.end())
+        Trajectory parkRightTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
                 .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
+                .build();
+        drive.followTrajectory(parkRightTrajectory);
+        Trajectory strafeLR = drive.trajectoryBuilder(parkRightTrajectory.end())
                 .strafeRight(parkingStrafeValue)
                 .build();
-        drive.followTrajectory(parkRight);
+        drive.followTrajectory(strafeLR);
 
     }
     public void parkMiddle() {
-            Trajectory parkMid = drive.trajectoryBuilder(redRightTallPole.end())
+            Trajectory parkMidTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
                     .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
                     .build();
-            drive.followTrajectory(parkMid);
+            drive.followTrajectory(parkMidTrajectory);
 
     }
 
-    /*
+
     public void grabberToVertical(){
         grabber.setGrabberHandOpen();
     }
+    /*
 
     public void armToVertical(){
         arm.setTarget(90);

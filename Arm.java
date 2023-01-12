@@ -149,7 +149,7 @@ public class Arm {
     public boolean isRotationBusy(){
         double difference = Math.abs(getTarget() - getAngle());
         double THRESHOLD = AgnesConstants.TOL; // degrees
-        if (difference <= THRESHOLD){  // JRC: what if difference is negative?
+        if (difference <= THRESHOLD){  // FIXED 2023.01.12  JRC: what if difference is negative?
             return false;
         } else {
             return true;

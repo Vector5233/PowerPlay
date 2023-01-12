@@ -78,7 +78,7 @@ public class RedRight extends AutoTemplate {
             deliverCone();
 
         }*/
-        //armToVertical();
+        armToVertical();
         if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {       //ALL OF THIS WILL NEED TESTING
             parkMiddle();
 
@@ -202,7 +202,7 @@ public class RedRight extends AutoTemplate {
     public void grabberToVertical(){
         grabber.setGrabberHandOpen();
     }
-    /*
+
 
     public void armToVertical(){
         arm.setTarget(90);
@@ -210,6 +210,6 @@ public class RedRight extends AutoTemplate {
             arm.setPower();
         }
     }
-     */
+
 
 }

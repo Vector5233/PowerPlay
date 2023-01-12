@@ -71,7 +71,7 @@ public class BlueLeft extends AutoTemplate {
             deliverCone();
 
         }*/
-        //armToVertical();
+        armToVertical();
         if (tagOfInterest == null || tagOfInterest.id == MIDDLE) {       //ALL OF THIS WILL NEED TESTING
             parkMiddle();
 
@@ -138,7 +138,7 @@ public class BlueLeft extends AutoTemplate {
     public void grabberToVertical() {
         grabber.setGrabberHandOpen();
     }
-    /*
+
 
     public void armToVertical(){
         arm.setTarget(90);
@@ -146,7 +146,7 @@ public class BlueLeft extends AutoTemplate {
             arm.setPower();
         }
     }
-     */
+
 
 
 }

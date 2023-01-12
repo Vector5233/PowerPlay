@@ -147,10 +147,10 @@ public class Arm {
     }
 
     public boolean isRotationBusy(){
-        double difference = getTarget() - getAngle();
+        double difference = Math.abs(getTarget() - getAngle());
         double THRESHOLD = 3; // degrees
         if (difference <= THRESHOLD){  // JRC: what if difference is negative?
-            return true;
+            return true; //should be false?
         } else {
             return false;
         }

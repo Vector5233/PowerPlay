@@ -1,112 +1,203 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name= "BlueRight", group = "Blue", preselectTeleOp = "AgnesTeleOp")
-
 public class BlueRight extends AutoTemplate {
-    final double FIRST_FORWARD = 14.72;
+
+    final double FIRST_FORWARD = 16;
     final double CENTER_FORWARD = 25;
     final double RIGHT_AND_LEFT_FORWARD = 11;
     final double STRAFE_LEFT = 25.5;
     final double STRAFE_RIGHT = 25;
     final double FINAL_FORWARD = 12;
-
-
+    double blueRightTallPoleX = 56.000;
+    double blueRightTallPoleY = -9.132;
+    double blueRightTallPoleHeading = 4.5; //radians
+    double middleParkingSpotX = 50;
+    double middleParkingSpotY = 0;
+    double middleParkingSpotHeading = 0;
+    double leftParkingHeading = Math.toRadians(270);
+    double rightParkingY = -28;
+    final Pose2d SECOND_FORWARD = new Pose2d(36.5, -1.5, 0);
+    Trajectory blueRightTallPole;
+    //comments marked with '&' can be deleted once pose testing is done
 
     public void runOpMode() {
         initialize();
 
+
         telemetry.addLine("initialized!");
         telemetry.update();
 
-        //detects cone tag
         while (!isStarted() && !isStopRequested()) {
             detectAprilTags();
-        }  // end of while
-
+        }
 
         reportAprilTags();
-
         //brings grabber hands to vertical
         grabberToVertical();
 
-        //drives forward to deliver preloaded cone
         Trajectory initialForwardTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .forward(FIRST_FORWARD)
                 .build();
         drive.followTrajectory(initialForwardTrajectory);
 
-        //delivers cone
         deliverPreCone();
+        Trajectory secondForwardTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
+                .lineToSplineHeading(SECOND_FORWARD)
+                .build();
+        drive.followTrajectory(secondForwardTrajectory);
 
-        //chooses where to park
-        if (tagOfInterest == null || tagOfInterest.id == MIDDLE) {
-            Trajectory centerTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
-                    .forward(CENTER_FORWARD)
-                    .build();
-            drive.followTrajectory(centerTrajectory);
-        }else if (tagOfInterest.id == LEFT) {
-            Trajectory leftForwardTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
-                    .forward(RIGHT_AND_LEFT_FORWARD)
-                    .build();
-            drive.followTrajectory(leftForwardTrajectory);
+        blueRightTallPole = drive.trajectoryBuilder(secondForwardTrajectory.end())
+                .lineToSplineHeading(new Pose2d(blueRightTallPoleX, blueRightTallPoleY, blueRightTallPoleHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
+                .build();
+        drive.followTrajectory(blueRightTallPole);
 
-            Trajectory leftStrafeTrajectory = drive.trajectoryBuilder(leftForwardTrajectory.end())
-                    .strafeLeft(STRAFE_LEFT)
-                    .build();
-            drive.followTrajectory(leftStrafeTrajectory);
+        //grabber.setGrabberHandOpen();
 
-            Trajectory leftSecondForwardTrajectory = drive.trajectoryBuilder(leftStrafeTrajectory.end())
-                    .forward(FINAL_FORWARD)
-                    .build();
-            drive.followTrajectory(leftSecondForwardTrajectory);
-        }else {
-            Trajectory rightForwardTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
-                    .forward(RIGHT_AND_LEFT_FORWARD)
-                    .build();
-            drive.followTrajectory(rightForwardTrajectory);
+        /* & for(int cone = 0; cone <= 4; cone++) {
+            armToCollect(cone);
+            grabCone();
+            armToDeliver();
+            deliverCone();
 
-            Trajectory rightStrafeTrajectory = drive.trajectoryBuilder(rightForwardTrajectory.end())
-                    .strafeRight(STRAFE_RIGHT)
-                    .build();
-            drive.followTrajectory(rightStrafeTrajectory);
+        }*/
+        //armToVertical();
+        if (tagOfInterest == null || tagOfInterest.id == MIDDLE) {       //ALL OF THIS WILL NEED TESTING
+            parkMiddle();
 
-            Trajectory rightSecondForwardTrajectory = drive.trajectoryBuilder(rightStrafeTrajectory.end())
-                    .forward(FINAL_FORWARD)
+        } else if (tagOfInterest.id == LEFT) {
+            parkLeft();
+
+
+            /*Trajectory parkLeft = drive.trajectoryBuilder(redRightTallPole.end())
+                    .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
+                    .strafeLeft(23.5)
                     .build();
-            drive.followTrajectory(rightSecondForwardTrajectory);
+            drive.followTrajectory(parkLeft);*/
+
+        } else {
+            parkRight();
+
+
+           /* Trajectory parkRight = drive.trajectoryBuilder(redRightTallPole.end())
+                    .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
+                    .strafeRight(23.5)
+                    .build();
+            drive.followTrajectory(parkRight);*/
+
         }
-        //keep at the very very very end of loop
-        armToVertical();
 
     }
 
-    public void deliverPreCone(){
-        //have the cone deliver to the left code here
+    /*  & public void deliverPreCone(){
         sleep(500);
-        autoDeliveryLeft.setPosition( DELIVER_LEFT);
-        autoDeliveryRight.setPosition( DELIVER_RIGHT);
+        autoDeliveryLeft.setPosition(DELIVER_LEFT);
+        autoDeliveryRight.setPosition(DELIVER_RIGHT);
         sleep(1000);
         autoDeliveryLeft.setPosition( RECOVER_LEFT);
         autoDeliveryRight.setPosition( RECOVER_RIGHT);
         sleep(1000);
     }
+    public void grabCone() {
+        grabber.setGrabberHandClosed();
+        sleep(GRABBERCLOSETIME);
+    }
+    public void deliverCone() {
+        grabber.setGrabberHandOpen();
+        sleep(GRABBEROPENTIME);
+    }
+    public void armToCollect(int cone){
+        arm.setArmWinch(ARMEXTENSION);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+        }
+        double degree = (CONEDEGREE[cone]);
+        arm.setTarget(degree);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+    }
+    public void armToDeliver() {
+        double degree = (POLEDEGREE);
+        arm. setTarget(degree);
+        while (arm. isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+        arm.setArmWinch(ARMEXTENSIONPOLE);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+            ;
+        }
+    }*/          //uncomment when pose testing is done
+    public void parkLeft() { //try .lineToSplineHeading .setReversed(true)
+        Trajectory parkLeftTrajectory = drive.trajectoryBuilder((blueRightTallPole.end()))
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, leftParkingHeading))
+                .build();
+        drive.followTrajectory(parkLeftTrajectory);
+        Trajectory backLeft = drive.trajectoryBuilder(parkLeftTrajectory.end())
+                .back(19)
+                .build();
+        drive.followTrajectory(backLeft);
 
-    public void grabberToVertical(){
+
+
+        /*Trajectory parkLeftTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
+            .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
+            .build();
+        drive.followTrajectory(parkLeftTrajectory);
+        Trajectory strafeLR = drive.trajectoryBuilder(parkLeftTrajectory.end())
+                .strafeLeft(parkingStrafeValue)
+                .build();
+        drive.followTrajectory(strafeLR);*/
+
+    }
+
+    public void parkRight() {
+        Trajectory parkRightTrajectory = drive.trajectoryBuilder(blueRightTallPole.end())
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, rightParkingY, leftParkingHeading))
+                .build();
+        drive.followTrajectory(parkRightTrajectory);
+
+        /*Trajectory parkRightTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
+                .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
+                .build();
+        drive.followTrajectory(parkRightTrajectory);
+        Trajectory strafeLR = drive.trajectoryBuilder(parkRightTrajectory.end())
+                .strafeRight(parkingStrafeValue)
+                .build();
+        drive.followTrajectory(strafeLR);*/
+
+    }
+
+    public void parkMiddle() {
+        Trajectory parkMidTrajectory = drive.trajectoryBuilder((blueRightTallPole.end()))
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
+                .build();
+        drive.followTrajectory(parkMidTrajectory);
+
+
+        /*Trajectory parkMidTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
+                .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
+                .build();
+        drive.followTrajectory(parkMidTrajectory);*/
+
+    }
+
+
+    public void grabberToVertical() {
         grabber.setGrabberHandOpen();
     }
+    /*
+
     public void armToVertical(){
         arm.setTarget(90);
         while(arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
         }
     }
+     */
+
 }

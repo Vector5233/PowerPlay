@@ -13,25 +13,49 @@ public class CollectionDeliveryTest extends AutoTemplate{
     @Override
     public void runOpMode() {
         initialize();
-
-
+        extendToCone();
+        rotateToCone(0);
+        pickUpCone();
+        rotateToPole();
+        extendToPole();
+        dropCone();
     }
 
-    public void pickUpCone(int arrayValue){
-        double coneDegree = AgnesConstants.CONEDEGREE [arrayValue];
-        int distance = 0; //will equal the distance the arm has to extend to reach the cone
+    public void extendToCone (){
+        int distance = AgnesConstants.ARMEXTENSION;
         grabber.setGrabberHandOpen();
         arm.setArmWinch(distance);
-        arm.setTarget(coneDegree);
-        arm.setPower();
-        grabber.setGrabberHandClosed();
     }
 
-    public void rotateToPole(int arrayValue){
-        double basicRotation = 0; // found rotational degrees from top cone to pole
-        double rotationBasedOnCone = basicRotation + AgnesConstants.CONEDEGREE[arrayValue];
-        arm.setTarget(rotationBasedOnCone);
+    public void rotateToCone(int arrayValue){
+       double coneDegree = AgnesConstants.CONEDEGREE [arrayValue];
+       arm.setTarget(coneDegree);
+       while(arm.isRotationBusy() && opModeIsActive()) {
+           arm.setPower();
+       }
+    }
 
-        arm.setPower();
+
+    public void pickUpCone(){
+        grabber.setGrabberHandClosed();
+        sleep(AgnesConstants.GRABBERCLOSETIME);
+    }
+
+    public void rotateToPole(){
+        double rotationToPole = AgnesConstants.POLEDEGREE;
+        arm.setTarget(rotationToPole);
+        while(arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+    }
+
+    public void extendToPole(){
+        int extentionLength = 1000;
+        arm.setArmWinch(extentionLength);
+    }
+
+    public void dropCone(){
+        grabber.setGrabberHandOpen();
+        sleep(AgnesConstants.GRABBEROPENTIME);
     }
 }

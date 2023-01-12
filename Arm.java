@@ -18,6 +18,7 @@ public class Arm {
     public static int target = 0;
 
     private final double ticks_in_degree = 700/180.0; //need to find actual ticks
+    boolean holding = false;
 
 
 
@@ -26,6 +27,7 @@ public class Arm {
     final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
     final double MAXANGLE = AgnesConstants.MAXANGLE;
     final double MINANGLE = AgnesConstants.MINANGLE;
+    final double MINPOWER = .1;
     final double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
     double MAX_ARM_ANG_TICKS;
     double MIN_ARM_ANG_TICKS;
@@ -112,6 +114,11 @@ public class Arm {
     }
 
     public double setPower(){
+        if (holding){
+            holding = false;
+            armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+
         double angle = getAngle();
         if (Math.abs(controller.getSetPoint() - angle) < AgnesConstants.TOL){
             controller.reset();
@@ -154,6 +161,17 @@ public class Arm {
         } else {
             return true;
         }
+    }
+
+    public void holdPostion(){
+        holding = true;
+        double power = setPower();
+        if (power <.1){
+            power = MINPOWER;
+        }
+        armRotation.setTargetPosition(armRotation.getCurrentPosition());
+        armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRotation.setPower(power);
     }
 }
 

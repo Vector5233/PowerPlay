@@ -32,8 +32,9 @@ public class RedRight extends AutoTemplate {
     double middleParkingSpotX = 50;
     double middleParkingSpotY = 0;
     double middleParkingSpotHeading = 0;
-    double leftParkingHeading = Math.toRadians(270);
+    double rightParkingX = 50;
     double rightParkingY = -28;
+    double rightSideRightParkingHeading = Math.toRadians(90); //if its redleft or blueleft use Math.toRadians(270)
     final Pose2d SECOND_FORWARD = new Pose2d(36.5,-1.5, 0);
     Trajectory redRightTallPole;
     //comments marked with '&' can be deleted once pose testing is done
@@ -148,15 +149,13 @@ public class RedRight extends AutoTemplate {
     }*/          //uncomment when pose testing is done
     public void parkLeft() { //try .lineToSplineHeading .setReversed(true)
         Trajectory parkLeftTrajectory = drive.trajectoryBuilder((redRightTallPole.end()))
-                .lineToSplineHeading(new Pose2d (middleParkingSpotX, middleParkingSpotY, leftParkingHeading))
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
                 .build();
         drive.followTrajectory(parkLeftTrajectory);
         Trajectory backLeft = drive.trajectoryBuilder(parkLeftTrajectory.end())
                 .back(19)
                 .build();
         drive.followTrajectory(backLeft);
-
-
 
         /*Trajectory parkLeftTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
             .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
@@ -169,10 +168,11 @@ public class RedRight extends AutoTemplate {
 
     }
     public void parkRight() {
-        Trajectory parkRightTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
-                .lineToSplineHeading(new Pose2d(middleParkingSpotX, rightParkingY, leftParkingHeading))
+        Trajectory parkRightTrajectory = drive.trajectoryBuilder((redRightTallPole.end()))
+                .lineToSplineHeading(new Pose2d(rightParkingX, rightParkingY, rightSideRightParkingHeading))
                 .build();
         drive.followTrajectory(parkRightTrajectory);
+
 
         /*Trajectory parkRightTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
                 .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)

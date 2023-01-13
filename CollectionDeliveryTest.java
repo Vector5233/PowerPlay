@@ -19,12 +19,17 @@ public class CollectionDeliveryTest extends AutoTemplate{
         initialize();
         autoDeliveryRight.setPosition(AgnesConstants.RECOVER_RIGHT);
         autoDeliveryLeft.setPosition(AgnesConstants.RECOVER_LEFT);
+        grabber.setGrabberHandOpen(); // added JRC
+        waitForStart(); // added JRC
         extendToCone();
         rotateToCone(0);
         pickUpCone();
 
         rotateToPole();
+        Log.println(Log.INFO, "runOpMode: ", "Run 1 - skipping extendToPole()");
+        sleep(5000);
         extendToPole();
+        Log.println(Log.INFO, "runOpMode: ", "Arm angle after sleep "+arm.getAngle());
         dropCone();
     }
 
@@ -54,15 +59,19 @@ public class CollectionDeliveryTest extends AutoTemplate{
         arm.setTarget(rotationToPole);
         while(arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
-            Log.println(Log.INFO,"Angle: ", Double.toString(arm.getAngle()));
+            //Log.println(Log.INFO,"rotate: ", "angle "+Double.toString(arm.getAngle()));
         }
         arm.holdPostion();
+        //Log.println(Log.INFO, "rotate: ", "Done.");
     }
 
     public void extendToPole(){
-        int extentionLength = 1000;
-        arm.setArmWinch(extentionLength);
-        //while (arm.isWinchBusy() && opModeIsActive());
+        int extensionLength = AgnesConstants.ARMEXTENSIONPOLE;
+        arm.setArmWinch(extensionLength);
+
+        while (arm.isWinchBusy() && opModeIsActive()){
+            Log.println(Log.INFO, "Extension: ", "ticks " + Double.toString(arm.getArmLength()));
+        }
     }
 
     public void dropCone(){

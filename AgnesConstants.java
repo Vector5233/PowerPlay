@@ -26,7 +26,7 @@ public class AgnesConstants {
     public static final double MINANGLE = 0;
     public static final double ARMROTATIONTICKSPERREV = 2786.2; //according to internet, for 60 rpm motor, 537.6 ticks per rev
     public static final int ARMEXTENSION = 0;
-    public static final int ARMEXTENSIONPOLE = 0;
+    public static final int ARMEXTENSIONPOLE =1000;
     public static final double[] CONEDEGREE = {18.3,12,9,4.7,3.1};
     public static final int POLEDEGREE = 135;
     public static final double MAXAUTOTICKS = 275;

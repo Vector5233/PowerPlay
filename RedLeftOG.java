@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name= "RedLeftOG", group = "Red", preselectTeleOp = "AgnesTeleOp")
 public class RedLeftOG extends AutoTemplate{
-    final double FIRST_FORWARD = 14.72;
+    final double FIRST_FORWARD = 16;
     final double CENTER_FORWARD = 25;
     final double RIGHT_AND_LEFT_FORWARD = 11;
     final double STRAFE_LEFT = 25.5;
@@ -83,7 +83,7 @@ public class RedLeftOG extends AutoTemplate{
             drive.followTrajectory(rightSecondForwardTrajectory);
         }
         //keep at the very very very end of loop
-        armToVertical();
+        //armToVertical();
     }
 
     public void deliverPreCone(){

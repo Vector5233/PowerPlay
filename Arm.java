@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import android.util.Log;
+
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -86,6 +88,9 @@ public class Arm {
         armWinch.setTargetPosition(armExtension);
         armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armWinch.setPower(liftPower);
+        Log.println(Log.INFO, "Extension: ", "target  " + armWinch.getTargetPosition());
+        Log.println(Log.INFO, "Extension: ", "ticks " + Double.toString(getArmLength()));
+
     }
 
     public double getAngle(){

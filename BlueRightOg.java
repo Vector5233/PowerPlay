@@ -85,7 +85,7 @@ public class BlueRightOg extends AutoTemplate {
             drive.followTrajectory(rightSecondForwardTrajectory);
         }
         //keep at the very very very end of loop
-        armToVertical();
+        //armToVertical();
 
     }
 

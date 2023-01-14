@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.VectorCode;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+@Disabled
 @Autonomous(name= "BlueLeft", group = "Blue", preselectTeleOp = "AgnesTeleOp")
 public class BlueLeft extends AutoTemplate {
 

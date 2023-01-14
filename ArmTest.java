@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.AUTO;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.TELEOP;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+@Disabled
 @Config
 @TeleOp(name = "ArmTest")
 public class ArmTest extends OpMode {
@@ -27,7 +30,7 @@ public class ArmTest extends OpMode {
 
     public void init(){
         stan = new Arm();
-        stan.initialize(hardwareMap, TELEOP );
+        stan.initialize(hardwareMap, AUTO );
         hand = new Grabber();
         hand.initialize(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -60,7 +63,6 @@ public class ArmTest extends OpMode {
 
         stan.setArmWinch(armExtension);
         telemetry.addData("armExtension: ", armExtension);
-        telemetry.addLine("arm is moving up and down");  // needed for timing!  Do not remove
 
     }
 

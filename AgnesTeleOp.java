@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.AUTO;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_RIGHT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.TELEOP;
@@ -36,6 +37,7 @@ public class AgnesTeleOp extends OpMode {
 
     final double ARMDELTA = AgnesConstants.ARMDELTA;
     final int ARMDELTA_EXT = AgnesConstants.ARMDELTA_EXT;
+
 
     int armExtension;
     Grabber grabber;
@@ -84,7 +86,7 @@ public class AgnesTeleOp extends OpMode {
         initDeliveryServo();
 
         arm = new Arm();
-        arm.initialize(hardwareMap, TELEOP); // initialize for teleop
+        arm.initialize(hardwareMap, AUTO); // initialize for teleop
         rotationTarget = 90;
         arm.setTarget(90);
     }

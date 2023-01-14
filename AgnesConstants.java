@@ -25,12 +25,13 @@ public class AgnesConstants {
     public static final double MAXANGLE = 153;
     public static final double MINANGLE = 0;
     public static final double ARMROTATIONTICKSPERREV = 2786.2; //according to internet, for 60 rpm motor, 537.6 ticks per rev
-    public static final int ARMEXTENSION = 0;
-    public static final int ARMEXTENSIONPOLE =1000;
-    public static final double[] CONEDEGREE = {18.3,12,9,4.7,3.1};
-    public static final int POLEDEGREE = 135;
-    public static final double MAXAUTOTICKS = 275;
-    public static final double MINAUTOTICKS = -933;
+    public static final int ARMEXTENSION = 495;
+    public static final int ARMEXTENSIONPOLE =415;
+    public static final double[] CONEDEGREE = {25,23,21,19,16};
+    public static final int FIRSTPOLEDEGREE = 103;
+    public static final int SECONDPOLEDEGREE = 107;
+    public static final double MAXAUTOTICKS = 70;
+    public static final double MINAUTOTICKS = -993;
     public static final double MAXTELEOPTICKS = 515;
     public static final double MINTELEOPTICKS = -691;
     public static final double MAXARMANGLEDEGREE = 140;
@@ -49,6 +50,7 @@ public class AgnesConstants {
     public static double INITGRABBERHAND = .4;
     public static double OPENEDGRABBERHAND = .2;
     public static double CLOSEDGRABBERHAND = 0.02;
+    public static double AUTOCLOSEDGRABBERHAND = 0.055;
     public static final double GRABBERINITSERVO = 1;
     // public static final double CLOSEDRIGHTHAND = 1;
    // public static final double CLOSEDLEFTHAND = 0;

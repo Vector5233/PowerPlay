@@ -16,7 +16,7 @@ public class BlueLeftOg extends AutoTemplate {
     final double CENTER_FORWARD = 23.50;
     final double RIGHT_AND_LEFT_FORWARD = 9.50;
     final double STRAFE_LEFT = 25.5;
-    final double STRAFE_RIGHT = 25;
+    final double STRAFE_RIGHT = 23.5;
     final double FINAL_FORWARD = 12;
 
 
@@ -85,7 +85,7 @@ public class BlueLeftOg extends AutoTemplate {
             drive.followTrajectory(rightSecondForwardTrajectory);
         }
         //keep at the very very very end of loop
-        armToVertical();
+        //armToVertical();
     }
 
     public void deliverPreCone(){
@@ -97,10 +97,6 @@ public class BlueLeftOg extends AutoTemplate {
         autoDeliveryLeft.setPosition( RECOVER_LEFT);
         autoDeliveryRight.setPosition( RECOVER_RIGHT);
         sleep(1000);
-
-
-
-
     }
     public void grabberToVertical(){
         grabber.setGrabberHandOpen();

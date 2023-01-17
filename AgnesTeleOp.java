@@ -39,7 +39,7 @@ public class AgnesTeleOp extends OpMode {
     final int ARMDELTA_EXT = AgnesConstants.ARMDELTA_EXT;
 
 
-    int armExtension;
+    int armExtension = 0;
     Grabber grabber;
     Arm arm;
 
@@ -183,14 +183,18 @@ public class AgnesTeleOp extends OpMode {
 
     //sets power to freight lift motor determined from level
     public void setArmExtension() {
-
+        /*
         if (gamepad2.dpad_down && armExtension > MIN_EXT_TICKS){
             armExtension = armExtension - ARMDELTA_EXT;
         } else if (gamepad2.dpad_up && armExtension < MAX_EXT_TICKS){
             armExtension = armExtension + ARMDELTA_EXT;
         }
 
-        arm.setArmWinch(armExtension);
+        */
+
+        armExtension = (int) (-gamepad2.left_stick_y*ARMDELTA_EXT + armExtension);
+
+        armExtension = arm.setArmWinch(armExtension);
         telemetry.addData("armExtension: ", armExtension);
         telemetry.addLine("arm is moving up and down");  // needed for timing!  Do not remove
 

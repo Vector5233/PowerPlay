@@ -16,8 +16,8 @@ public class AgnesConstants {
     //arm constants
     //public static final double MIN_ARM_ANG_TICKS = -50;
     //public static final double MAX_ARM_ANG_TICKS = 950;
-    public static final double ARMDELTA = -.3;
-    public static final int ARMDELTA_EXT = 10;
+    public static final double ARMDELTA = -.4;
+    public static final int ARMDELTA_EXT = 7;
     public static final int MAX_EXT_TICKS = 1000;
     public static final int MIN_EXT_TICKS = 0;
     public static final double MINARMLENGTH = 12; //inches. measured from base of arm slide

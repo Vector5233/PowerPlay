@@ -25,8 +25,8 @@ public class Arm {
 
 
     DcMotorEx armWinch, armRotation;
-    final double MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
-    final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
+    final int MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
+    final int MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
     final double MAXANGLE = AgnesConstants.MAXANGLE;
     final double MINANGLE = AgnesConstants.MINANGLE;
     final double MINPOWER = .1;
@@ -83,14 +83,19 @@ public class Arm {
         armRotation.setPower(.95);
     }*/
 
-    public void setArmWinch(int armExtension){
-        double liftPower = .3;
+    public int setArmWinch(int armExtension){
+        double liftPower = .5; // increase power and ARM_EX DELTA or whatever for increased speed
+        if (armExtension <MIN_EXT_TICKS){
+            armExtension = MIN_EXT_TICKS;
+        } else if (armExtension>MAX_EXT_TICKS){
+            armExtension = MAX_EXT_TICKS;
+        }
         armWinch.setTargetPosition(armExtension);
         armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armWinch.setPower(liftPower);
         Log.println(Log.INFO, "Extension: ", "target  " + armWinch.getTargetPosition());
         Log.println(Log.INFO, "Extension: ", "ticks " + Double.toString(getArmLength()));
-
+        return armExtension;
     }
 
     public double getAngle(){

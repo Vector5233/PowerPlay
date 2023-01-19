@@ -34,8 +34,7 @@ public class AgnesConstants {
     public static final double MINAUTOTICKS = -993;
     public static final double MAXTELEOPTICKS = 515;
     public static final double MINTELEOPTICKS = -691;
-    public static final double MAXARMANGLEDEGREE = 140;
-    public static final double MINARMANGLEDEGREE = 0;
+    public static final double THRESHOLDBUSY = .01;
     public static final double p = .004;
     public static final double i = .2;
     public static final double d = .0008;

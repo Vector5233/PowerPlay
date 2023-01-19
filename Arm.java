@@ -21,6 +21,7 @@ public class Arm {
 
     private final double ticks_in_degree = 700/180.0; //need to find actual ticks
     boolean holding = false;
+    boolean busy = false;
 
 
 
@@ -31,12 +32,11 @@ public class Arm {
     final double MINANGLE = AgnesConstants.MINANGLE;
     final double MINPOWER = .1;
     final double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
-    double MAX_ARM_ANG_TICKS;
+    double MAX_ARM_ANG_TICKS;  //found in initialize, values decided based on auto or teleOp parameters
     double MIN_ARM_ANG_TICKS;
     final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
-    final double MAXARMANGLEDEGREE = AgnesConstants.MAXARMANGLEDEGREE;
-    final double MINARMANGLEDEGREE = AgnesConstants.MINARMANGLEDEGREE;
+    final double THRESHOLDBUSY = AgnesConstants.THRESHOLDBUSY;
 
     public Arm() {
 
@@ -113,10 +113,11 @@ public class Arm {
 
 
     public void setTarget(double degrees){
-        if (target > MAXARMANGLEDEGREE || target < MINARMANGLEDEGREE){
+        if (target > MAXANGLE || target < MINANGLE){
             return;
         }
         controller.setSetPoint(degrees);
+        busy = true;
     }
 
     public double getTarget(){
@@ -134,7 +135,12 @@ public class Arm {
             controller.reset();
         }
 
-        double power = controller.calculate(angle) + f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
+        double controllerPower = controller.calculate(angle);
+        if (Math.abs(controllerPower) < THRESHOLDBUSY){
+            busy = false;
+        }
+
+        double power = controllerPower + f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
         armRotation.setPower(power);
         return power;
     }
@@ -164,13 +170,7 @@ public class Arm {
     }
 
     public boolean isRotationBusy(){
-        double difference = Math.abs(getTarget() - getAngle());
-        double THRESHOLD = AgnesConstants.TOL; // degrees
-        if (difference <= THRESHOLD){  // FIXED 2023.01.12  JRC: what if difference is negative?
-            return false;
-        } else {
-            return true;
-        }
+        return busy;
     }
 
     public void holdPostion(){

@@ -86,7 +86,7 @@ public class AgnesTeleOp extends OpMode {
         initDeliveryServo();
 
         arm = new Arm();
-        arm.initialize(hardwareMap, AUTO); // initialize for teleop
+        arm.initialize(hardwareMap, TELEOP); // initialize for teleop
         rotationTarget = 90;
         arm.setTarget(90);
     }

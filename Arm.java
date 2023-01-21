@@ -31,7 +31,7 @@ public class Arm {
     final double MAXANGLE = AgnesConstants.MAXANGLE;
     final double MINANGLE = AgnesConstants.MINANGLE;
     final double MINPOWER = .1;
-    final double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
+    final static double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
     double MAX_ARM_ANG_TICKS;  //found in initialize, values decided based on auto or teleOp parameters
     double MIN_ARM_ANG_TICKS;
     final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
@@ -99,10 +99,13 @@ public class Arm {
     }
 
     public double getAngle(){
-       int position = armRotation.getCurrentPosition();  // right arm is the prime arm
+
+        int position = armRotation.getCurrentPosition();  // right arm is the prime arm
        //double angle = -(MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position + MIN_ARM_ANG_TICKS));
+
         double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS);
        return angle;
+
     }
 
     public double getArmLength(){

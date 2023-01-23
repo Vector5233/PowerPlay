@@ -52,13 +52,14 @@ public class RedRightGS extends AutoTemplate {
         drive.followTrajectory(initialForwardTrajectory);
 
         deliverPreCone();
+
         Trajectory secondForwardTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
                 .lineToSplineHeading(SECOND_FORWARD)
                 .build();
         drive.followTrajectory(secondForwardTrajectory);
 
         redRightTallPole = drive.trajectoryBuilder(secondForwardTrajectory.end())
-                .lineToSplineHeading(new Pose2d(redRightTallPoleX,  redRightTallPoleY, redRightTallPoleHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
+                .lineToSplineHeading(new Pose2d(goldenSpotX,  goldenSpotY, goldenSpotHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
                 .build();
         drive.followTrajectory(redRightTallPole);
 

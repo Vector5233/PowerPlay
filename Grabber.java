@@ -6,15 +6,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Grabber {
-   // Servo grabberLeftHand, grabberRightHand, grabberRotation;
     Servo grabberHand;
-    final double THRESHOLD = AgnesConstants.THRESHOLD;
-    final double GRABBERINITSERVO = AgnesConstants.GRABBERINITSERVO;
     final double OPENEDGRABBERHAND = AgnesConstants.OPENEDGRABBERHAND;
     double CLOSEDGRABBERHAND = AgnesConstants.CLOSEDGRABBERHAND;  // set to final when done with testing
     final double INITGRABBERHAND = AgnesConstants.INITGRABBERHAND;
-
-    final double DELTA = AgnesConstants.DELTA;
 
     public Grabber(){
 
@@ -41,7 +36,7 @@ public class Grabber {
     }
 
     public void setGrabberHandClosedValue(double value) {
-        /** for testing purposes
+        /** set grabber hand to different values for teleop and auto
          */
         if (0.0<= value && value <= 1.0) {
             CLOSEDGRABBERHAND = value;

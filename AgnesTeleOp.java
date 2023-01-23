@@ -16,22 +16,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="AgnesTeleOp", group="robot")
 public class AgnesTeleOp extends OpMode {
     DcMotor leftFront, leftRear, rightFront, rightRear;
-    DcMotorEx armRotation;
     Servo autoDeliveryLeft, autoDeliveryRight;
 
     final double APPROACHSPEED = AgnesConstants.APPROACHSPEED;
     final double THRESHOLD = AgnesConstants.THRESHOLD;
     final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
     final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
-    final double REST_LEFT = AgnesConstants.INIT_LEFT;
-    final double REST_RIGHT = AgnesConstants.INIT_RIGHT;
-    final double DELIVER_LEFT = AgnesConstants.DELIVER_LEFT;
-    final double DELIVER_RIGHT = AgnesConstants.DELIVER_RIGHT;
-
-    final double MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
-    final double MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
-    //final double DELTA = AgnesConstants.DELTA;
-    double grabberTarget = AgnesConstants.GRABBERINITSERVO;
     double rotationTarget;
 
 
@@ -68,11 +58,7 @@ public class AgnesTeleOp extends OpMode {
 
 
 
-/*
-        armRotation = (DcMotorEx) hardwareMap.dcMotor.get("armRotation");
-        armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-*/
+
 
 
         autoDeliveryLeft = hardwareMap.servo.get("autoDeliveryLeft");
@@ -104,17 +90,22 @@ public class AgnesTeleOp extends OpMode {
 
     }
 
+    @Override
+    public void stop() {
+        arm.updatePIDFController(.1, AgnesConstants.i, AgnesConstants.d, AgnesConstants.f);
+        arm.setTarget(90);
+        while (arm.isRotationBusy()){
+            telemetry.addLine("shutting down");
+            arm.setPower();
+        }
+
+    }
+
     //sets direction and power of all drive motors (frontLeft, frontRightt, backLeft, backRight)
     public void setDrive(){
         double forward = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x/2;
-        //telemetry.addData("Right Rear Position: ", rightRear.getCurrentPosition());
-        //telemetry.addData("Left Rear Position: ", rightRear.getCurrentPosition());
-        //telemetry.addData("Right Front Position: ", rightFront.getCurrentPosition());
-        //telemetry.addData("Left Front Position: ", leftFront.getCurrentPosition());
-        //telemetry.addData("forward:", forward);
-        //telemetry.update();
         double leftFrontPower = trimPower(forward + strafe + turn);
         double rightFrontPower = trimPower(forward - strafe - turn);
         double leftRearPower = trimPower(forward - strafe + turn);
@@ -137,19 +128,11 @@ public class AgnesTeleOp extends OpMode {
 
 
 
-    //rotates arm 180 - ONLY problem - if position is needed, user has to hold joystick down
-    //need to test non commented out stuff as of 11.16.22
+
     public void setArmRotation(){
-       /* int current = armRotation.getCurrentPosition();
-        int rotation = (int) (current + ARMDELTA*gamepad2.right_stick_x);
-        arm.setArmRotation(rotation);
-        telemetry.addLine("Arm Rotation happening");  // needed for timing!  Do not remove
-        telemetry.addData("Arm Angle Found: ", arm.getArmAngle(current));
-        */
 
         rotationTarget =  (arm.getTarget() + ARMDELTA* gamepad2.right_stick_x);
-        // ^^^ why (int)?  aren't we thinking in degrees?
-        arm.setTarget(rotationTarget); // JRC: should setTarget() be setSetPoint()?
+        arm.setTarget(rotationTarget);
         arm.setPower();
         telemetry.addData("angle",arm.getAngle());
     }
@@ -183,14 +166,7 @@ public class AgnesTeleOp extends OpMode {
 
     //sets power to freight lift motor determined from level
     public void setArmExtension() {
-        /*
-        if (gamepad2.dpad_down && armExtension > MIN_EXT_TICKS){
-            armExtension = armExtension - ARMDELTA_EXT;
-        } else if (gamepad2.dpad_up && armExtension < MAX_EXT_TICKS){
-            armExtension = armExtension + ARMDELTA_EXT;
-        }
 
-        */
 
         armExtension = (int) (-gamepad2.left_stick_y*ARMDELTA_EXT + armExtension);
 

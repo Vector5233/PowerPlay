@@ -14,8 +14,6 @@ public class AgnesConstants {
     public static final double RECOVER_RIGHT = .4;
 
     //arm constants
-    //public static final double MIN_ARM_ANG_TICKS = -50;
-    //public static final double MAX_ARM_ANG_TICKS = 950;
     public static final double ARMDELTA = -.4;
     public static final int ARMDELTA_EXT = 7;
     public static final int MAX_EXT_TICKS = 1000;
@@ -24,7 +22,7 @@ public class AgnesConstants {
     public static final double MAXARMLENGTH = 31; //inches. measured from base of arm slide
     public static final double MAXANGLE = 137;
     public static final double MINANGLE = -8;
-    public static final double ARMROTATIONTICKSPERREV = 5281.1; //according to internet, for 60 rpm motor, 537.6 ticks per rev
+    public static final double ARMROTATIONTICKSPERREV = 5281.1;
     public static final int ARMEXTENSION = 495;
     public static final int ARMEXTENSIONPOLE =415;
     public static final double[] CONEDEGREE = {25,23,21,19,16};
@@ -38,7 +36,7 @@ public class AgnesConstants {
     public static final double p = .015;
     public static final double i = .3;
     public static final double d = .004;
-    public static final double f = .03;
+    public static final double f = .023; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
     public static final double TOL = .5;
     public static boolean AUTO = true; // used to initialize Arm
     public static boolean TELEOP = false;
@@ -50,12 +48,6 @@ public class AgnesConstants {
     public static double OPENEDGRABBERHAND = .2;
     public static double CLOSEDGRABBERHAND = 0.02;
     public static double AUTOCLOSEDGRABBERHAND = 0.055;
-    public static final double GRABBERINITSERVO = 1;
-    // public static final double CLOSEDRIGHTHAND = 1;
-   // public static final double CLOSEDLEFTHAND = 0;
-   // public static final double OPENEDRIGHTHAND = .6;
-    // public static final double OPENEDLEFTHAND = .2;
-    public static final double DELTA = .05;
 
 
 

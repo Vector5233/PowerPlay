@@ -19,9 +19,9 @@ public class Arm {
 
     public static int target = 0;
 
-    private final double ticks_in_degree = 700/180.0; //need to find actual ticks
     boolean holding = false;
     boolean busy = false;
+
 
 
 
@@ -68,20 +68,10 @@ public class Arm {
 
 
 
-       /* armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
-        armRotation.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); */
     }
 
 
 
-//prob get rid of bc of new method of doing rotation
-    /*
-    public void setArmRotation(int rotation){
-        armRotation.setTargetPosition(rotation);
-        armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        armRotation.setPower(.95);
-    }*/
 
     public int setArmWinch(int armExtension){
         double liftPower = .5; // increase power and ARM_EX DELTA or whatever for increased speed
@@ -98,22 +88,41 @@ public class Arm {
         return armExtension;
     }
 
-    public double getAngle(){
-
-        int position = armRotation.getCurrentPosition();  // right arm is the prime arm
-       //double angle = -(MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position + MIN_ARM_ANG_TICKS));
-
-        double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS);
-       return angle;
-
+    public int lengthToTicks(double length){
+        int position = (int)(MIN_EXT_TICKS + (MIN_EXT_TICKS - MAX_EXT_TICKS)/(MINARMLENGTH - MAXARMLENGTH) * (length - MINARMLENGTH));
+        return position;
     }
 
+
+    public double setArmLength(double length){
+
+        if (length > MAXARMLENGTH){
+            length = MAXARMLENGTH;
+        }
+        else if (length < MINARMLENGTH){
+            length = MINARMLENGTH;
+        }
+        setArmLength(lengthToTicks(length));
+        return length;
+    }
+
+
     public double getArmLength(){
+        /** return length in inches
+         */
         int position = armWinch.getCurrentPosition();
         double length = MINARMLENGTH + ((MINARMLENGTH - MAXARMLENGTH)/(MIN_EXT_TICKS - MAX_EXT_TICKS))*(position - MIN_EXT_TICKS);
         return length;
     }
 
+    public double getAngle(){
+
+        int position = armRotation.getCurrentPosition();
+
+        double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS);
+        return angle;
+
+    }
 
     public void setTarget(double degrees){
         if (target > MAXANGLE || target < MINANGLE){
@@ -152,9 +161,7 @@ public class Arm {
         controller.setPID(new_p, new_i, new_d);
         f = new_f;
     }
-    /*public void updatePIDFController(double p, double i, double d, double f){
-        controller.setPIDF(p,i,d,f);
-    }*/
+
 
     public double getRotationPower(){
         double power = armRotation.getPower();

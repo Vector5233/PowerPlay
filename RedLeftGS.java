@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Disabled
-@Autonomous(name= "BlueLeft", group = "Blue", preselectTeleOp = "AgnesTeleOp")
-public class BlueLeft extends AutoTemplate {
+@Autonomous(name= "RedLeftGS", group = "Red", preselectTeleOp = "AgnesTeleOp")
+public class RedLeftGS extends AutoTemplate {
 
     final double FIRST_FORWARD = 16;
     final double CENTER_FORWARD = 25;
@@ -15,9 +15,9 @@ public class BlueLeft extends AutoTemplate {
     final double STRAFE_LEFT = 25.5;
     final double STRAFE_RIGHT = 25;
     final double FINAL_FORWARD = 12;
-    double blueLeftTallPoleX = 54.300;
-    double blueLeftTallPoleY = 10.432;
-    double blueLeftTallPoleHeading = 1.83; //radians
+    double redLeftTallPoleX = 54.300;
+    double redLeftTallPoleY = 10.432;
+    double redLeftTallPoleHeading = 1.83; //radians
     double middleParkingSpotX = 48;
     double middleParkingSpotY = 0;
     double middleParkingSpotHeading = 0;
@@ -28,10 +28,10 @@ public class BlueLeft extends AutoTemplate {
     double rightParkingSpotX = 48;
     double rightParkingSpotY = 0;
     double parkRightBack = 22;
-    final Pose2d SECOND_FORWARD = new Pose2d(36.5, 1.7, 0);
-    Trajectory blueLeftTallPole;
+    final Pose2d SECOND_FORWARD = new Pose2d(36.5,1.7,0);
+    Trajectory redLeftTallPole;
 
-    public void runOpMode() {
+    public void runOpMode(){
 
         initialize();
 
@@ -58,10 +58,10 @@ public class BlueLeft extends AutoTemplate {
                 .build();
         drive.followTrajectory(secondForwardTrajectory);
 
-        blueLeftTallPole = drive.trajectoryBuilder(secondForwardTrajectory.end())
-                .lineToSplineHeading(new Pose2d(blueLeftTallPoleX, blueLeftTallPoleY, blueLeftTallPoleHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
+        redLeftTallPole = drive.trajectoryBuilder(secondForwardTrajectory.end())
+                .lineToSplineHeading(new Pose2d(redLeftTallPoleX,  redLeftTallPoleY, redLeftTallPoleHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
                 .build();
-        drive.followTrajectory(blueLeftTallPole);
+        drive.followTrajectory(redLeftTallPole);
         grabber.setGrabberHandOpen();
 
         //grabber.setGrabberHandOpen();
@@ -74,10 +74,11 @@ public class BlueLeft extends AutoTemplate {
 
         }*/
         armToVertical();
-        if (tagOfInterest == null || tagOfInterest.id == MIDDLE) {       //ALL OF THIS WILL NEED TESTING
+        if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {       //ALL OF THIS WILL NEED TESTING
             parkMiddle();
 
-        } else if (tagOfInterest.id == LEFT) {
+        }
+        else if (tagOfInterest.id == LEFT) {
             parkLeft();
 
 
@@ -87,7 +88,8 @@ public class BlueLeft extends AutoTemplate {
                     .build();
             drive.followTrajectory(parkLeft);*/
 
-        } else {
+        }
+        else {
             parkRight();
 
 
@@ -100,19 +102,23 @@ public class BlueLeft extends AutoTemplate {
         }
 
 
-    }
 
+
+
+
+
+}
     public void parkLeft() {
-        Trajectory parkLeftTrajectory = drive.trajectoryBuilder((blueLeftTallPole.end()))
-                .lineToSplineHeading(new Pose2d(leftParkingSpotX, leftParkingSpotY, leftParkingHeading))
-                .build();
+        Trajectory parkLeftTrajectory = drive.trajectoryBuilder((redLeftTallPole.end()))
+                .lineToSplineHeading(new Pose2d (leftParkingSpotX, leftParkingSpotY, leftParkingHeading))
+            .build();
         drive.followTrajectory(parkLeftTrajectory);
 
 
-    }
 
+    }
     public void parkRight() {
-        Trajectory parkRightTrajectory = drive.trajectoryBuilder(blueLeftTallPole.end())
+        Trajectory parkRightTrajectory = drive.trajectoryBuilder(redLeftTallPole.end())
                 .lineToSplineHeading(new Pose2d(rightParkingSpotX, rightParkingSpotY, rightParkingHeading))
                 .build();
         drive.followTrajectory(parkRightTrajectory);
@@ -121,9 +127,8 @@ public class BlueLeft extends AutoTemplate {
                 .build();
         drive.followTrajectory((backRightTrajectory));
     }
-
     public void parkMiddle() {
-        Trajectory parkMidTrajectory = drive.trajectoryBuilder((blueLeftTallPole.end()))
+        Trajectory parkMidTrajectory = drive.trajectoryBuilder((redLeftTallPole.end()))
                 .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
                 .build();
         drive.followTrajectory(parkMidTrajectory);
@@ -137,7 +142,7 @@ public class BlueLeft extends AutoTemplate {
     }
 
 
-    public void grabberToVertical() {
+    public void grabberToVertical(){
         grabber.setGrabberHandOpen();
     }
 
@@ -148,7 +153,6 @@ public class BlueLeft extends AutoTemplate {
             arm.setPower();
         }
     }
-
 
 
 }

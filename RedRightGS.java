@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Disabled
-@Autonomous(name= "RedRight", group = "Red", preselectTeleOp = "AgnesTeleOp")
-public class RedRight extends AutoTemplate {
+@Autonomous(name= "RedRightGS", group = "Red", preselectTeleOp = "AgnesTeleOp")
+public class RedRightGS extends AutoTemplate {
 
     final double FIRST_FORWARD = 16;
     final double CENTER_FORWARD = 25;
@@ -24,6 +24,9 @@ public class RedRight extends AutoTemplate {
     double rightParkingX = 50;
     double rightParkingY = -28;
     double rightSideRightParkingHeading = Math.toRadians(90); //if its redleft or blueleft use Math.toRadians(270)
+    double goldenSpotX = 39.0;
+    double goldenSpotY = -4.0;                   //these are rough measurements and need to tested
+    double goldenSpotHeading = -75.0; //degrees
     final Pose2d SECOND_FORWARD = new Pose2d(36.5,-1.5, 0);
     Trajectory redRightTallPole;
     //comments marked with '&' can be deleted once pose testing is done

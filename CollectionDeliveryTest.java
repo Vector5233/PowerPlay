@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSIONPOLE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
+
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -15,38 +18,36 @@ public class CollectionDeliveryTest extends AutoTemplate{
         initialize();
         autoDeliveryRight.setPosition(AgnesConstants.RECOVER_RIGHT);
         autoDeliveryLeft.setPosition(AgnesConstants.RECOVER_LEFT);
-        grabber.setGrabberHandOpen(); // added JRC
-        waitForStart(); // added JRC
+        grabber.setGrabberHandOpen();
+        waitForStart();
 
-        rotateTo(100);
-        rotateToCone(0);
-        sleep(1000);
-        extendToCone();
-        sleep(2000);
-        pickUpCone();
-        rotatePartiallyToPole();
-        //Log.println(Log.INFO, "runOpMode: ", "Run 1 - skipping extendToPole()");
-        sleep(5000);
-        /*extendToPole();
-        //Log.println(Log.INFO, "runOpMode: ", "Arm angle after sleep "+arm.getAngle());
-        rotateToPole();
-        //Log.println(Log.INFO, "runOpMode: ", "Run 1 - skipping extendToPole()");
-        sleep(5000);
-        dropCone();
-        retractArm();*/
+
+        armToCollect(0);
+        grabCone();
+
+        deextend();
+        rotateTo(90);
+
+        turnToPole();
+        armToDeliver();
+        deliverCone();
+        deextend();
+        rotateTo(90);
+
+        turnToCone();
     }
 
-    public void rotateTo(double degree){
+    public void rotateTo(double degree) {
         arm.setTarget(degree);
-        while(arm.isRotationBusy() && opModeIsActive()) {
+        while (arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
-            Log.println(Log.INFO,"rotate: ", "angle "+ Double.toString(arm.getAngle()));
+            Log.println(Log.INFO, "rotate: ", "angle " + Double.toString(arm.getAngle()));
         }
 
     }
-    public void extendToCone (){
-        int distance = AgnesConstants.ARMEXTENSION; // need to put into ticks
-        grabber.setGrabberHandOpen();
+
+    public void deextend (){
+        int distance = 0;
         arm.setArmWinch(distance);
         while (arm.isWinchBusy() && opModeIsActive()){
             //Log.println(Log.INFO, "Extension: ", "Inside the loop. ticks " + Double.toString(arm.getArmLength()));
@@ -55,6 +56,16 @@ public class CollectionDeliveryTest extends AutoTemplate{
         //Log.println(Log.INFO, "Extension: ", "Out of the loop. ticks " + Double.toString(arm.getArmLength()));
     }
 
+    public void turnToPole(){
+        drive.turn(AgnesConstants.TURNTOPOLE);
+    }
+
+    public void turnToCone(){
+        drive.turn(-AgnesConstants.TURNTOPOLE);
+    }
+
+
+   /*
     public void rotateToCone(int arrayValue){
        double coneDegree = AgnesConstants.CONEDEGREE [arrayValue];
        arm.setTarget(coneDegree);
@@ -66,10 +77,17 @@ public class CollectionDeliveryTest extends AutoTemplate{
     }
 
 
-    public void pickUpCone(){
+    public void pickUpCone() {
         grabber.setGrabberHandClosed();
         sleep(AgnesConstants.GRABBERCLOSETIME);
     }
+
+
+
+    public void rotateBotToPole(){
+
+    }
+
 
     public void rotatePartiallyToPole(){
         double rotationToPole = AgnesConstants.FIRSTPOLEDEGREE;
@@ -97,8 +115,8 @@ public class CollectionDeliveryTest extends AutoTemplate{
         Log.println(Log.INFO, "Extension: ", "Is Winch Busy " + arm.isWinchBusy());
     }
 
-    public void rotateToPole(){
-        double rotationToPole = AgnesConstants.SECONDPOLEDEGREE;
+    public void rotateToPole() {
+        double rotationToPole = AgnesConstants.POLEDEGREE;
         //double rotationToPole = 90;
         arm.setTarget(rotationToPole);
         while(arm.isRotationBusy() && opModeIsActive()) {
@@ -126,4 +144,6 @@ public class CollectionDeliveryTest extends AutoTemplate{
         Log.println(Log.INFO, "Extension: ", "ticks " + Double.toString(arm.getArmLength()));
         Log.println(Log.INFO, "Extension: ", "Is Winch Busy " + arm.isWinchBusy());
     }
+
+    */
 }

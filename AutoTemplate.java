@@ -10,10 +10,9 @@ import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCL
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_RIGHT;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SECONDPOLEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.TELEOP;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -141,6 +140,7 @@ public abstract class AutoTemplate extends LinearOpMode {
         grabber.setGrabberHandClosed();
         sleep(GRABBERCLOSETIME);
     }
+
     public void deliverCone() {
         grabber.setGrabberHandOpen();
         sleep(GRABBEROPENTIME);
@@ -158,8 +158,10 @@ public abstract class AutoTemplate extends LinearOpMode {
         }
 
     }
+
+
     public void armToDeliver() {
-        double degree = (SECONDPOLEDEGREE);
+        double degree = (POLEDEGREE);
         arm.setTarget(degree);
         while (arm. isRotationBusy() && opModeIsActive()) {
             arm.setPower();

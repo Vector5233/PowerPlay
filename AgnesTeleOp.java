@@ -23,6 +23,7 @@ public class AgnesTeleOp extends OpMode {
     final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
     final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
     double rotationTarget;
+    public boolean finishPosition = false;
 
 
     final double ARMDELTA = AgnesConstants.ARMDELTA;
@@ -87,18 +88,20 @@ public class AgnesTeleOp extends OpMode {
        setArmExtension();
        setArmRotation();
        setSlowApproach();
+       checkAY();
 
     }
 
     @Override
     public void stop() {
-        arm.updatePIDFController(.1, AgnesConstants.i, AgnesConstants.d, AgnesConstants.f);
-        arm.setTarget(90);
-        while (arm.isRotationBusy()){
-            telemetry.addLine("shutting down");
-            arm.setPower();
+        if (finishPosition) {
+            arm.updatePIDFController(.1, AgnesConstants.i, AgnesConstants.d, AgnesConstants.f);
+            arm.setTarget(90);
+            while (arm.isRotationBusy()) {
+                telemetry.addLine("shutting down");
+                arm.setPower();
+            }
         }
-
     }
 
     //sets direction and power of all drive motors (frontLeft, frontRightt, backLeft, backRight)
@@ -190,6 +193,11 @@ public class AgnesTeleOp extends OpMode {
     public void initDeliveryServo() {
         autoDeliveryLeft.setPosition(RECOVER_LEFT);
         autoDeliveryRight.setPosition(RECOVER_RIGHT);
+    }
+    public void checkAY() {
+        if(gamepad2.a && gamepad2.y){
+            finishPosition = true;
+        }
     }
 
 }

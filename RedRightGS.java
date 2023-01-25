@@ -27,6 +27,7 @@ public class RedRightGS extends AutoTemplate {
     double goldenSpotX = 39.0;
     double goldenSpotY = -4.0;                   //these are rough measurements and need to tested
     double goldenSpotHeading = -75.0; //degrees
+    final Pose2d GOLDEN_SPOT = new Pose2d(goldenSpotX, goldenSpotY, goldenSpotHeading);
     final Pose2d SECOND_FORWARD = new Pose2d(36.5,-1.5, 0);
     Trajectory redRightTallPole;
     //comments marked with '&' can be deleted once pose testing is done
@@ -53,15 +54,15 @@ public class RedRightGS extends AutoTemplate {
 
         deliverPreCone();
 
-        Trajectory secondForwardTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
-                .lineToSplineHeading(SECOND_FORWARD)
+        Trajectory goldenSpotTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())//if this doesn't work we can try to simply move forward and turn
+                .lineToSplineHeading(GOLDEN_SPOT)
                 .build();
-        drive.followTrajectory(secondForwardTrajectory);
+        drive.followTrajectory(goldenSpotTrajectory);
 
-        redRightTallPole = drive.trajectoryBuilder(secondForwardTrajectory.end())
+        /*redRightTallPole = drive.trajectoryBuilder(secondForwardTrajectory.end())
                 .lineToSplineHeading(new Pose2d(goldenSpotX,  goldenSpotY, goldenSpotHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
                 .build();
-        drive.followTrajectory(redRightTallPole);
+        drive.followTrajectory(redRightTallPole);*/
 
         //grabber.setGrabberHandOpen();
 
@@ -73,7 +74,7 @@ public class RedRightGS extends AutoTemplate {
 
         }*/
         armToVertical();
-        if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {       //ALL OF THIS WILL NEED TESTING
+        if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {
             parkMiddle();
 
         }

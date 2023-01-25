@@ -12,11 +12,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Arm {
     private PIDController controller;
 
+
     public static double p= AgnesConstants.p;
     public static double i= AgnesConstants.i;
     public static double d= AgnesConstants.d;
     public static double f= AgnesConstants.f;
 
+
+    /*
+    public static double p= 0;
+    public static double i= 0;
+    public static double d= 0;
+    public static double f= 0;
+
+
+     */
     public static int target = 0;
 
     boolean holding = false;

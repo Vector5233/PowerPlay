@@ -88,7 +88,7 @@ public class AgnesTeleOp extends OpMode {
        setArmExtension();
        setArmRotation();
        setSlowApproach();
-       checkAY();
+       /*checkAY();*/
 
     }
 

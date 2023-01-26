@@ -23,9 +23,9 @@ public class AgnesConstants {
     public static final double MAXANGLE = 137;
     public static final double MINANGLE = -8;
     public static final double ARMROTATIONTICKSPERREV = 5281.1;
-    public static final int ARMEXTENSION = 495;
+    public static final int ARMEXTENSION = 285;
     public static final int ARMEXTENSIONPOLE =415;
-    public static final double[] CONEDEGREE = {25,23,21,19,16};
+    public static final double[] CONEDEGREE = {22.5,20.5,18,15,12.5};
     public static final double TURNTOPOLE =-45;
     public static final int POLEDEGREE = 107;
     public static final double MAXAUTOTICKS = 259;
@@ -33,7 +33,7 @@ public class AgnesConstants {
     public static final double MAXTELEOPTICKS = 779;
     public static final double MINTELEOPTICKS = -1444;
     public static final double THRESHOLDBUSY = .01;
-    public static final double p = .015;
+    public static final double p = .01;
     public static final double i = .3;
     public static final double d = .004;
     public static final double f = .023; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.

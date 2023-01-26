@@ -8,7 +8,7 @@ import android.util.Log;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-@Disabled
+
 @Autonomous(name="CollectionDeliveryTest", group="robot")
 public class CollectionDeliveryTest extends AutoTemplate{
 
@@ -22,9 +22,16 @@ public class CollectionDeliveryTest extends AutoTemplate{
         waitForStart();
 
 
-        armToCollect(0);
-        grabCone();
+        for (int j = 0; j<5; j = j+1){
+            armToCollect(j);
+            grabCone();
 
+            rotateTo(120);
+            deliverCone();
+        }
+
+
+        /*
         deextend();
         rotateTo(90);
 
@@ -35,6 +42,7 @@ public class CollectionDeliveryTest extends AutoTemplate{
         rotateTo(90);
 
         turnToCone();
+*/
     }
 
     public void rotateTo(double degree) {
@@ -43,7 +51,6 @@ public class CollectionDeliveryTest extends AutoTemplate{
             arm.setPower();
             Log.println(Log.INFO, "rotate: ", "angle " + Double.toString(arm.getAngle()));
         }
-
     }
 
     public void deextend (){

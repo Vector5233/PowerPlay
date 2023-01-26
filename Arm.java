@@ -125,7 +125,7 @@ public class Arm {
     }
 
     public void setTarget(double degrees){
-        if (target > MAXANGLE || target < MINANGLE){
+        if (degrees > MAXANGLE || degrees < MINANGLE){
             return;
         }
         controller.setSetPoint(degrees);

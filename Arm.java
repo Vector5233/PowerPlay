@@ -13,7 +13,7 @@ public class Arm {
     private PIDController controller;
 
 
-    public static double p= AgnesConstants.p;
+    public static double p;
     public static double i= AgnesConstants.i;
     public static double d= AgnesConstants.d;
     public static double f= AgnesConstants.f;
@@ -58,11 +58,12 @@ public class Arm {
         if (auto) {
             MAX_ARM_ANG_TICKS = AgnesConstants.MAXAUTOTICKS;
             MIN_ARM_ANG_TICKS = AgnesConstants.MINAUTOTICKS;
+            p = AgnesConstants.pAuto;
         }
         else {
             MAX_ARM_ANG_TICKS = AgnesConstants. MAXTELEOPTICKS;
             MIN_ARM_ANG_TICKS = AgnesConstants. MINTELEOPTICKS;
-
+            p= AgnesConstants.p;
         }
 
         controller = new PIDController(p,i,d);

@@ -24,6 +24,9 @@ public class CollectionDeliveryTest extends AutoTemplate{
 
         for (int j = 0; j<5; j = j+1){
             armToCollect(j);
+            telemetry.addData("is it busy? ", arm.busy);
+            telemetry.addData("position: ", arm.getTarget());
+            telemetry.addData("power: ", arm.getRotationPower());
             grabCone();
 
             rotateTo(120);

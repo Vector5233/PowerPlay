@@ -5,6 +5,9 @@ import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGRE
 
 import android.util.Log;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
@@ -24,28 +27,24 @@ public class CollectionDeliveryTest extends AutoTemplate{
 
         for (int j = 0; j<5; j = j+1){
             armToCollect(j);
-            telemetry.addData("is it busy? ", arm.busy);
-            telemetry.addData("position: ", arm.getTarget());
-            telemetry.addData("power: ", arm.getRotationPower());
+            sleep(50);
             grabCone();
-
-            rotateTo(120);
+            rotateTo(90);
+            sleep(50);
+            Trajectory pole = turnToPole();
+            armToDeliver();
+            rotateTo(118);
+            sleep(100);
+            arm.setArmWinch(930);
             deliverCone();
+
+            deextend();
+            rotateTo(90);
+
+            turnToCone(pole);
+
         }
 
-
-        /*
-        deextend();
-        rotateTo(90);
-
-        turnToPole();
-        armToDeliver();
-        deliverCone();
-        deextend();
-        rotateTo(90);
-
-        turnToCone();
-*/
     }
 
     public void rotateTo(double degree) {
@@ -66,12 +65,19 @@ public class CollectionDeliveryTest extends AutoTemplate{
         //Log.println(Log.INFO, "Extension: ", "Out of the loop. ticks " + Double.toString(arm.getArmLength()));
     }
 
-    public void turnToPole(){
-        drive.turn(AgnesConstants.TURNTOPOLE);
+    public Trajectory turnToPole(){
+        Trajectory trajectory = drive.trajectoryBuilder(new Pose2d(), true)
+                .splineTo(new Vector2d(-5.45,1.2), Math.toRadians(147))
+                .build();
+        drive.followTrajectory(trajectory);
+        return trajectory;
     }
 
-    public void turnToCone(){
-        drive.turn(-AgnesConstants.TURNTOPOLE);
+    public void turnToCone(Trajectory trajectory){
+        Trajectory coneTrajectory = drive.trajectoryBuilder(trajectory.end(), false)
+                .splineTo(new Vector2d(0,0), Math.toRadians(0))
+                .build();
+        drive.followTrajectory(coneTrajectory);
     }
 
 

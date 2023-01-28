@@ -90,7 +90,8 @@ public class AgnesTeleOp extends OpMode {
 
     }
 
-    @Override
+    //@Override
+    /*
     public void stop() {
         arm.updatePIDFController(.1, AgnesConstants.i, AgnesConstants.d, AgnesConstants.f);
         arm.setTarget(90);
@@ -99,7 +100,7 @@ public class AgnesTeleOp extends OpMode {
             arm.setPower();
         }
 
-    }
+    }*/
 
     //sets direction and power of all drive motors (frontLeft, frontRightt, backLeft, backRight)
     public void setDrive(){

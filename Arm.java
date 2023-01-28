@@ -47,6 +47,7 @@ public class Arm {
     final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
     final double THRESHOLDBUSY = AgnesConstants.THRESHOLDBUSY;
+    final double THRESHOLDBUSYANGLE = AgnesConstants.THRESHOLDBUSYANGLE;
 
     public Arm() {
 
@@ -144,6 +145,11 @@ public class Arm {
         busy = true;
     }
 
+    public double getVelocity(){
+        return armRotation.getVelocity();
+    }
+
+
     public double getTarget(){
         return controller.getSetPoint();
     }
@@ -160,13 +166,17 @@ public class Arm {
         }
 
         double controllerPower = controller.calculate(angle);
-        if (Math.abs(controllerPower) < THRESHOLDBUSY){
+        if ((Math.abs(getVelocity()) < THRESHOLDBUSY) && (Math.abs(getTarget() - getAngle()) < THRESHOLDBUSYANGLE)){
             busy = false;
         }
 
         double power = controllerPower + f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
         armRotation.setPower(power);
         return power;
+    }
+
+    public double getDifference(){
+        return Math.abs(getTarget() - getAngle());
     }
 
     public void updatePIDFController(double new_p, double new_i, double new_d, double new_f) {

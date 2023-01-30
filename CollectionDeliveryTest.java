@@ -27,7 +27,6 @@ public class CollectionDeliveryTest extends AutoTemplate{
 
         for (int j = 0; j<5; j = j+1){
             armToCollect(j);
-            sleep(50);
             grabCone();
             rotateTo(90);
             sleep(50);
@@ -36,6 +35,7 @@ public class CollectionDeliveryTest extends AutoTemplate{
             rotateTo(118);
             sleep(100);
             arm.setArmWinch(930);
+            sleep(500);
             deliverCone();
 
             deextend();

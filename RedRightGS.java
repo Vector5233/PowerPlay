@@ -1,5 +1,16 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSION;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.CONEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCLOSETIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.MEDIUMARMEXTENSION;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.MEDIUMPOLEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -27,6 +38,7 @@ public class RedRightGS extends AutoTemplate {
     double goldenSpotX = 42.0;
     double goldenSpotY = -4.0;                   //these are rough measurements and need to tested
     double goldenSpotHeading = -350.0; //degrees
+    boolean backwards = true;
     final Pose2d GOLDEN_SPOT = new Pose2d(goldenSpotX, goldenSpotY, Math.toRadians(goldenSpotHeading));
     final Pose2d SECOND_FORWARD = new Pose2d(36.5,-1.5, 0);
     Trajectory redRightTallPole;
@@ -58,14 +70,14 @@ public class RedRightGS extends AutoTemplate {
                 .build();
         drive.followTrajectory(goldenSpotTrajectory);
 
-        /*redRightTallPole = drive.trajectoryBuilder(secondForwardTrajectory.end())
+        /*redRightTallPole = drive.trajectoryBuilder(goldenSpotTrajectory.end())
                 .lineToSplineHeading(new Pose2d(goldenSpotX,  goldenSpotY, goldenSpotHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
                 .build();
         drive.followTrajectory(redRightTallPole);*/
 
         //grabber.setGrabberHandOpen();
 
-        /* & for(int cone = 0; cone <= 4; cone++) {
+        /* & for(int cone = 0; cone <= 4; cone++) { //need to find arm angle and extension for collection and delivery
             armToCollect(cone);
             grabCone();
             armToDeliver();
@@ -102,7 +114,7 @@ public class RedRightGS extends AutoTemplate {
 
     }
 
-    /*  & public void deliverPreCone(){
+    public void deliverPreCone(){
         sleep(500);
         autoDeliveryLeft.setPosition(DELIVER_LEFT);
         autoDeliveryRight.setPosition(DELIVER_RIGHT);
@@ -129,19 +141,18 @@ public class RedRightGS extends AutoTemplate {
             arm.setPower();
         }
     }
-    public void armToDeliver() {
-        double degree = (POLEDEGREE);
+    public void armToDeliver() {    //trying for medium pole
+        double degree = (MEDIUMPOLEDEGREE); //need to find!
         arm. setTarget(degree);
         while (arm. isRotationBusy() && opModeIsActive()) {
             arm.setPower();
         }
-        arm.setArmWinch(ARMEXTENSIONPOLE);
+        arm.setArmWinch(MEDIUMARMEXTENSION); //need to find!
         while(arm.isWinchBusy() && opModeIsActive()) {
-            ;
         }
-    }*/          //uncomment when pose testing is done
+    }          //uncomment when pose testing is done
     public void parkLeft() { //try .lineToSplineHeading .setReversed(true)
-        Trajectory parkLeftTrajectory = drive.trajectoryBuilder((redRightTallPole.end()))
+        Trajectory parkLeftTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))   //might need to change to fit new golden spot
                 .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
                 .build();
         drive.followTrajectory(parkLeftTrajectory);
@@ -160,8 +171,8 @@ public class RedRightGS extends AutoTemplate {
         drive.followTrajectory(strafeLR);*/
 
     }
-    public void parkRight() {
-        Trajectory parkRightTrajectory = drive.trajectoryBuilder((redRightTallPole.end()))
+    public void parkRight() {   //might need to change
+        Trajectory parkRightTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))
                 .lineToSplineHeading(new Pose2d(rightParkingX, rightParkingY, rightSideRightParkingHeading))
                 .build();
         drive.followTrajectory(parkRightTrajectory);
@@ -177,8 +188,8 @@ public class RedRightGS extends AutoTemplate {
         drive.followTrajectory(strafeLR);*/
 
     }
-    public void parkMiddle() {
-        Trajectory parkMidTrajectory = drive.trajectoryBuilder((redRightTallPole.end()))
+    public void parkMiddle() {  //might need to change
+        Trajectory parkMidTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))
                 .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
                 .build();
         drive.followTrajectory(parkMidTrajectory);

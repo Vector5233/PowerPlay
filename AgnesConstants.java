@@ -25,9 +25,11 @@ public class AgnesConstants {
     public static final double ARMROTATIONTICKSPERREV = 5281.1;
     public static final int ARMEXTENSION = 495;
     public static final int ARMEXTENSIONPOLE =415;
+    public static final int MEDIUMARMEXTENSION = 100; // ian's
     public static final double[] CONEDEGREE = {25,23,21,19,16};
     public static final int FIRSTPOLEDEGREE = 103;
     public static final int SECONDPOLEDEGREE = 107;
+    public static final int MEDIUMPOLEDEGREE = 60; //ian's
     public static final double MAXAUTOTICKS = 259;
     public static final double MINAUTOTICKS = -1975;
     public static final double MAXTELEOPTICKS = 779;

@@ -26,7 +26,7 @@ public class AgnesConstants {
     public static final int ARMEXTENSION = 0;
     public static final int ARMEXTENSIONPOLE =950;
     public static final double[] CONEDEGREE = {23.5,20,15,12.5,9};
-    public static final double TURNTOPOLE =-45;
+    //public static final double TURNTOPOLE =-45;
     public static final int POLEDEGREE = 105;
     public static final double MAXAUTOTICKS = 259;
     public static final double MINAUTOTICKS = -1975;
@@ -36,9 +36,9 @@ public class AgnesConstants {
     public static final double THRESHOLDBUSYANGLE = 1;
     public static final double p = .015;
     public static final double pAuto = .012;
-    public static final double i = .3;
-    public static final double d = .004;
-    public static final double f = .023; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
+    public static final double i = .15;
+    public static final double d = .003;
+    public static final double f = .003; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
     public static final double TOL = .5;
     public static boolean AUTO = true; // used to initialize Arm
     public static boolean TELEOP = false;
@@ -48,9 +48,8 @@ public class AgnesConstants {
     public static int GRABBEROPENTIME = 100;
     public static double INITGRABBERHAND = .4;
     public static double OPENEDGRABBERHAND = .2;
-    public static double CLOSEDGRABBERHAND = 0.02;
-    public static double AUTOCLOSEDGRABBERHAND = 0.09;
-
+    public static double CLOSEDGRABBERHAND = 0.1;
+    public static double AUTOCLOSEDGRABBERHAND = 0.1;
 
 
     // RoadRunner Constants

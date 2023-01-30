@@ -24,9 +24,8 @@ public class Arm {
     public static double i= 0;
     public static double d= 0;
     public static double f= 0;
-
-
      */
+
     public static int target = 0;
 
     boolean holding = false;

@@ -12,10 +12,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Arm {
     private PIDController controller;
 
-    public static double p= AgnesConstants.p;
+
+    public static double p;
     public static double i= AgnesConstants.i;
     public static double d= AgnesConstants.d;
     public static double f= AgnesConstants.f;
+
+
+    /*
+    public static double p= 0;
+    public static double i= 0;
+    public static double d= 0;
+    public static double f= 0;
+     */
 
     public static int target = 0;
 
@@ -37,6 +46,7 @@ public class Arm {
     final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
     final double THRESHOLDBUSY = AgnesConstants.THRESHOLDBUSY;
+    final double THRESHOLDBUSYANGLE = AgnesConstants.THRESHOLDBUSYANGLE;
 
     public Arm() {
 
@@ -48,11 +58,12 @@ public class Arm {
         if (auto) {
             MAX_ARM_ANG_TICKS = AgnesConstants.MAXAUTOTICKS;
             MIN_ARM_ANG_TICKS = AgnesConstants.MINAUTOTICKS;
+            p = AgnesConstants.pAuto;
         }
         else {
             MAX_ARM_ANG_TICKS = AgnesConstants. MAXTELEOPTICKS;
             MIN_ARM_ANG_TICKS = AgnesConstants. MINTELEOPTICKS;
-
+            p= AgnesConstants.p;
         }
 
         controller = new PIDController(p,i,d);
@@ -125,12 +136,18 @@ public class Arm {
     }
 
     public void setTarget(double degrees){
+        //JRC: should be degrees
         if (degrees > MAXANGLE || degrees < MINANGLE){
             return;
         }
         controller.setSetPoint(degrees);
         busy = true;
     }
+
+    public double getVelocity(){
+        return armRotation.getVelocity();
+    }
+
 
     public double getTarget(){
         return controller.getSetPoint();
@@ -148,13 +165,17 @@ public class Arm {
         }
 
         double controllerPower = controller.calculate(angle);
-        if (Math.abs(controllerPower) < THRESHOLDBUSY){
+        if ((Math.abs(getVelocity()) < THRESHOLDBUSY) && (Math.abs(getTarget() - getAngle()) < THRESHOLDBUSYANGLE)){
             busy = false;
         }
 
         double power = controllerPower + f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
         armRotation.setPower(power);
         return power;
+    }
+
+    public double getDifference(){
+        return Math.abs(getTarget() - getAngle());
     }
 
     public void updatePIDFController(double new_p, double new_i, double new_d, double new_f) {

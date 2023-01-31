@@ -23,22 +23,29 @@ public class AgnesConstants {
     public static final double MAXANGLE = 137;
     public static final double MINANGLE = -8;
     public static final double ARMROTATIONTICKSPERREV = 5281.1;
-    public static final int ARMEXTENSION = 495;
-    public static final int ARMEXTENSIONPOLE =415;
-    public static final int MEDIUMARMEXTENSION = 100; // ian's
-    public static final double[] CONEDEGREE = {25,23,21,19,16};
-    public static final int FIRSTPOLEDEGREE = 103;
-    public static final int SECONDPOLEDEGREE = 107;
-    public static final int MEDIUMPOLEDEGREE = 60; //ian's
+    public static final int ARMEXTENSION = 530;
+    public static final int ARMEXTENSIONPOLE =385;
+    public static final double[] CONEDEGREE = {9.5,7.5,5,2,0};
+    public static final int POLEDEGREE = 105;
+    /*
+    public static final int ARMEXTENSION = 0;
+    public static final int ARMEXTENSIONPOLE =950;
+    public static final double[] CONEDEGREE = {24,23,19.5,15.5,12};
+    //public static final double TURNTOPOLE =-45;
+    public static final int POLEDEGREE = 105;
+    */
+
     public static final double MAXAUTOTICKS = 259;
     public static final double MINAUTOTICKS = -1975;
     public static final double MAXTELEOPTICKS = 779;
     public static final double MINTELEOPTICKS = -1444;
-    public static final double THRESHOLDBUSY = .01;
-    public static final double p = .015;
+    public static final double THRESHOLDBUSY = 5;
+    public static final double THRESHOLDBUSYANGLE = 1;
+    public static final double p = .05;
+    public static final double pAuto = .05;
     public static final double i = .3;
-    public static final double d = .004;
-    public static final double f = .023; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
+    public static final double d = .009;
+    public static final double f = .007; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
     public static final double TOL = .5;
     public static boolean AUTO = true; // used to initialize Arm
     public static boolean TELEOP = false;
@@ -48,9 +55,8 @@ public class AgnesConstants {
     public static int GRABBEROPENTIME = 100;
     public static double INITGRABBERHAND = .4;
     public static double OPENEDGRABBERHAND = .2;
-    public static double CLOSEDGRABBERHAND = 0.02;
-    public static double AUTOCLOSEDGRABBERHAND = 0.055;
-
+    public static double CLOSEDGRABBERHAND = 0.1;
+    public static double AUTOCLOSEDGRABBERHAND = 0.1;
 
 
     // RoadRunner Constants

@@ -10,10 +10,11 @@ import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCL
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_RIGHT;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SECONDPOLEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.TELEOP;
+
+import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -141,6 +142,7 @@ public abstract class AutoTemplate extends LinearOpMode {
         grabber.setGrabberHandClosed();
         sleep(GRABBERCLOSETIME);
     }
+
     public void deliverCone() {
         grabber.setGrabberHandOpen();
         sleep(GRABBEROPENTIME);
@@ -148,22 +150,31 @@ public abstract class AutoTemplate extends LinearOpMode {
 
     public void armToCollect(int cone){
         double degree = (CONEDEGREE[cone]);
-        arm.setArmWinch(ARMEXTENSION);
-        while(arm.isWinchBusy() && opModeIsActive()) {
+        //arm.setArmWinch(ARMEXTENSION);
+        //while(arm.isWinchBusy() && opModeIsActive()) {
 
-        }
+        //}
         arm.setTarget(degree);
         while(arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
+            Log.println(Log.INFO, "Rotation: ", "Current Rotation Power " + Double.toString(arm.getRotationPower()));
+            Log.println(Log.INFO, "Rotation: ", "Current Rotation " + Double.toString(arm.getAngle()));
+            Log.println(Log.INFO, "Rotation: ", "Is Busy? " + Boolean.toString(arm.busy));
+            Log.println(Log.INFO,"Rotation", "Rotational velocity " + Double.toString(arm.getVelocity()));
+            Log.println(Log.INFO,"Rotation", "Difference " + Double.toString(arm.getDifference()));
+
         }
 
     }
+
+
     public void armToDeliver() {
-        double degree = (SECONDPOLEDEGREE);
+        double degree = (POLEDEGREE);
         arm.setTarget(degree);
         while (arm. isRotationBusy() && opModeIsActive()) {
             arm.setPower();
         }
+        sleep(50);
         arm.setArmWinch(ARMEXTENSIONPOLE);
         while(arm.isWinchBusy() && opModeIsActive()) {
             ;

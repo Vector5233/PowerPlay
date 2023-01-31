@@ -6,8 +6,6 @@ import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_L
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCLOSETIME;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.MEDIUMARMEXTENSION;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.MEDIUMPOLEDEGREE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
 
@@ -28,7 +26,7 @@ public class RedRightGS extends AutoTemplate {
     double redRightTallPoleX = 56.000;
     double redRightTallPoleY = -9.132;
     double redRightTallPoleHeading = 4.5; //radians
-    double middleParkingSpotX = 50;
+    double middleParkingSpotX = 36;
     double middleParkingSpotY = 0;
     double middleParkingSpotHeading = 0;
     double rightParkingX = 50;
@@ -41,6 +39,7 @@ public class RedRightGS extends AutoTemplate {
     final Pose2d GOLDEN_SPOT = new Pose2d(goldenSpotX, goldenSpotY, Math.toRadians(goldenSpotHeading));
     final Pose2d SECOND_FORWARD = new Pose2d(36.5,-1.5, 0);
     Trajectory redRightTallPole;
+    Trajectory goldenSpotTrajectory;
 
     public void runOpMode() {
         initialize();
@@ -149,8 +148,10 @@ public class RedRightGS extends AutoTemplate {
         arm.setArmWinch(MEDIUMARMEXTENSION); //need to find!
         while(arm.isWinchBusy() && opModeIsActive()) {
         }
-    }          //uncomment when pose testing is done
-    public void parkLeft() { //try .lineToSplineHeading .setReversed(true)
+    }
+
+    //double goldenSpotX = 42.0, double goldenSpotY = -4.0, double goldenSpotHeading = -350.0; //degrees
+    public void parkLeft() {            //try .lineToSplineHeading .setReversed(true)
         Trajectory parkLeftTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))   //might need to change to fit new golden spot
                 .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
                 .build();
@@ -171,10 +172,14 @@ public class RedRightGS extends AutoTemplate {
 
     }
     public void parkRight() {   //might need to change
-        Trajectory parkRightTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))
-                .lineToSplineHeading(new Pose2d(rightParkingX, rightParkingY, rightSideRightParkingHeading))
+        Trajectory parkRightTrajectory = drive.trajectoryBuilder(goldenSpotTrajectory.end())
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
                 .build();
         drive.followTrajectory(parkRightTrajectory);
+        Trajectory forwardRight = drive.trajectoryBuilder(goldenSpotTrajectory.end())
+                .forward(19)
+                .build();
+        drive.followTrajectory(forwardRight);
 
 
         /*Trajectory parkRightTrajectory = drive.trajectoryBuilder(redRightTallPole.end())

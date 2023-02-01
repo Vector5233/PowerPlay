@@ -63,7 +63,7 @@ public class RedRightGS extends AutoTemplate {
 
         deliverPreCone();
 
-        Trajectory goldenSpotTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())//if this doesn't work we can try to simply move forward and turn
+        goldenSpotTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())//if this doesn't work we can try to simply move forward and turn
                 .lineToSplineHeading(GOLDEN_SPOT)
                 .build();
         drive.followTrajectory(goldenSpotTrajectory);
@@ -139,7 +139,7 @@ public class RedRightGS extends AutoTemplate {
             arm.setPower();
         }
     }
-    public void armToDeliver() {    //trying for medium pole
+    /*public void armToDeliver() {    //trying for medium pole
         double degree = (MEDIUMPOLEDEGREE); //need to find!
         arm. setTarget(degree);
         while (arm. isRotationBusy() && opModeIsActive()) {
@@ -148,7 +148,7 @@ public class RedRightGS extends AutoTemplate {
         arm.setArmWinch(MEDIUMARMEXTENSION); //need to find!
         while(arm.isWinchBusy() && opModeIsActive()) {
         }
-    }
+    }*/
 
     //double goldenSpotX = 42.0, double goldenSpotY = -4.0, double goldenSpotHeading = -350.0; //degrees
     public void parkLeft() {            //try .lineToSplineHeading .setReversed(true)
@@ -186,7 +186,7 @@ public class RedRightGS extends AutoTemplate {
                 .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
                 .build();
         drive.followTrajectory(parkRightTrajectory);
-        Trajectory strafeLR = drive.trajectoryBuilder(parkRightTrajectory.end())
+        Trajectory strafeLR = drive.trajectoryBuilder(parkRightTraje    ctory.end())
                 .strafeRight(parkingStrafeValue)
                 .build();
         drive.followTrajectory(strafeLR);*/

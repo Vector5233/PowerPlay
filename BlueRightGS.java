@@ -1,11 +1,19 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSION;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.CONEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCLOSETIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROPENTIME;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-@Disabled
 @Autonomous(name= "BlueRightGS", group = "Blue", preselectTeleOp = "AgnesTeleOp")
 public class BlueRightGS extends AutoTemplate {
 
@@ -18,14 +26,20 @@ public class BlueRightGS extends AutoTemplate {
     double blueRightTallPoleX = 56.000;
     double blueRightTallPoleY = -9.132;
     double blueRightTallPoleHeading = 4.5; //radians
-    double middleParkingSpotX = 50;
+    double middleParkingSpotX = 47.5;
     double middleParkingSpotY = 0;
-    double middleParkingSpotHeading = 0;
-    double leftParkingHeading = Math.toRadians(270);
+    double middleParkingSpotHeading = -90;
+    double rightParkingX = 50;
     double rightParkingY = -28;
-    final Pose2d SECOND_FORWARD = new Pose2d(36.5, -1.5, 0);
+    double rightSideRightParkingHeading = Math.toRadians(90); //if its redleft or blueleft use Math.toRadians(270)
+    double goldenSpotX = 40.0;
+    double goldenSpotY = -4.0;                   //these are rough measurements and need to tested
+    double goldenSpotHeading = -80.0; //degrees
+    boolean backwards = true;
+    final Pose2d GOLDEN_SPOT = new Pose2d(goldenSpotX, goldenSpotY, Math.toRadians(goldenSpotHeading));
+    final Pose2d SECOND_FORWARD = new Pose2d(36.5,-1.5, 0);
     Trajectory blueRightTallPole;
-    //comments marked with '&' can be deleted once pose testing is done
+    Trajectory goldenSpotTrajectory;
 
     public void runOpMode() {
         initialize();
@@ -48,15 +62,11 @@ public class BlueRightGS extends AutoTemplate {
         drive.followTrajectory(initialForwardTrajectory);
 
         deliverPreCone();
-        Trajectory secondForwardTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())
-                .lineToSplineHeading(SECOND_FORWARD)
-                .build();
-        drive.followTrajectory(secondForwardTrajectory);
 
-        blueRightTallPole = drive.trajectoryBuilder(secondForwardTrajectory.end())
-                .lineToSplineHeading(new Pose2d(blueRightTallPoleX, blueRightTallPoleY, blueRightTallPoleHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
+        goldenSpotTrajectory = drive.trajectoryBuilder((initialForwardTrajectory.end()))
+                .lineToSplineHeading(GOLDEN_SPOT)
                 .build();
-        drive.followTrajectory(blueRightTallPole);
+        drive.followTrajectory(goldenSpotTrajectory);
 
         //grabber.setGrabberHandOpen();
 
@@ -95,7 +105,7 @@ public class BlueRightGS extends AutoTemplate {
 
     }
 
-    /*  & public void deliverPreCone(){
+     public void deliverPreCone(){
         sleep(500);
         autoDeliveryLeft.setPosition(DELIVER_LEFT);
         autoDeliveryRight.setPosition(DELIVER_RIGHT);
@@ -121,7 +131,7 @@ public class BlueRightGS extends AutoTemplate {
         while(arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
         }
-    }
+    }/*
     public void armToDeliver() {
         double degree = (POLEDEGREE);
         arm. setTarget(degree);
@@ -132,18 +142,18 @@ public class BlueRightGS extends AutoTemplate {
         while(arm.isWinchBusy() && opModeIsActive()) {
             ;
         }
-    }*/          //uncomment when pose testing is done
+    }*/
+
+    //double goldenSpotX = 42.0, double goldenSpotY = -4.0, double goldenSpotHeading = -350.0; //degrees
     public void parkLeft() { //try .lineToSplineHeading .setReversed(true)
-        Trajectory parkLeftTrajectory = drive.trajectoryBuilder((blueRightTallPole.end()))
-                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, leftParkingHeading))
+        Trajectory parkLeftTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, Math.toRadians(middleParkingSpotHeading)))
                 .build();
         drive.followTrajectory(parkLeftTrajectory);
         Trajectory backLeft = drive.trajectoryBuilder(parkLeftTrajectory.end())
-                .back(19)
+                .back(23)
                 .build();
         drive.followTrajectory(backLeft);
-
-
 
         /*Trajectory parkLeftTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
             .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
@@ -155,12 +165,15 @@ public class BlueRightGS extends AutoTemplate {
         drive.followTrajectory(strafeLR);*/
 
     }
-
     public void parkRight() {
-        Trajectory parkRightTrajectory = drive.trajectoryBuilder(blueRightTallPole.end())
-                .lineToSplineHeading(new Pose2d(middleParkingSpotX, rightParkingY, leftParkingHeading))
+        Trajectory parkRightTrajectory = drive.trajectoryBuilder(goldenSpotTrajectory.end())
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, Math.toRadians(middleParkingSpotHeading)))
                 .build();
         drive.followTrajectory(parkRightTrajectory);
+        Trajectory forwardRight = drive.trajectoryBuilder(parkRightTrajectory.end())
+                .forward(25)
+                .build();
+        drive.followTrajectory(forwardRight);
 
         /*Trajectory parkRightTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
                 .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
@@ -172,10 +185,9 @@ public class BlueRightGS extends AutoTemplate {
         drive.followTrajectory(strafeLR);*/
 
     }
-
     public void parkMiddle() {
-        Trajectory parkMidTrajectory = drive.trajectoryBuilder((blueRightTallPole.end()))
-                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
+        Trajectory parkMidTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, Math.toRadians(middleParkingSpotHeading)))
                 .build();
         drive.followTrajectory(parkMidTrajectory);
 

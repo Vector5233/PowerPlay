@@ -26,7 +26,7 @@ public class RedRightGS extends AutoTemplate {
     double redRightTallPoleX = 56.000;
     double redRightTallPoleY = -9.132;
     double redRightTallPoleHeading = 4.5; //radians
-    double middleParkingSpotX = 46;
+    double middleParkingSpotX = 47.5;
     double middleParkingSpotY = 0;
     double middleParkingSpotHeading = -90;
     double rightParkingX = 50;
@@ -153,11 +153,11 @@ public class RedRightGS extends AutoTemplate {
     //double goldenSpotX = 42.0, double goldenSpotY = -4.0, double goldenSpotHeading = -350.0; //degrees
     public void parkLeft() {            //try .lineToSplineHeading .setReversed(true)
         Trajectory parkLeftTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))   //might need to change to fit new golden spot
-                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, Math.toRadians(middleParkingSpotHeading)))
                 .build();
         drive.followTrajectory(parkLeftTrajectory);
         Trajectory backLeft = drive.trajectoryBuilder(parkLeftTrajectory.end())
-                .back(19)
+                .back(23)
                 .build();
         drive.followTrajectory(backLeft);
 
@@ -173,20 +173,19 @@ public class RedRightGS extends AutoTemplate {
     }
     public void parkRight() {   //might need to change
         Trajectory parkRightTrajectory = drive.trajectoryBuilder(goldenSpotTrajectory.end())
-                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, Math.toRadians(middleParkingSpotHeading)))
                 .build();
         drive.followTrajectory(parkRightTrajectory);
-        Trajectory forwardRight = drive.trajectoryBuilder(goldenSpotTrajectory.end())
-                .forward(19)
+        Trajectory forwardRight = drive.trajectoryBuilder(parkRightTrajectory.end())
+                .forward(25)
                 .build();
         drive.followTrajectory(forwardRight);
-
 
         /*Trajectory parkRightTrajectory = drive.trajectoryBuilder(redRightTallPole.end())
                 .splineTo(new Vector2d(middleParkingSpotX,middleParkingSpotY),middleParkingSpotHeading)
                 .build();
         drive.followTrajectory(parkRightTrajectory);
-        Trajectory strafeLR = drive.trajectoryBuilder(parkRightTraje    ctory.end())
+        Trajectory strafeLR = drive.trajectoryBuilder(parkRightTrajectory.end())
                 .strafeRight(parkingStrafeValue)
                 .build();
         drive.followTrajectory(strafeLR);*/
@@ -194,7 +193,7 @@ public class RedRightGS extends AutoTemplate {
     }
     public void parkMiddle() {  //might need to change
         Trajectory parkMidTrajectory = drive.trajectoryBuilder((goldenSpotTrajectory.end()))
-                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, middleParkingSpotHeading))
+                .lineToSplineHeading(new Pose2d(middleParkingSpotX, middleParkingSpotY, Math.toRadians(middleParkingSpotHeading)))
                 .build();
         drive.followTrajectory(parkMidTrajectory);
 

@@ -5,7 +5,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-@Disabled
+
 @Autonomous(name= "BlueLeftGS", group = "Blue", preselectTeleOp = "AgnesTeleOp")
 public class BlueLeftGS extends AutoTemplate {
 

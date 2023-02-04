@@ -23,10 +23,15 @@ public class AgnesConstants {
     public static final double MAXANGLE = 137;
     public static final double MINANGLE = -8;
     public static final double ARMROTATIONTICKSPERREV = 5281.1;
-    public static final int ARMEXTENSION = 530;
-    public static final int ARMEXTENSIONPOLE =385;
-    public static final double[] CONEDEGREE = {9.5,7.5,5,2,0};
-    public static final int POLEDEGREE = 105;
+    public static final int ARMEXTENSION = 560;
+    public static final double COLLECTIONLENGTH = 21;
+    public static final int ARMEXTENSIONPOLE =378;
+    public static final double FIRSTDELIVERYLENGTH = 19.182;
+    public static final double SECONDDELIVERYLENGTH = 16.3;
+    public static final double[] CONEDEGREE = {24.2,20,18,17,14};
+    public static final double POLEDEGREE = 115;
+    public static final  double SECONDPOLEDEGREE = 126.5;
+    public static final double DELIVERYADJUST = 123;
     /*
     public static final int ARMEXTENSION = 0;
     public static final int ARMEXTENSIONPOLE =950;
@@ -42,7 +47,7 @@ public class AgnesConstants {
     public static final double THRESHOLDBUSY = 5;
     public static final double THRESHOLDBUSYANGLE = 1;
     public static final double p = .05;
-    public static final double pAuto = .05;
+    public static final double pAuto = .04;
     public static final double i = .3;
     public static final double d = .009;
     public static final double f = .007; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.

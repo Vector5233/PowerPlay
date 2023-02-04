@@ -8,9 +8,11 @@ import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_R
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+@Disabled
 @Autonomous(name= "RedRightOG", group = "Red", preselectTeleOp = "AgnesTeleOp")
-public class RedRightOG extends AutoTemplate {
+public class  RedRightOG extends AutoTemplate {
 
     final double FIRST_FORWARD = 16;
     final double CENTER_FORWARD = 25;

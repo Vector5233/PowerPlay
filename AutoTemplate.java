@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSION;
-import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSIONPOLE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.AUTO;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.COLLECTIONLENGTH;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.CONEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVERYADJUST;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.FIRSTDELIVERYLENGTH;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.DELIVER_RIGHT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBERCLOSETIME;
@@ -13,6 +14,8 @@ import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_RIGH
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SECONDDELIVERYLENGTH;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SECONDPOLEDEGREE;
 
 import android.util.Log;
 
@@ -150,10 +153,7 @@ public abstract class AutoTemplate extends LinearOpMode {
 
     public void armToCollect(int cone){
         double degree = (CONEDEGREE[cone]);
-        //arm.setArmWinch(ARMEXTENSION);
-        //while(arm.isWinchBusy() && opModeIsActive()) {
-
-        //}
+        grabber.grabberHand.setPosition(0);
         arm.setTarget(degree);
         while(arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
@@ -162,9 +162,16 @@ public abstract class AutoTemplate extends LinearOpMode {
             Log.println(Log.INFO, "Rotation: ", "Is Busy? " + Boolean.toString(arm.busy));
             Log.println(Log.INFO,"Rotation", "Rotational velocity " + Double.toString(arm.getVelocity()));
             Log.println(Log.INFO,"Rotation", "Difference " + Double.toString(arm.getDifference()));
+            double armLength = arm.getArmLength();
+            Log.println(Log.INFO, "Extension: ", "extension ticks:  " + Double.toString(arm.lengthToTicks(armLength)));
+            sleep(20);
+        }
+        grabber.setGrabberHandOpen();
+        sleep(500);
+        arm.setArmLength(COLLECTIONLENGTH);
+        while(arm.isWinchBusy() && opModeIsActive()) {
 
         }
-
     }
 
 
@@ -173,11 +180,30 @@ public abstract class AutoTemplate extends LinearOpMode {
         arm.setTarget(degree);
         while (arm. isRotationBusy() && opModeIsActive()) {
             arm.setPower();
+            Log.println(Log.INFO, "Rotation: ", "Current Rotation Power " + Double.toString(arm.getRotationPower()));
+            Log.println(Log.INFO, "Rotation: ", "Current Rotation " + Double.toString(arm.getAngle()));
+            Log.println(Log.INFO, "Rotation: ", "Is Busy? " + Boolean.toString(arm.busy));
+            Log.println(Log.INFO,"Rotation", "Rotational velocity " + Double.toString(arm.getVelocity()));
+            Log.println(Log.INFO,"Rotation", "Difference " + Double.toString(arm.getDifference()));
+            sleep(20);
         }
         sleep(50);
-        arm.setArmWinch(ARMEXTENSIONPOLE);
+        arm.setArmLength(FIRSTDELIVERYLENGTH);
         while(arm.isWinchBusy() && opModeIsActive()) {
-            ;
+            double armLength = arm.getArmLength();
+            Log.println(Log.INFO, "Extension: ", "extension ticks:  " + Double.toString(arm.lengthToTicks(armLength)));
+
+        }
+        sleep(1000);
+        arm.setTarget(DELIVERYADJUST);
+        while(arm.isRotationBusy() && opModeIsActive()){
+            arm.setPower();
+            sleep(20);
+        }
+        arm.setArmLength(SECONDDELIVERYLENGTH);
+        while (arm.isWinchBusy() && opModeIsActive()){
+            double armLength = arm.getArmLength();
+            Log.println(Log.INFO, "Extension: ", "extension ticks:  " + Double.toString(arm.lengthToTicks(armLength)));
         }
     }
 

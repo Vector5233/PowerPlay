@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSION;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSIONPOLE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.COLLECTIONLENGTH;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SECONDDELIVERYLENGTH;
 
 import android.util.Log;
 
@@ -14,7 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name="CollectionDeliveryTest", group="robot")
 public class CollectionDeliveryTest extends AutoTemplate{
-
+public static final double SECONDPOLEDDEGREE = AgnesConstants.SECONDPOLEDEGREE;
 
     @Override
     public void runOpMode() {
@@ -25,25 +28,21 @@ public class CollectionDeliveryTest extends AutoTemplate{
         waitForStart();
 
 
-        for (int j = 0; j<5; j = j+1){
-            armToCollect(j);
+        //for (int j = 0; j<5; j = j+1){
+
+
+            armToCollect(0);
             grabCone();
+            arm.setArmLength(COLLECTIONLENGTH - .25);
             rotateTo(90);
             sleep(50);
-            Trajectory pole = turnToPole();
+            //Trajectory pole = turnToPole();
             armToDeliver();
-            rotateTo(118);
-            sleep(100);
-            arm.setArmWinch(930);
             sleep(500);
             deliverCone();
-
-            deextend();
             rotateTo(90);
 
-            turnToCone(pole);
-
-        }
+        //}
 
     }
 
@@ -52,7 +51,9 @@ public class CollectionDeliveryTest extends AutoTemplate{
         while (arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
             Log.println(Log.INFO, "rotate: ", "angle " + Double.toString(arm.getAngle()));
+            sleep(20);
         }
+
     }
 
     public void deextend (){

@@ -53,9 +53,11 @@ public class RedRightGS extends AutoTemplate {
         }
 
         reportAprilTags();
+
         //brings grabber hands to vertical
         grabberToVertical();
 
+        //Trajectory To PreCone
         Trajectory initialForwardTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .forward(FIRST_FORWARD)
                 .build();
@@ -63,10 +65,13 @@ public class RedRightGS extends AutoTemplate {
 
         deliverPreCone();
 
+
+        //trajectory to golden spot
         goldenSpotTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())//if this doesn't work we can try to simply move forward and turn
                 .lineToSplineHeading(GOLDEN_SPOT)
                 .build();
         drive.followTrajectory(goldenSpotTrajectory);
+
 
         /*redRightTallPole = drive.trajectoryBuilder(goldenSpotTrajectory.end())
                 .lineToSplineHeading(new Pose2d(goldenSpotX,  goldenSpotY, goldenSpotHeading)) //x coordinate changelog: 61.003 --> 59.000 --> 56.000
@@ -82,7 +87,11 @@ public class RedRightGS extends AutoTemplate {
             deliverCone();
 
         }*/
+
+
         armToVertical();
+
+        //park
         if(tagOfInterest == null || tagOfInterest.id == MIDDLE) {
             parkMiddle();
 
@@ -130,23 +139,29 @@ public class RedRightGS extends AutoTemplate {
         sleep(GRABBEROPENTIME);
     }
     public void armToCollect(int cone){
-        arm.setArmWinch(ARMEXTENSION);
-        while(arm.isWinchBusy() && opModeIsActive()) {
-        }
         double degree = (CONEDEGREE[cone]);
         arm.setTarget(degree);
         while(arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
         }
+        arm.setArmWinch(ARMEXTENSION);
+        while(arm.isWinchBusy() && opModeIsActive()) {
+        }
+
     }
+
     /*public void armToDeliver() {    //trying for medium pole
+        arm.setArmWinch()
+
+
+
         double degree = (MEDIUMPOLEDEGREE); //need to find!
+        arm.setArmWinch(MEDIUMARMEXTENSION); //need to find!
+        while(arm.isWinchBusy() && opModeIsActive()) {
+        }
         arm. setTarget(degree);
         while (arm. isRotationBusy() && opModeIsActive()) {
             arm.setPower();
-        }
-        arm.setArmWinch(MEDIUMARMEXTENSION); //need to find!
-        while(arm.isWinchBusy() && opModeIsActive()) {
         }
     }*/
 

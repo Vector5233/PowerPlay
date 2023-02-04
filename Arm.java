@@ -113,7 +113,7 @@ public class Arm {
         else if (length < MINARMLENGTH){
             length = MINARMLENGTH;
         }
-        setArmLength(lengthToTicks(length));
+        setArmWinch(lengthToTicks(length));
         return length;
     }
 
@@ -169,10 +169,15 @@ public class Arm {
             busy = false;
         }
 
-        double power = controllerPower + f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
+        double power = controllerPower + getFPower(angle);
         armRotation.setPower(power);
         return power;
     }
+
+    public double getFPower(double angle) {
+        return f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
+    }
+
 
     public double getDifference(){
         return Math.abs(getTarget() - getAngle());
@@ -204,8 +209,9 @@ public class Arm {
         return busy;
     }
 
-    public void holdPostion(){
-        holding = true;
+    public void holdPosition() {
+        double SAFETY_FACTOR = 1.4;
+        /*holding = true;
         double power = setPower();
         if (power <.1){
             power = MINPOWER;
@@ -213,6 +219,10 @@ public class Arm {
         armRotation.setTargetPosition(armRotation.getCurrentPosition());
         armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armRotation.setPower(power);
+    */
+        armRotation.setPower(SAFETY_FACTOR*getFPower(getAngle()));
     }
+
+
 }
 

@@ -24,14 +24,17 @@ public class AgnesConstants {
     public static final double MINANGLE = -8;
     public static final double ARMROTATIONTICKSPERREV = 5281.1;
     public static final int ARMEXTENSION = 560;
-    public static final double COLLECTIONLENGTH = 21;
+    public static final double COLLECTIONLENGTH = 21.8;
+    public static final double PRECOLLECTIONLENGTH = COLLECTIONLENGTH - 5;
     public static final int ARMEXTENSIONPOLE =378;
     public static final double FIRSTDELIVERYLENGTH = 19.182;
     public static final double SECONDDELIVERYLENGTH = 16.3;
-    public static final double[] CONEDEGREE = {24.2,20,18,17,14};
+    public static final double[] CONEDEGREE = {23,20,18,17,14};
     public static final double POLEDEGREE = 115;
     public static final  double SECONDPOLEDEGREE = 126.5;
     public static final double DELIVERYADJUST = 123;
+    public static final int WINCHTOLERANCE = 10;
+    public static final int SENSORDELAYVALUE = 25;
     /*
     public static final int ARMEXTENSION = 0;
     public static final int ARMEXTENSIONPOLE =950;
@@ -47,10 +50,10 @@ public class AgnesConstants {
     public static final double THRESHOLDBUSY = 5;
     public static final double THRESHOLDBUSYANGLE = 1;
     public static final double p = .05;
-    public static final double pAuto = .04;
-    public static final double i = .3;
-    public static final double d = .009;
-    public static final double f = .007; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
+    public static final double pAuto = .038;
+    public static final double i = .5;
+    public static final double d = .01;
+    public static final double f = .02; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
     public static final double TOL = .5;
     public static boolean AUTO = true; // used to initialize Arm
     public static boolean TELEOP = false;
@@ -62,7 +65,7 @@ public class AgnesConstants {
     public static double OPENEDGRABBERHAND = .2;
     public static double CLOSEDGRABBERHAND = 0.1;
     public static double AUTOCLOSEDGRABBERHAND = 0.1;
-
+    public static double grabberHandTravelPosition = 0;
 
     // RoadRunner Constants
 

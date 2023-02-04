@@ -12,15 +12,19 @@ import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.GRABBEROP
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.INIT_RIGHT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.PRECOLLECTIONLENGTH;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_LEFT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_RIGHT;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SECONDDELIVERYLENGTH;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SECONDPOLEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SENSORDELAYVALUE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.grabberHandTravelPosition;
 
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -33,6 +37,7 @@ import java.util.ArrayList;
 
 public abstract class AutoTemplate extends LinearOpMode {
     //declarations
+    ElapsedTime armTimer = new ElapsedTime();
     Arm arm;
     Grabber grabber;
     Servo preConeRight;
@@ -152,7 +157,15 @@ public abstract class AutoTemplate extends LinearOpMode {
     }
 
     public void armToCollect(int cone){
-        double degree = (CONEDEGREE[cone]);
+        armToVertical();
+        grabber.setGrabberHandTravel();
+        sleep(100);
+        extendAndRotateTo(PRECOLLECTIONLENGTH, CONEDEGREE[cone]);
+        grabber.setGrabberHandOpen();
+        extendAndRotateTo(COLLECTIONLENGTH, CONEDEGREE[cone]);
+
+
+        /*double degree = (CONEDEGREE[cone]);
         grabber.grabberHand.setPosition(0);
         arm.setTarget(degree);
         while(arm.isRotationBusy() && opModeIsActive()) {
@@ -171,7 +184,7 @@ public abstract class AutoTemplate extends LinearOpMode {
         arm.setArmLength(COLLECTIONLENGTH);
         while(arm.isWinchBusy() && opModeIsActive()) {
 
-        }
+        }*/
     }
 
 
@@ -210,12 +223,45 @@ public abstract class AutoTemplate extends LinearOpMode {
     public void grabberToVertical(){
         grabber.setGrabberHandOpen();
     }
-    public void armToVertical(){
-        arm.setTarget(90);
-        while(arm.isRotationBusy() && opModeIsActive()) {
+
+    public void rotateTo(double degree) {
+        arm.setTarget(degree);
+        while (arm.isRotationBusy() && opModeIsActive()) {
             arm.setPower();
+            Log.println(Log.INFO, "rotate: ", "angle " + Double.toString(arm.getAngle()));
+            sleep(20);
+        }
+
+    }
+
+    public void extendAndRotateTo (double length,double degree ){
+        arm.setTarget(degree);
+        arm.setArmLength(length);
+        while((arm.isRotationBusy() || arm.isWinchBusy()) && opModeIsActive()){
+          arm.setPower();
+          Log.println(Log.INFO, "extendAndRotate:  ", "angle" + arm.getAngle());
+          Log.println(Log.INFO, "extendAndRotate:  ", "length" + arm.getArmLength());
+          Log.println(Log.INFO, "WinchBusy   RotationBusy: ", ""+arm.isWinchBusy() + "   "+arm.isRotationBusy());
+
+          sleep(SENSORDELAYVALUE);
+
         }
     }
+
+    public void holdPosition (double time){
+        armTimer.reset();
+        while (armTimer.milliseconds()< time && opModeIsActive()){
+            arm.setPower();
+            sleep(20);
+        }
+    }
+
+
+
+    public void armToVertical(){
+        extendAndRotateTo(arm.getArmLength(),90);
+        }
+
 
     public void detectAprilTags() {
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();

@@ -10,7 +10,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-@Disabled
+
 @Autonomous(name= "RedLeftOG", group = "Red", preselectTeleOp = "AgnesTeleOp")
 public class RedLeftOG extends AutoTemplate{
     final double FIRST_FORWARD = 16;
@@ -46,7 +46,7 @@ public class RedLeftOG extends AutoTemplate{
 
         //delivers cone
         deliverPreCone();
-
+        grabber.setGrabberHandClosed();
         //chooses where to park
         if (tagOfInterest == null || tagOfInterest.id == MIDDLE) {
             Trajectory centerTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())

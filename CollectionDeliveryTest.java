@@ -22,6 +22,8 @@ public static final double SECONDPOLEDDEGREE = AgnesConstants.SECONDPOLEDEGREE;
     @Override
     public void runOpMode() {
         initialize();
+        telemetry.addData("winch tolerance: ", arm.getWinchTol());
+        telemetry.update();
         autoDeliveryRight.setPosition(AgnesConstants.RECOVER_RIGHT);
         autoDeliveryLeft.setPosition(AgnesConstants.RECOVER_LEFT);
         grabber.setGrabberHandOpen();
@@ -29,32 +31,23 @@ public static final double SECONDPOLEDDEGREE = AgnesConstants.SECONDPOLEDEGREE;
 
 
         //for (int j = 0; j<5; j = j+1){
-
-
             armToCollect(0);
+            holdPosition(1000);
             grabCone();
-            arm.setArmLength(COLLECTIONLENGTH - .25);
+            /*arm.setArmLength(COLLECTIONLENGTH - .25);
             rotateTo(90);
             sleep(50);
             //Trajectory pole = turnToPole();
             armToDeliver();
             sleep(500);
             deliverCone();
-            rotateTo(90);
+            rotateTo(90); */
 
         //}
 
     }
 
-    public void rotateTo(double degree) {
-        arm.setTarget(degree);
-        while (arm.isRotationBusy() && opModeIsActive()) {
-            arm.setPower();
-            Log.println(Log.INFO, "rotate: ", "angle " + Double.toString(arm.getAngle()));
-            sleep(20);
-        }
 
-    }
 
     public void deextend (){
         int distance = 0;

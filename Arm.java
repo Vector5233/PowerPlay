@@ -71,6 +71,7 @@ public class Arm {
         armWinch = (DcMotorEx) map.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        armWinch.setTargetPositionTolerance(AgnesConstants.WINCHTOLERANCE);
         armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
         armRotation.setDirection(DcMotorEx.Direction.REVERSE);
         armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -97,6 +98,10 @@ public class Arm {
         Log.println(Log.INFO, "Extension: ", "target  " + armWinch.getTargetPosition());
         Log.println(Log.INFO, "Extension: ", "ticks " + Double.toString(getArmLength()));
         return armExtension;
+    }
+
+    public int getWinchTol() {
+        return armWinch.getTargetPositionTolerance();
     }
 
     public int lengthToTicks(double length){
@@ -154,10 +159,10 @@ public class Arm {
     }
 
     public double setPower(){
-        if (holding){
+        /*if (holding){
             holding = false;
             armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
+        }*/
 
         double angle = getAngle();
         if (Math.abs(controller.getSetPoint() - angle) < AgnesConstants.TOL){

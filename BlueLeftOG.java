@@ -89,6 +89,8 @@ public class BlueLeftOG extends AutoTemplate {
         armToVertical();
     }
 
+    /* test of keyboard */
+
     public void deliverPreCone(){
         //have the cone deliver to the right code here
         sleep(500);

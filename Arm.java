@@ -75,6 +75,7 @@ public class Arm {
         armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
         armRotation.setDirection(DcMotorEx.Direction.REVERSE);
         armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        /*Log.println(Log.INFO, "Arm encoder reset value: ",armRotation.getCurrentPosition() + " ticks" );*/
         armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
@@ -95,8 +96,8 @@ public class Arm {
         armWinch.setTargetPosition(armExtension);
         armWinch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armWinch.setPower(liftPower);
-        Log.println(Log.INFO, "Extension: ", "target  " + armWinch.getTargetPosition());
-        Log.println(Log.INFO, "Extension: ", "ticks " + Double.toString(getArmLength()));
+        /*Log.println(Log.INFO, "Extension: ", "target  " + armWinch.getTargetPosition());
+        Log.println(Log.INFO, "Extension: ", "ticks " + Double.toString(getArmLength()));*/
         return armExtension;
     }
 
@@ -176,6 +177,9 @@ public class Arm {
 
         double power = controllerPower + getFPower(angle);
         armRotation.setPower(power);
+        /*Log.println(Log.INFO, "Rotation: ", "target: " + armRotation.getTargetPosition());
+        Log.println(Log.INFO, "Rotation: ", "current position " + armRotation.getCurrentPosition());
+        Log.println(Log.INFO, "Rotation: ", "current degrees: " + getAngle());*/
         return power;
     }
 

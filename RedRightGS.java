@@ -233,5 +233,4 @@ public class RedRightGS extends AutoTemplate {
         }
     }
 
-
 }

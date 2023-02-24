@@ -22,7 +22,7 @@ public class AgnesConstants {
     public static final double MAXARMLENGTH = 31; //inches. measured from base of arm slide
     public static final double MAXANGLE = 137;
     public static final double MINANGLE = -8;
-    public static final double ARMROTATIONTICKSPERREV = 5281.1;
+    public static final double ARMROTATIONTICKSPERREV = 5281.1; //for REV encoder: 8192 ticks per rev
     public static final int ARMEXTENSION = 560;
     public static final double COLLECTIONLENGTH = 21.8;
     public static final double PRECOLLECTIONLENGTH = COLLECTIONLENGTH - 5;

@@ -1,12 +1,21 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static java.lang.Math.cos;
+
 import android.util.Log;
 
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.sun.source.tree.WhileLoopTree;
+
+import org.apache.commons.math3.analysis.function.Power;
+import org.checkerframework.checker.units.qual.Length;
 
 
 public class Arm {
@@ -26,12 +35,19 @@ public class Arm {
     public static double f= 0;
      */
 
+
+
+
+
     public static int target = 0;
 
     boolean holding = false;
     boolean busy = false;
-
-
+    public static double vMax = AgnesConstants.armVMax;
+    public static double kV = AgnesConstants.armKV;
+    public static double kA = AgnesConstants.armKA;
+    public static double a = AgnesConstants.armAcceleration;
+    public static double rampDistance = (a == 0.0)? 0: vMax*vMax/a;
 
 
     DcMotorEx armWinch, armRotation;
@@ -47,9 +63,13 @@ public class Arm {
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
     final double THRESHOLDBUSY = AgnesConstants.THRESHOLDBUSY;
     final double THRESHOLDBUSYANGLE = AgnesConstants.THRESHOLDBUSYANGLE;
+    OpMode myParent;
 
     public Arm() {
 
+    }
+    public Arm(OpMode parent) {
+        myParent = parent;
     }
 
 
@@ -171,7 +191,7 @@ public class Arm {
         }
 
         double controllerPower = controller.calculate(angle);
-        if ((Math.abs(getVelocity()) < THRESHOLDBUSY) && (Math.abs(getTarget() - getAngle()) < THRESHOLDBUSYANGLE)){
+        if ((Math.abs(getVelocity()) < THRESHOLDBUSY) && (Math.abs(getTarget() - angle) < THRESHOLDBUSYANGLE)){
             busy = false;
         }
 
@@ -184,7 +204,7 @@ public class Arm {
     }
 
     public double getFPower(double angle) {
-        return f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
+        return f*getArmLength()/2.0* cos(Math.toRadians(angle));
     }
 
 
@@ -216,6 +236,39 @@ public class Arm {
 
     public boolean isRotationBusy(){
         return busy;
+    }
+
+    public void accelerate(double time) {
+        double power;
+        ElapsedTime timer= new ElapsedTime();
+        while(timer.milliseconds() < time) {
+            power= kV * armRotation.getVelocity() + kA * a + f * getArmLength() * cos(Math.toRadians(getAngle()));
+            armRotation.setPower(power);
+        }
+    }
+    public void decelerate(double time){
+        double power;
+       ElapsedTime timer= new ElapsedTime();
+        while(timer.milliseconds() < time){
+            power= kV * armRotation.getVelocity() - kA * a + getArmLength() * cos(Math.toRadians(getAngle()));
+            armRotation.setPower(power);
+        }
+    }
+    public void moveArm(double distance) {
+        double time; // needs initialization
+        if (a == 0) return;
+        if (distance < rampDistance) {  // fix condition
+
+            time = Math.sqrt(4 * distance / a); // div 0 error
+            accelerate(time / 2);
+            decelerate(time / 2);
+        } else {
+            double excess = distance - (rampDistance);
+            time = (2 * vMax / a);
+            accelerate(time / 2);
+
+            decelerate(time / 2);
+        }
     }
 
     public void holdPosition() {

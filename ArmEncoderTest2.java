@@ -12,50 +12,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "ArmEncoderTest2")
 public class ArmEncoderTest2 extends AutoTemplate {
-
-    boolean holding = false;
-    boolean busy = false;
-    public static double vMax = AgnesConstants.armVMax;
-    public static double kV = AgnesConstants.armKV;
-    public static double kA = AgnesConstants.armKA;
-    public static double a = AgnesConstants.armAcceleration;
-    public static double rampDistance = (a == 0.0)? 0: vMax*vMax/a;
-
-    public void accelerate(double time) {
-        double power;
-        ElapsedTime timer= new ElapsedTime();
-        while(timer.milliseconds() < time) {
-            power= kV * armRotation.getVelocity() + kA * a + f * getArmLength() * cos(Math.toRadians(getAngle()));
-            armRotation.setPower(power);
-        }
-    }
-
-    public void decelerate(double time){
-        double power;
-        ElapsedTime timer= new ElapsedTime();
-        while(timer.milliseconds() < time){
-            power= kV * armRotation.getVelocity() - kA * a + getArmLength() * cos(Math.toRadians(getAngle()));
-            armRotation.setPower(power);
-        }
-    }
-
-    public void moveArm(double distance) {
-        double time; // needs initialization
-        if (a == 0) return;
-        if (distance < rampDistance) {  // fix condition
-
-            time = Math.sqrt(4 * distance / a); // div 0 error
-            accelerate(time / 2);
-            decelerate(time / 2);
-        } else {
-            double excess = distance - (rampDistance);
-            time = (2 * vMax / a);
-            accelerate(time / 2);
-
-            decelerate(time / 2);
-        }
-    }
-
     public void runOpMode(){
         initialize();
         telemetry.addLine("initialized");

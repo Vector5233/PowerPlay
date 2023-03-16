@@ -7,6 +7,8 @@ import static java.lang.Math.cos;
 
 import android.util.Log;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -14,6 +16,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class ArmEncoderTest2 extends AutoTemplate {
     public void runOpMode(){
         initialize();
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetry.addLine("initialized");
         telemetry.update();
         autoDeliveryLeft.setPosition( RECOVER_LEFT);
@@ -26,7 +29,6 @@ public class ArmEncoderTest2 extends AutoTemplate {
         sleep(1500);
 
         armToMax();
-
         telemetry.addLine("arm to 137 degrees");
         telemetry.update();
 
@@ -36,6 +38,7 @@ public class ArmEncoderTest2 extends AutoTemplate {
         }
         armToFrontAngle();
         telemetry.addLine("arm to 5 degrees");
+        telemetry.addLine("hold this angle for a bit");
         telemetry.update();
         Log.println(Log.INFO, "Rotation: ", "made it to min target  " + arm.getAngle());
         while (!gamepad1.a && opModeIsActive()) {
@@ -43,6 +46,7 @@ public class ArmEncoderTest2 extends AutoTemplate {
         }
         armToTestAngle();
         telemetry.addLine("arm to 37 degrees");
+        telemetry.addLine("hold this angle for a bit");
         telemetry.update();
         Log.println(Log.INFO, "Rotation: ", "made it to 37  " + arm.getAngle());
         while (!gamepad1.a && opModeIsActive()) {
@@ -55,6 +59,36 @@ public class ArmEncoderTest2 extends AutoTemplate {
         while (!gamepad1.a && opModeIsActive()) {
             ;
         }
+        smallArmAngleChange();
+        telemetry.addLine("arm to 91 degrees");
+        telemetry.update();
+        Log.println(Log.INFO, "Rotation: ", "made it to 91  " + arm.getAngle());
+        while (!gamepad1.a && opModeIsActive()) {
+            ;
+        }
+        smallArmAngleChange2();
+        telemetry.addLine("arm to 92 degrees");
+        telemetry.update();
+        Log.println(Log.INFO, "Rotation: ", "made it to 92  " + arm.getAngle());
+        while (!gamepad1.a && opModeIsActive()) {
+            ;
+        }
+        smallArmAngleChange();
+        telemetry.addLine("arm to 91 degrees");
+        telemetry.update();
+        Log.println(Log.INFO, "Rotation: ", "made it to 91  " + arm.getAngle());
+        while (!gamepad1.a && opModeIsActive()) {
+            ;
+        }
+        smallArmAngleChange2();
+        telemetry.addLine("arm to 92 degrees");
+        telemetry.update();
+        Log.println(Log.INFO, "Rotation: ", "made it to 92  " + arm.getAngle());
+        while (!gamepad1.a && opModeIsActive()) {
+            ;
+        }
+
+
     }
     public void armToMax(){
         arm.setTarget(137);
@@ -75,4 +109,17 @@ public class ArmEncoderTest2 extends AutoTemplate {
         }
 
     }
+    public void smallArmAngleChange() {
+        arm.setTarget(91);
+        while (arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+    }
+    public void smallArmAngleChange2() {
+        arm.setTarget(92);
+        while (arm.isRotationBusy() && opModeIsActive()) {
+            arm.setPower();
+        }
+    }
+
 }

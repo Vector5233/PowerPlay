@@ -22,21 +22,22 @@ public class ArmEncoderTest2 extends AutoTemplate {
         autoDeliveryLeft.setPosition( RECOVER_LEFT);
         autoDeliveryRight.setPosition( RECOVER_RIGHT);
         grabber.setGrabberHandClosed();
-        armToVertical();
+        //armToVertical();
 
         waitForStart();
 
         sleep(1500);
 
-        armToMax();
-        telemetry.addLine("arm to 137 degrees");
+        armToFrontAngle();
+        telemetry.addLine("arm to 90 degrees");
         telemetry.update();
 
         Log.println(Log.INFO, "Rotation: ", "made it to max target  " + arm.getAngle());
+
         while (!gamepad1.a && opModeIsActive()) {
             ;
         }
-        armToFrontAngle();
+        /*armToFrontAngle();
         telemetry.addLine("arm to 5 degrees");
         telemetry.addLine("hold this angle for a bit");
         telemetry.update();
@@ -85,7 +86,7 @@ public class ArmEncoderTest2 extends AutoTemplate {
         Log.println(Log.INFO, "Rotation: ", "made it to 90  " + arm.getAngle());
         while (!gamepad1.a && opModeIsActive()) {
             ;
-        }
+        }*/
 
 
     }
@@ -93,7 +94,7 @@ public class ArmEncoderTest2 extends AutoTemplate {
         arm.moveArm(137);
     }
     public void armToFrontAngle() {
-        arm.moveArm(5);
+        arm.moveArm(90);
 
     }
     public void armToTestAngle() {

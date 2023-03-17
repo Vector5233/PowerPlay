@@ -80,10 +80,9 @@ public class ArmEncoderTest2 extends AutoTemplate {
         while (!gamepad1.a && opModeIsActive()) {
             ;
         }
-        smallArmAngleChange2();
-        telemetry.addLine("arm to 92 degrees");
+        telemetry. addLine("arm to 90 degrees");
         telemetry.update();
-        Log.println(Log.INFO, "Rotation: ", "made it to 92  " + arm.getAngle());
+        Log.println(Log.INFO, "Rotation: ", "made it to 90  " + arm.getAngle());
         while (!gamepad1.a && opModeIsActive()) {
             ;
         }
@@ -91,16 +90,11 @@ public class ArmEncoderTest2 extends AutoTemplate {
 
     }
     public void armToMax(){
-        arm.setTarget(137);
-        while(arm.isRotationBusy() && opModeIsActive()) {
-            arm.setPower();
-        }
+        arm.moveArm(137);
     }
     public void armToFrontAngle() {
-        arm.setTarget(5);
-        while(arm.isRotationBusy() && opModeIsActive()) {
-            arm.setPower();
-        }
+        arm.moveArm(5);
+
     }
     public void armToTestAngle() {
         arm.setTarget(37);

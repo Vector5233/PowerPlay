@@ -47,6 +47,7 @@ public class Arm {
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
     final double THRESHOLDBUSY = AgnesConstants.THRESHOLDBUSY;
     final double THRESHOLDBUSYANGLE = AgnesConstants.THRESHOLDBUSYANGLE;
+    final static double ROTATION_POWER = 0.1;
 
     public Arm() {
 
@@ -74,7 +75,8 @@ public class Arm {
         armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
         armRotation.setDirection(DcMotorEx.Direction.REVERSE);
         armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armRotation.setTargetPosition(0);
+        armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -130,9 +132,18 @@ public class Arm {
 
         int position = armRotation.getCurrentPosition();
 
-        double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS);
-        return angle;
+        return ticksToDegrees(position);
 
+    }
+
+    public int degreesToTicks(double degrees) {
+        int ticks = (int) (MIN_ARM_ANG_TICKS + ARMROTATIONTICKSPERREV/360 * (degrees - MINANGLE));
+        return ticks;
+    }
+
+    public double ticksToDegrees(int ticks) {
+        double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (ticks - MIN_ARM_ANG_TICKS);
+        return angle;
     }
 
     public void setTarget(double degrees){
@@ -140,8 +151,8 @@ public class Arm {
         if (degrees > MAXANGLE || degrees < MINANGLE){
             return;
         }
-        controller.setSetPoint(degrees);
-        busy = true;
+
+        armRotation.setTargetPosition(degreesToTicks(degrees));
     }
 
     public double getVelocity(){
@@ -150,26 +161,21 @@ public class Arm {
 
 
     public double getTarget(){
-        return controller.getSetPoint();
+        return ticksToDegrees(armRotation.getTargetPosition());
     }
 
-    public double setPower(){
-        if (holding){
-            holding = false;
-            armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
-
+    /**
+     *
+     * @return power needed to hold position against gravitational torque.
+     */
+    public double holdingPower() {
         double angle = getAngle();
-        if (Math.abs(controller.getSetPoint() - angle) < AgnesConstants.TOL){
-            controller.reset();
-        }
+        double power = f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
+        return power;
+    }
+    public double setPower(){
 
-        double controllerPower = controller.calculate(angle);
-        if ((Math.abs(getVelocity()) < THRESHOLDBUSY) && (Math.abs(getTarget() - getAngle()) < THRESHOLDBUSYANGLE)){
-            busy = false;
-        }
-
-        double power = controllerPower + f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
+        double power = holdingPower() + ROTATION_POWER;
         armRotation.setPower(power);
         return power;
     }
@@ -201,17 +207,11 @@ public class Arm {
     }
 
     public boolean isRotationBusy(){
-        return busy;
+        return armRotation.isBusy();
     }
 
     public void holdPostion(){
-        holding = true;
-        double power = setPower();
-        if (power <.1){
-            power = MINPOWER;
-        }
-        armRotation.setTargetPosition(armRotation.getCurrentPosition());
-        armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        double power = holdingPower();
         armRotation.setPower(power);
     }
 }

@@ -37,6 +37,7 @@ public class RedRightGS extends AutoTemplate {
     double goldenSpotX = 42.0;
     double goldenSpotY = -4.0;                   //these are rough measurements and need to tested
     double goldenSpotHeading = -350.0; //degrees
+    Trajectory goldenSpotTrajectory;
     boolean backwards = true;
     final Pose2d GOLDEN_SPOT = new Pose2d(goldenSpotX, goldenSpotY, Math.toRadians(goldenSpotHeading));
     final Pose2d SECOND_FORWARD = new Pose2d(36.5,-1.5, 0);
@@ -64,7 +65,7 @@ public class RedRightGS extends AutoTemplate {
 
         deliverPreCone();
 
-        Trajectory goldenSpotTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())//if this doesn't work we can try to simply move forward and turn
+        goldenSpotTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())//if this doesn't work we can try to simply move forward and turn
                 .lineToSplineHeading(GOLDEN_SPOT)
                 .build();
         drive.followTrajectory(goldenSpotTrajectory);
@@ -213,6 +214,5 @@ public class RedRightGS extends AutoTemplate {
             arm.setPower();
         }
     }
-
 
 }

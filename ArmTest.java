@@ -73,20 +73,4 @@ public class ArmTest extends OpMode {
         else if (gamepad2.right_bumper) hand.setGrabberHandOpen();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }

@@ -2,52 +2,32 @@ package org.firstinspires.ftc.teamcode.VectorCode;
 
 import android.util.Log;
 
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 public class Arm {
-    private PIDController controller;
 
-
-    public static double p;
-    public static double i= AgnesConstants.i;
-    public static double d= AgnesConstants.d;
     public static double f= AgnesConstants.f;
 
-
-    /*
-    public static double p= 0;
-    public static double i= 0;
-    public static double d= 0;
-    public static double f= 0;
-     */
-
-    public static int target = 0;
-
-    boolean holding = false;
-    boolean busy = false;
-
-
-
-
     DcMotorEx armWinch, armRotation;
+
+    //winch Constants
     final int MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
     final int MIN_EXT_TICKS = AgnesConstants.MIN_EXT_TICKS;
+    final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
+    final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
+
+    //rotation constants
     final double MAXANGLE = AgnesConstants.MAXANGLE;
     final double MINANGLE = AgnesConstants.MINANGLE;
-    final double MINPOWER = .1;
     final static double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
     double MAX_ARM_ANG_TICKS;  //found in initialize, values decided based on auto or teleOp parameters
     double MIN_ARM_ANG_TICKS;
-    final double MINARMLENGTH = AgnesConstants.MINARMLENGTH;
-    final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
     final double THRESHOLDBUSY = AgnesConstants.THRESHOLDBUSY;
     final double THRESHOLDBUSYANGLE = AgnesConstants.THRESHOLDBUSYANGLE;
-    final static double ROTATION_POWER = 0.1;
+    static double ROTATION_POWER = AgnesConstants.ROTATION_POWER;
 
     public Arm() {
 
@@ -59,15 +39,14 @@ public class Arm {
         if (auto) {
             MAX_ARM_ANG_TICKS = AgnesConstants.MAXAUTOTICKS;
             MIN_ARM_ANG_TICKS = AgnesConstants.MINAUTOTICKS;
-            p = AgnesConstants.pAuto;
+
         }
         else {
             MAX_ARM_ANG_TICKS = AgnesConstants. MAXTELEOPTICKS;
             MIN_ARM_ANG_TICKS = AgnesConstants. MINTELEOPTICKS;
-            p= AgnesConstants.p;
+
         }
 
-        controller = new PIDController(p,i,d);
 
         armWinch = (DcMotorEx) map.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -77,14 +56,7 @@ public class Arm {
         armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armRotation.setTargetPosition(0);
         armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-
-
     }
-
-
-
 
     public int setArmWinch(int armExtension){
         double liftPower = .5; // increase power and ARM_EX DELTA or whatever for increased speed
@@ -115,7 +87,7 @@ public class Arm {
         else if (length < MINARMLENGTH){
             length = MINARMLENGTH;
         }
-        setArmLength(lengthToTicks(length));
+        setArmWinch(lengthToTicks(length));
         return length;
     }
 
@@ -151,7 +123,6 @@ public class Arm {
         if (degrees > MAXANGLE || degrees < MINANGLE){
             return;
         }
-
         armRotation.setTargetPosition(degreesToTicks(degrees));
     }
 
@@ -168,16 +139,20 @@ public class Arm {
      *
      * @return power needed to hold position against gravitational torque.
      */
-    public double holdingPower() {
-        double angle = getAngle();
+    public double holdingPower(double angle) {
         double power = f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
         return power;
     }
-    public double setPower(){
 
-        double power = holdingPower() + ROTATION_POWER;
+    public double setPower(){
+        double angle = getAngle();
+        double power = holdingPower(angle) + ROTATION_POWER;
         armRotation.setPower(power);
         return power;
+    }
+
+    public void setMaxRotationPower(double power){
+        ROTATION_POWER = power;
     }
 
     public double getDifference(){
@@ -185,7 +160,6 @@ public class Arm {
     }
 
     public void updatePIDFController(double new_p, double new_i, double new_d, double new_f) {
-        controller.setPID(new_p, new_i, new_d);
         f = new_f;
     }
 
@@ -210,9 +184,5 @@ public class Arm {
         return armRotation.isBusy();
     }
 
-    public void holdPostion(){
-        double power = holdingPower();
-        armRotation.setPower(power);
-    }
 }
 

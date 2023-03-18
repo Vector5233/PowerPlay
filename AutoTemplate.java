@@ -159,7 +159,6 @@ public abstract class AutoTemplate extends LinearOpMode {
             arm.setPower();
             Log.println(Log.INFO, "Rotation: ", "Current Rotation Power " + Double.toString(arm.getRotationPower()));
             Log.println(Log.INFO, "Rotation: ", "Current Rotation " + Double.toString(arm.getAngle()));
-            Log.println(Log.INFO, "Rotation: ", "Is Busy? " + Boolean.toString(arm.busy));
             Log.println(Log.INFO,"Rotation", "Rotational velocity " + Double.toString(arm.getVelocity()));
             Log.println(Log.INFO,"Rotation", "Difference " + Double.toString(arm.getDifference()));
 

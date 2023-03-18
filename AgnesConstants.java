@@ -23,6 +23,7 @@ public class AgnesConstants {
     public static final double MAXANGLE = 137;
     public static final double MINANGLE = -8;
     public static final double ARMROTATIONTICKSPERREV = 5281.1;
+    public static final double ROTATION_POWER = .1;
     public static final int ARMEXTENSION = 530;
     public static final int ARMEXTENSIONPOLE =385;
     public static final double[] CONEDEGREE = {9.5,7.5,5,2,0};

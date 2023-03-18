@@ -134,9 +134,11 @@ public class AgnesTeleOp extends OpMode {
 
     public void setArmRotation(){
 
-        rotationTarget =  (arm.getTarget() + ARMDELTA* gamepad2.right_stick_x);
+        rotationTarget =  (arm.getTarget() + ARMDELTA*gamepad2.right_stick_x);
         arm.setTarget(rotationTarget);
         arm.setPower();
+        telemetry.addData("target", arm.getTarget());
+        telemetry.addData("power", arm.getRotationPower());
         telemetry.addData("angle",arm.getAngle());
     }
 

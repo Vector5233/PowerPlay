@@ -47,7 +47,7 @@ public class Arm {
     final double MAXARMLENGTH = AgnesConstants.MAXARMLENGTH;
     final double THRESHOLDBUSY = AgnesConstants.THRESHOLDBUSY;
     final double THRESHOLDBUSYANGLE = AgnesConstants.THRESHOLDBUSYANGLE;
-    final static double ROTATION_POWER = 0.1;
+    double ROTATION_POWER = 0.1;
 
     public Arm() {
 
@@ -213,6 +213,16 @@ public class Arm {
     public void holdPostion(){
         double power = holdingPower();
         armRotation.setPower(power);
+    }
+
+    public void setMaxRotationPower(double power) {
+        if (power < -1) {
+            power = -1.0;
+        }
+        else if (power > 1) {
+            power = 1.0;
+        }
+        ROTATION_POWER = power;
     }
 }
 

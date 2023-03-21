@@ -25,6 +25,7 @@ public class ArmTest extends OpMode {
     int MAX_EXT_TICKS = AgnesConstants.MAX_EXT_TICKS;
     int ARMDELTA_EXT = AgnesConstants.ARMDELTA_EXT;
     public static double grabberClose = AgnesConstants.CLOSEDGRABBERHAND;
+    public static double ROTATION_POWER;
 
 
     public void init(){
@@ -48,6 +49,8 @@ public class ArmTest extends OpMode {
         stan.setTarget(target);
         stan.updatePIDFController( p, i, d, f);
         stan.setPower();
+
+        stan.setMaxRotationPower(ROTATION_POWER);
 
         hand.setGrabberHandClosedValue(grabberClose);
         setGrabberPosition();

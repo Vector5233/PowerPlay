@@ -56,6 +56,7 @@ public class Arm {
     final double MAXANGLE = AgnesConstants.MAXANGLE;
     final double MINANGLE = AgnesConstants.MINANGLE;
     final double MINPOWER = .1;
+    static double ROTATION_POWER = AgnesConstants.ROTATIONPOWER;
     final static double ARMROTATIONTICKSPERREV = AgnesConstants.ARMROTATIONTICKSPERREV;
     double MAX_ARM_ANG_TICKS;  //found in initialize, values decided based on auto or teleOp parameters
     double MIN_ARM_ANG_TICKS;
@@ -96,8 +97,8 @@ public class Arm {
         armRotation = (DcMotorEx) map.dcMotor.get("armRotation");
         armRotation.setDirection(DcMotorEx.Direction.REVERSE);
         armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        /*Log.println(Log.INFO, "Arm encoder reset value: ",armRotation.getCurrentPosition() + " ticks" );*/
-        armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armRotation.setTargetPosition(0);
+        armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -157,9 +158,19 @@ public class Arm {
 
         int position = armRotation.getCurrentPosition();
 
-        double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS);
-        return angle;
+        //double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (position - MIN_ARM_ANG_TICKS);
+        return ticksToDegrees(position);
 
+    }
+
+    public int degreesToTicks(double degrees) {
+        int ticks = (int) (MIN_ARM_ANG_TICKS + ARMROTATIONTICKSPERREV/360 * (degrees - MINANGLE));
+        return ticks;
+    }
+
+    public double ticksToDegrees(int ticks) {
+        double angle = MINANGLE + (360/ARMROTATIONTICKSPERREV) * (ticks - MIN_ARM_ANG_TICKS);
+        return angle;
     }
 
     public void setTarget(double degrees){
@@ -174,7 +185,6 @@ public class Arm {
     public double getVelocity(){
         return armRotation.getVelocity();
     }
-
 
     public double getTarget(){
         return controller.getSetPoint();

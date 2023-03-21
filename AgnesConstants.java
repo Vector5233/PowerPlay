@@ -35,6 +35,7 @@ public class AgnesConstants {
     public static final double DELIVERYADJUST = 123;
     public static final int WINCHTOLERANCE = 10;
     public static final int SENSORDELAYVALUE = 25;
+    public static final double ROTATIONPOWER = 0.1;
     public static double armVMax = 0;
     public static double armKV = 0;
     public static double armKA = 0;

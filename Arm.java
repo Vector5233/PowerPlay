@@ -182,6 +182,13 @@ public class Arm {
         busy = true;
     }
 
+    public void setAutoTarget(double degrees) {
+        //JRC: should be degrees
+        if (degrees > MAXANGLE || degrees < MINANGLE) {
+            return;
+        }
+    }
+
     public double getVelocity(){
         return armRotation.getVelocity();
     }
@@ -189,13 +196,18 @@ public class Arm {
     public double getTarget(){
         return controller.getSetPoint();
     }
+    public double holdingPower() {
+        double angle = getAngle();
+        double power = f*getArmLength()/2.0*Math.cos(Math.toRadians(angle));
+        return power;
+    }
+    public double setAutoPower() {
+        double power = holdingPower() + ROTATION_POWER;
+        armRotation.setPower(power);
+        return power;
+    }
 
     public double setPower(){
-        /*if (holding){
-            holding = false;
-            armRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }*/
-
         double angle = getAngle();
         if (Math.abs(controller.getSetPoint() - angle) < AgnesConstants.TOL){
             controller.reset();

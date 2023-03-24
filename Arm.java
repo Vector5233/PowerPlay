@@ -187,9 +187,34 @@ public class Arm {
         if (degrees > MAXANGLE || degrees < MINANGLE) {
             return;
         }
+        armRotation.setPower(degreesToTicks(degrees));
     }
 
     public double getVelocity(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return armRotation.getVelocity();
     }
 

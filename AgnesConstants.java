@@ -30,6 +30,16 @@ public class AgnesConstants {
     public static final int POLEDEGREE = 105;
     public static final int MEDIUMARMEXTENSION = 530;
     public static final int MEDIUMPOLEDEGREE = 105;
+
+    //ALL THESE VALUES NEED TO BE CHANGES
+    public static final int COLLECTIONLENGTH = 0;
+    public static final int DELIVERYADJUST =0;
+    public static final int FIRSTDELIVERYLENGTH =0;
+    public static final int PRECOLLECTIONLENGTH = 0;
+    public static final int SECONDDELIVERYLENGTH =0;
+    public static final int SECONDPOLEDEGREE =0;
+    public static final int SENSORDELAYVALUE = 0;
+    public static final int grabberHandTravelPosition =0;
     /*
     public static final int ARMEXTENSION = 0;
     public static final int ARMEXTENSIONPOLE =950;

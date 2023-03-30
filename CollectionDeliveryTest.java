@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.VectorCode;
 
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSION;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.ARMEXTENSIONPOLE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.COLLECTIONLENGTH;
 import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.POLEDEGREE;
+import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.SECONDDELIVERYLENGTH;
 
 import android.util.Log;
 
@@ -14,46 +17,37 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name="CollectionDeliveryTest", group="robot")
 public class CollectionDeliveryTest extends AutoTemplate{
-
+public static final double SECONDPOLEDDEGREE = AgnesConstants.SECONDPOLEDEGREE;
 
     @Override
     public void runOpMode() {
         initialize();
+        telemetry.addData("winch tolerance: ", arm.getWinchTol());
+        telemetry.update();
         autoDeliveryRight.setPosition(AgnesConstants.RECOVER_RIGHT);
         autoDeliveryLeft.setPosition(AgnesConstants.RECOVER_LEFT);
         grabber.setGrabberHandOpen();
         waitForStart();
 
 
-        for (int j = 0; j<5; j = j+1){
-            armToCollect(j);
+        //for (int j = 0; j<5; j = j+1){
+            armToCollect(0);
+            holdPosition(1000);
             grabCone();
+            /*arm.setArmLength(COLLECTIONLENGTH - .25);
             rotateTo(90);
             sleep(50);
-            Trajectory pole = turnToPole();
+            //Trajectory pole = turnToPole();
             armToDeliver();
-            rotateTo(118);
-            sleep(100);
-            arm.setArmWinch(930);
             sleep(500);
             deliverCone();
+            rotateTo(90); */
 
-            deextend();
-            rotateTo(90);
-
-            turnToCone(pole);
-
-        }
+        //}
 
     }
 
-    public void rotateTo(double degree) {
-        arm.setTarget(degree);
-        while (arm.isRotationBusy() && opModeIsActive()) {
-            arm.setPower();
-            Log.println(Log.INFO, "rotate: ", "angle " + Double.toString(arm.getAngle()));
-        }
-    }
+
 
     public void deextend (){
         int distance = 0;

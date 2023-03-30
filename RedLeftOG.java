@@ -8,6 +8,8 @@ import static org.firstinspires.ftc.teamcode.VectorCode.AgnesConstants.RECOVER_R
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 
 @Autonomous(name= "RedLeftOG", group = "Red", preselectTeleOp = "AgnesTeleOp")
 public class RedLeftOG extends AutoTemplate{
@@ -44,7 +46,7 @@ public class RedLeftOG extends AutoTemplate{
 
         //delivers cone
         deliverPreCone();
-
+        grabber.setGrabberHandClosed();
         //chooses where to park
         if (tagOfInterest == null || tagOfInterest.id == MIDDLE) {
             Trajectory centerTrajectory = drive.trajectoryBuilder(initialForwardTrajectory.end())

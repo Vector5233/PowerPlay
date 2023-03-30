@@ -42,4 +42,11 @@ public class Grabber {
             CLOSEDGRABBERHAND = value;
         }
     }
+
+    public void setGrabberHandTravel() {
+        grabberHand.setPosition(AgnesConstants.grabberHandTravelPosition);
+
+
+    }
+
 }

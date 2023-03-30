@@ -19,6 +19,7 @@ public class AgnesTeleOp extends OpMode {
     Servo autoDeliveryLeft, autoDeliveryRight;
 
     final double APPROACHSPEED = AgnesConstants.APPROACHSPEED;
+    final double FRONTBACKSLOWSPEED = APPROACHSPEED*2;
     final double THRESHOLD = AgnesConstants.THRESHOLD;
     final double RECOVER_LEFT = AgnesConstants.RECOVER_LEFT;
     final double RECOVER_RIGHT = AgnesConstants.RECOVER_RIGHT;
@@ -146,15 +147,16 @@ public class AgnesTeleOp extends OpMode {
     //sets slow speed for drive motors if dpad iis pressed (forwards and backwards)
     public void setSlowApproach() {
         if (gamepad1.dpad_up) {
-            leftFront.setPower(APPROACHSPEED);
-            rightFront.setPower(APPROACHSPEED);
-            leftRear.setPower(APPROACHSPEED);
-            rightRear.setPower(APPROACHSPEED);
+
+            leftFront.setPower(FRONTBACKSLOWSPEED);
+            rightFront.setPower(FRONTBACKSLOWSPEED);
+            leftRear.setPower(FRONTBACKSLOWSPEED);
+            rightRear.setPower(FRONTBACKSLOWSPEED);
         } else if (gamepad1.dpad_down) {
-            leftFront.setPower(-APPROACHSPEED);
-            rightFront.setPower(-APPROACHSPEED);
-            leftRear.setPower(-APPROACHSPEED);
-            rightRear.setPower(-APPROACHSPEED);
+            leftFront.setPower(-FRONTBACKSLOWSPEED);
+            rightFront.setPower(-FRONTBACKSLOWSPEED);
+            leftRear.setPower(-FRONTBACKSLOWSPEED);
+            rightRear.setPower(-FRONTBACKSLOWSPEED);
         } else if (gamepad1.dpad_right) {
             leftFront.setPower(APPROACHSPEED*3);
             rightFront.setPower(-APPROACHSPEED*3);

@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 @Autonomous(name= "RedRightGS", group = "Red", preselectTeleOp = "AgnesTeleOp")
 public class RedRightGS extends AutoTemplate {
 
-    final double FIRST_FORWARD = 16;
+    final double FIRST_FORWARD = 17;
     final double CENTER_FORWARD = 25;
     final double RIGHT_AND_LEFT_FORWARD = 11;
     final double STRAFE_LEFT = 25.5;
@@ -34,9 +34,9 @@ public class RedRightGS extends AutoTemplate {
     double rightParkingX = 50;
     double rightParkingY = -28;
     double rightSideRightParkingHeading = Math.toRadians(90); //if its redleft or blueleft use Math.toRadians(270)
-    double goldenSpotX = 42.0;
+    double goldenSpotX = 44.0;
     double goldenSpotY = -4.0;                   //these are rough measurements and need to tested
-    double goldenSpotHeading = -350.0; //degrees
+    double goldenSpotHeading = -75; //degrees
     Trajectory goldenSpotTrajectory;
     boolean backwards = true;
     final Pose2d GOLDEN_SPOT = new Pose2d(goldenSpotX, goldenSpotY, Math.toRadians(goldenSpotHeading));

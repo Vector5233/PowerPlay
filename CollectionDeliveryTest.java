@@ -22,7 +22,7 @@ public static final double SECONDPOLEDDEGREE = AgnesConstants.SECONDPOLEDEGREE;
     @Override
     public void runOpMode() {
         initialize();
-        telemetry.addData("winch tolerance: ", arm.getWinchTol());
+        /*telemetry.addData("winch tolerance: ", arm.getWinchTol());*/
         telemetry.update();
         autoDeliveryRight.setPosition(AgnesConstants.RECOVER_RIGHT);
         autoDeliveryLeft.setPosition(AgnesConstants.RECOVER_LEFT);
@@ -37,7 +37,7 @@ public static final double SECONDPOLEDDEGREE = AgnesConstants.SECONDPOLEDEGREE;
             /*arm.setArmLength(COLLECTIONLENGTH - .25);
             rotateTo(90);
             sleep(50);
-            //Trajectory pole = turnToPole();
+            Trajectory pole = turnToPole();
             armToDeliver();
             sleep(500);
             deliverCone();

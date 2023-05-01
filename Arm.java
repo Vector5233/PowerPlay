@@ -47,7 +47,6 @@ public class Arm {
 
         }
 
-
         armWinch = (DcMotorEx) map.dcMotor.get("armWinch");
         armWinch.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWinch.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);

@@ -23,12 +23,12 @@ public class AgnesConstants {
     public static final double MAXANGLE = 137;
     public static final double MINANGLE = -8;
     public static final double ARMROTATIONTICKSPERREV = 5281.1;
-    public static final double ROTATION_POWER = .1;
+    public static final double ROTATION_POWER = .4;
     public static final int ARMEXTENSION = 530;
     public static final int ARMEXTENSIONPOLE =385;
-    public static final double[] CONEDEGREE = {9.5,7.5,5,2,0};
+    public static final double[] CONEDEGREE = {16,14,11,9,6};
     public static final int POLEDEGREE = 105;
-    public static final int MEDIUMARMEXTENSION = 530;
+    public static final int MEDIUMARMEXTENSION = 525;
     public static final int MEDIUMPOLEDEGREE = 105;
 
     //ALL THESE VALUES NEED TO BE CHANGES
@@ -58,7 +58,7 @@ public class AgnesConstants {
     public static final double pAuto = .05;
     public static final double i = .3;
     public static final double d = .009;
-    public static final double f = .007; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
+    public static final double f = .009; //subject to change when grabber is added, test aat 0 degrees full extended and retracted.
     public static final double TOL = .5;
     public static boolean AUTO = true; // used to initialize Arm
     public static boolean TELEOP = false;

@@ -3,13 +3,19 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gam
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@TeleOp (name = "ScorpionTeleOp", group = "robot")
-public class ScorpionTeleOp {
+@Disabled
+//@TeleOp (name = "ScorpionTeleOp", group = "robot")
+public class ScorpionTeleOp extends OpMode {
     DcMotor shoulderLeft, shoulderRight, elbowOne, elbowTwo;
+
+
 
     public void init() {
         shoulderLeft = hardwareMap.dcMotor.get("shoulderLeft");
